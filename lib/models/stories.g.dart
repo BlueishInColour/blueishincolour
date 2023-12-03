@@ -6,38 +6,22 @@ part of 'stories.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Content _$ContentFromJson(Map<String, dynamic> json) => Content(
-      contentType: json['contentType'] as String? ?? '',
-      videoUrl: json['videoUrl'] as String? ?? '',
-      pictureUrl: json['pictureUrl'] as String? ?? '',
-      htmlText: json['htmlText'] as String? ?? '',
-    );
-
-Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
-      'contentType': instance.contentType,
-      'videoUrl': instance.videoUrl,
-      'pictureUrl': instance.pictureUrl,
-      'htmlText': instance.htmlText,
-    };
-
 Stories _$StoriesFromJson(Map<String, dynamic> json) => Stories(
-      id: json['id'] as String? ?? Uuid.NAMESPACE_DNS,
       creatorName: json['creatorName'] as String? ?? '',
+      userId: json['userId'] as int? ?? 0,
       title: json['title'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      content: Content.fromJson(json['content'] as Map<String, dynamic>),
-      likesCount: json['likesCount'] as int? ?? 0,
-      viewsCount: json['viewsCount'] as int? ?? 0,
-      commentsCount: json['commentsCount'] as int? ?? 0,
+      body: json['body'] as String? ?? '',
+      reactions: json['reactions'] as int? ?? 0,
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
     );
 
 Map<String, dynamic> _$StoriesToJson(Stories instance) => <String, dynamic>{
-      'id': instance.id,
+      'userId': instance.userId,
       'creatorName': instance.creatorName,
       'title': instance.title,
-      'description': instance.description,
-      'content': instance.content,
-      'likesCount': instance.likesCount,
-      'viewsCount': instance.viewsCount,
-      'commentsCount': instance.commentsCount,
+      'tags': instance.tags,
+      'reactions': instance.reactions,
+      'body': instance.body,
     };

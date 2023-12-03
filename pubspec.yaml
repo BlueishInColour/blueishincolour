@@ -37,6 +37,21 @@ dependencies:
   http: ^1.1.0
   social_media_buttons: ^1.0.0
   file_picker: ^5.5.0
+  loadmore: ^2.1.0
+  refresh_loadmore: ^2.0.5
+  easy_load_more: ^1.1.0
+  loadmore_listview: ^1.0.7
+
+  # firebase
+  firebase_core: ^2.24.0
+  firebase_storage: ^11.5.3
+  firebase_auth: ^4.15.0
+  firebase_analytics: ^10.7.2
+  firebase_app_check: ^0.2.1+6
+  firebase_ui_auth: ^1.10.0
+  
+
+
 
   # storage
   hive_flutter: ^1.1.0
