@@ -92,7 +92,7 @@ class SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const AuthGate(),
+              builder: (context) => const Index(),
             )));
   }
 
@@ -111,7 +111,7 @@ class SplashScreenState extends State<SplashScreen> {
                 style: GoogleFonts.pacifico(
                     fontSize: 0,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black54))
+                    color: Colors.black))
           ],
         ),
       ),
@@ -152,41 +152,36 @@ class IndexState extends State<Index> {
 // featured
             BottomNavigationBarItem(
                 label: 'shop',
-                icon: Icon(Icons.shopping_bag, color: Colors.black54),
+                icon: Icon(Icons.shopping_bag, color: Colors.black26),
                 activeIcon: Icon(
                   Icons.shopping_bag,
-                  color: Colors.blue.shade600,
+                  color: Colors.black,
                   size: 30,
                 )),
 
 //mine
             BottomNavigationBarItem(
-              label: 'cart',
+              label: 'saved',
               icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.black54,
+                Icons.favorite_rounded,
+                color: Colors.black26,
               ),
-              activeIcon:
-                  Icon(Icons.shopping_cart, color: Colors.blue.shade600),
+              activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
             ),
 
 // blog
             BottomNavigationBarItem(
               label: 'blogs',
-              icon: Icon(
-                Icons.table_rows_rounded,
-                color: Colors.black54,
-              ),
-              activeIcon:
-                  Icon(Icons.table_rows_rounded, color: Colors.blue.shade600),
+              icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
+              activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
             ), // upload
             BottomNavigationBarItem(
               label: 'profile',
               icon: Icon(
                 Icons.person,
-                color: Colors.black54,
+                color: Colors.black26,
               ),
-              activeIcon: Icon(Icons.person, color: Colors.blue.shade600),
+              activeIcon: Icon(Icons.person, color: Colors.black),
             ),
           ]),
     );

@@ -11,7 +11,7 @@ class BlueishInColourIcon extends StatefulWidget {
 class BlueishInColourIconState extends State<BlueishInColourIcon> {
   @override
   Widget build(BuildContext context) {
-    return Text('BlueishInColour 3/12/2023',
-        style: GoogleFonts.pacifico(fontSize: 30, color: Colors.blue.shade600));
+    return Text('steeze 4/12/2023',
+        style: GoogleFonts.pacifico(fontSize: 30, color: Colors.black));
   }
 }

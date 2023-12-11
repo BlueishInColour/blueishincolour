@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,7 @@ class Write extends StatefulWidget {
 class WriteState extends State<Write> {
   TextEditingController titleController = TextEditingController();
   TextEditingController articleController = TextEditingController();
-
+  TextEditingController creatorController = TextEditingController();
   String images = '';
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,9 @@ class WriteState extends State<Write> {
               controller: articleController,
               hintText: 'write body',
               maxlines: 200,
-              minlines: 20)
+              minlines: 20),
+          textField(context,
+              controller: creatorController, hintText: 'creator', maxlines: 3),
         ],
       ),
       bottomSheet: Row(children: [
@@ -136,34 +139,28 @@ class WriteState extends State<Write> {
               child: TextButton(
             onPressed: () async {
               Stories stories = Stories(
+                createdAt: DateTime.now(),
                 title: titleController.text,
                 body: articleController.text,
-                creatorName: 'blueishInColour',
+                creator: creatorController.text,
+                reactions: 0,
                 tags: ['lifestyle', 'tech', 'fashion'],
               );
 
               if (stories.body.isEmpty) {
                 debugPrint('images is empty , add to it');
               } else {
-                var url = Uri.parse(
-                  'http://localhost:8080/blog',
-                );
-                var res = await http.post(url,
-                    body: json.encode(stories.toJson()),
-                    headers: {"Content-Type": "application/json"});
-                if (res.statusCode == 200) {
-                  showSnackBar(
-                      context,
-                      Icon(
-                        Icons.done_all_outlined,
-                        color: Colors.green,
-                      ),
-                      'you just put out a short');
-                  Navigator.pop(context);
-                } else {
-                  showSnackBar(context, Icon(Icons.error, color: Colors.red),
-                      'no internet connection');
-                }
+                final CollectionReference goodCollection =
+                    FirebaseFirestore.instance.collection('stories');
+                await goodCollection.add(stories.toJson());
+                Navigator.pop(context);
+                showSnackBar(
+                    context,
+                    Icon(
+                      Icons.done_all_outlined,
+                      color: Colors.green,
+                    ),
+                    'you just put out a story');
               }
             },
             child: Text(

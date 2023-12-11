@@ -49,6 +49,8 @@ dependencies:
   firebase_analytics: ^10.7.2
   firebase_app_check: ^0.2.1+6
   firebase_ui_auth: ^1.10.0
+  firebase_database: ^10.3.6
+  cloud_firestore: ^4.13.3
   
 
 
@@ -85,6 +87,7 @@ dependencies:
   dot_navigation_bar: ^1.0.2
   # file_picker:^
   scroll_to_index: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -115,7 +118,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   # assets:
-  #   - images/a_dot_burr.jpeg
+  #   - /BlueishInColour.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -143,3 +146,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_launcher_icons:
+  android: "launcher_icon"
+  image_path: "assets/BlueishInColour.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/BlueishInColour.png"

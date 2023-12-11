@@ -56,60 +56,54 @@ class CartScreenState extends State<CartScreen>
 
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text('Cart',
-            style: GoogleFonts.pacifico(
-                fontSize: 30, color: Colors.blue.shade600)),
-        actions: [
-          IconButton(
-              onPressed: () {
-                listOfGood.clear();
-                fetch20Data();
-              },
-              icon: Icon(
-                Icons.refresh_sharp,
-                color: Colors.blue.shade600,
-              ))
-        ],
+        title: Text('for you',
+            style: GoogleFonts.pacifico(fontSize: 24, color: Colors.black54)),
       ),
-      body: listOfGood.isEmpty
-          ? Container(
-              margin: const EdgeInsets.all(20.0),
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Colors.blue.shade600),
-              ),
-            )
-          : Center(
-              child: SizedBox(
-                  width: 500,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverList.separated(
-                          //is there more data to load
-                          separatorBuilder: (context, _) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Divider(
-                                color: Colors.black45,
-                              ),
-                            );
-                          },
-                          //ListView
-                          itemCount: listOfGood.length,
-                          itemBuilder: (context, index) {
-                            return Item(
-                              goods: listOfGood[index],
-                              index: index,
-                              onTap: () {},
-                            );
-                          }),
-                    ],
-                  ))),
+
+      body: CustomScrollView(slivers: [
+        //sevices
+        GridView.count(
+          crossAxisCount: 4,
+          children: [
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+            GridTile(
+              child: Text('i am'),
+            ),
+
+            //saved for latter
+
+            //timeline for the  ordered  ones
+          ],
+        )
+      ]),
 
       //
       bottomSheet: Container(
         padding: EdgeInsets.all(10),
-        color: Colors.blue.shade600,
+        color: Colors.black54,
         height: 80,
         child: Row(children: [
           Expanded(

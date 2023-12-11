@@ -72,7 +72,7 @@ class ReadState extends State<Read> {
                 ),
                 Expanded(child: SizedBox()),
                 Text(
-                  stories.creatorName,
+                  stories.creator,
                   style: GoogleFonts.pacifico(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,

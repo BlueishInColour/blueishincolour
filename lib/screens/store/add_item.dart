@@ -4,11 +4,13 @@ import 'dart:io';
 import 'package:blueishincolour/models/goods.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
+import './firebase_crud.dart';
 
 class AddItem extends StatefulWidget {
   const AddItem({super.key});
@@ -178,28 +180,13 @@ class AddItemState extends State<AddItem> {
                   images: images,
                   title: titleController.text);
 
-              if (good.images.isEmpty) {
+              if (good.title.isEmpty) {
                 debugPrint('images is empty , add to it');
               } else {
-                var url = Uri.parse(
-                  'http://localhost:8080/shop',
-                );
-                var res = await http.post(url,
-                    body: json.encode(good.toJson()),
-                    headers: {"Content-Type": "application/json"});
-                if (res.statusCode == 200) {
-                  showSnackBar(
-                      context,
-                      Icon(
-                        Icons.done_all_outlined,
-                        color: Colors.green,
-                      ),
-                      'you just put out a short');
-                  Navigator.pop(context);
-                } else {
-                  showSnackBar(context, Icon(Icons.error, color: Colors.red),
-                      'no internet connection');
-                }
+                final CollectionReference goodCollection =
+                    FirebaseFirestore.instance.collection('goods');
+                await goodCollection.add(good.toJson());
+                Navigator.pop(context);
               }
             },
             child: Text(

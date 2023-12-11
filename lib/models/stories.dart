@@ -8,11 +8,12 @@ class Stories {
   Stories(
       {
       //
-      this.creatorName = '',
+      this.creator = '',
       this.userId = 0,
       //
       this.title = '',
       this.body = '',
+      required this.createdAt,
       //
 //counts
       this.reactions = 0,
@@ -23,11 +24,11 @@ class Stories {
   //id
   int userId;
   //creator
-  String creatorName;
+  String creator;
 
   //title
   String title;
-
+  DateTime createdAt;
   //content
   List<String> tags;
   int reactions;

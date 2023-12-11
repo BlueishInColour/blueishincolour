@@ -7,9 +7,18 @@ import '../../models/stories.dart';
 
 class Item extends StatefulWidget {
   const Item(
-      {super.key, required this.stories, this.index = 0, required this.onTap});
+      {super.key,
+      required this.stories,
+      this.title = '',
+      this.creator = '',
+      this.reaction = 0,
+      this.index = 0,
+      required this.onTap});
   final Stories stories;
   final int index;
+  final String title;
+  final String creator;
+  final int reaction;
 
   final Function() onTap;
   @override
@@ -33,7 +42,7 @@ class ItemState extends State<Item> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            stories.title,
+            widget.title,
             style: GoogleFonts.pacifico(
                 fontSize: 25,
                 fontWeight: FontWeight.w600,
@@ -44,12 +53,12 @@ class ItemState extends State<Item> {
               Icon(Icons.favorite, color: Colors.black54),
               SizedBox(width: 10),
               Text(
-                widget.stories.reactions.toString(),
+                widget.reaction.toString(),
                 style: TextStyle(color: Colors.black54),
               ),
               Expanded(child: SizedBox()),
               Text(
-                stories.creatorName,
+                widget.creator,
                 style: GoogleFonts.pacifico(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

@@ -8,9 +8,12 @@ import '../../models/goods.dart';
 
 class Item extends StatefulWidget {
   const Item(
-      {super.key, required this.goods, this.index = 0, required this.onTap});
-  final Good goods;
+      {super.key,
+      this.title = 'fake title',
+      this.index = 0,
+      required this.onTap});
   final int index;
+  final String title;
   final Function() onTap;
   @override
   State<Item> createState() => ItemState();
@@ -20,41 +23,34 @@ class ItemState extends State<Item> {
   bool showDetail = false;
 
   Widget button(context, {required Function() onTap}) {
-    return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.blue.shade600),
-          child: const Center(
-            child: Text(
-              'add to cart',
-              style: TextStyle(
-                color: Colors.black54,
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ),
+    return IconButton(
+        onPressed: onTap,
+        icon: Icon(
+          Icons.favorite_rounded,
+          color: Colors.black87,
         ));
   }
 
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    Good goods = widget.goods;
+    Good goods = Good();
     int index = widget.index;
     String brand = goods.brand;
     String category = goods.category;
     List<String> images = goods.images;
     String description = goods.description;
     String rating = goods.rating.toString();
-    if (goods.images.isEmpty) {
-      return SizedBox();
-    }
-    return SizedBox(
+
+    return Container(
+      margin: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white,
+            width: 4,
+            style: BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.circular(15)),
       height: 300,
       child: Stack(
         children: [
@@ -68,13 +64,15 @@ class ItemState extends State<Item> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return CachedNetworkImage(
-                  imageUrl: images[index],
-                );
+                    imageUrl: 'https://source.unsplash.com/random '
+
+                    // images[index],
+                    );
               }),
           Positioned(
               top: 15,
               left: 15,
-              child: Text('$brand - $category - rating $rating ',
+              child: Text(' ${widget.title}',
                   style: TextStyle(
                     backgroundColor: Colors.white54,
                     fontWeight: FontWeight.w800,
@@ -111,7 +109,7 @@ class ItemState extends State<Item> {
                   'http://localhost:8080/cart',
                 );
                 var res = await http.post(url,
-                    body: json.encode(widget.goods.toJson()),
+                    body: json.encode(goods.toJson()),
                     headers: {"Content-Type": "application/json"});
                 if (res.statusCode == 200) {
                   showSnackBar(

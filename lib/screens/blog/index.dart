@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:blueishincolour/screens/blog/write.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,6 +48,8 @@ class BlogScreenState extends State<BlogScreen> {
     fetch20Data();
   }
 
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,43 +75,41 @@ class BlogScreenState extends State<BlogScreen> {
             color: Colors.black54,
           ),
         ),
-        body: listOfStories.isEmpty
-            ? Container(
-                margin: const EdgeInsets.all(20.0),
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.blue.shade600),
-                ),
-              )
-            : Center(
-                child: SizedBox(
-                    width: 500,
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverList.separated(
-                            //is there more data to load
-                            separatorBuilder: (context, _) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Divider(
-                                  color: Colors.black45,
-                                ),
-                              );
-                            },
-                            //ListView
-                            itemCount: listOfStories.length,
-                            itemBuilder: (context, index) {
-                              return Item(
-                                stories: listOfStories[index],
-                                index: index,
-                                onTap: () {
-                                  setState(() {
-                                    cartCount = ++cartCount;
-                                  });
-                                },
-                              );
-                            }),
-                      ],
-                    ))));
+        body: Center(
+            child: SizedBox(
+                width: 500,
+                child: StreamBuilder(
+                  stream: db
+                      .collection('stories')
+                      .orderBy('createdAt', descending: false)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+//if we have data, get all dic
+                    if (snapshot.hasData) {
+                      return ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return Divider();
+                          },
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: ((context, index) {
+                            //get indicidual doc
+                            DocumentSnapshot documentSnapshot =
+                                snapshot.data!.docs[index];
+
+                            return Item(
+                              title: documentSnapshot['title'],
+                              creator: documentSnapshot['creator'],
+                              reaction: documentSnapshot['reactions'],
+                              stories: Stories(createdAt: DateTime.now()),
+                              onTap: () {},
+                            );
+                          }));
+                    }
+
+                    return Center(
+                        child: CircularProgressIndicator(
+                            color: Colors.blue.shade600));
+                  },
+                ))));
   }
 }

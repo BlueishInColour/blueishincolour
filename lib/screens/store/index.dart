@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
+import 'package:blueishincolour/screens/store/firebase_crud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -148,85 +150,52 @@ class StoreScreenState extends State<StoreScreen>
     );
   }
 
+  FirestoreServices service = FirestoreServices();
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue.shade600,
-          onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilder(pageBuilder: (context, _, __) {
-              return AddItem();
-            }));
-          },
-          child: Icon(Icons.add),
-        ),
-        body: CustomScrollView(slivers: [
-          SliverAppBar(
-              // toolbarOpacity: 0,
+      appBar: AppBar(
+          // toolbarOpacity: 0,
 
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: BlueishInColourIcon(),
-              bottom: AppBar(
-                  toolbarHeight: 30,
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  title: searcher(context))),
-          listOfGood.isEmpty
-              ? SliverToBoxAdapter(
-                  child: Container(
-                    margin: const EdgeInsets.all(20.0),
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.blue.shade600),
-                    ),
-                  ),
-                )
-              : SliverToBoxAdapter(
-                  child: Center(
-                    child: SizedBox(
-                      width: 700,
-                      child: LoadMoreListView.customScrollView(
-                        onLoadMore: () async {
-                          await fetch20Data();
-                        },
-                        onRefresh: () async {
-                          listOfGood.clear();
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: BlueishInColourIcon()),
+      backgroundColor: Colors.grey[200],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue.shade600,
+        onPressed: () {
+          Navigator.push(context,
+              PageRouteBuilder(pageBuilder: (context, _, __) {
+            return AddItem();
+          }));
+        },
+        child: Icon(Icons.add),
+      ),
+      body: StreamBuilder(
+        stream: db.collection('goods').snapshots(),
+        builder: (context, snapshot) {
+//if we have data, get all dic
+          if (snapshot.hasData) {
+            return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: ((context, index) {
+                  //get indicidual doc
+                  DocumentSnapshot documentSnapshot =
+                      snapshot.data!.docs[index];
 
-                          await fetch20Data();
-                        },
-                        refreshBackgroundColor: Colors.white60,
-                        refreshColor: Colors.blue.shade600,
-                        loadMoreWidget: loadMoreWidget(context),
-                        slivers: [
-                          SliverList.separated(
-                              key: PageStorageKey('store'),
-                              //is there more data to load
-                              separatorBuilder: (context, _) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Divider(
-                                    color: Colors.black45,
-                                  ),
-                                );
-                              },
-                              //ListView
-                              itemCount: listOfGood.length,
-                              itemBuilder: (context, index) {
-                                return Item(
-                                  goods: listOfGood[index],
-                                  index: index,
-                                  onTap: () {},
-                                );
-                              }),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-        ]));
+                  return Item(
+                    onTap: () {},
+                    title: documentSnapshot['title'],
+                  );
+                }));
+          }
+
+          return Center(
+              child: CircularProgressIndicator(color: Colors.blue.shade600));
+        },
+      ),
+    );
   }
 }
