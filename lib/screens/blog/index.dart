@@ -54,16 +54,8 @@ class BlogScreenState extends State<BlogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[100],
-        appBar: AppBar(
-          // toolbarOpacity: 0,
-
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: Text('Blog',
-              style: GoogleFonts.pacifico(
-                  fontSize: 30, color: Colors.blue.shade600)),
-        ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
           onPressed: () {
             Navigator.push(context,
                 PageRouteBuilder(pageBuilder: (context, _, __) {
@@ -72,24 +64,21 @@ class BlogScreenState extends State<BlogScreen> {
           },
           child: Icon(
             Icons.edit,
-            color: Colors.black54,
+            color: Colors.white60,
           ),
         ),
         body: Center(
             child: SizedBox(
                 width: 500,
-                child: StreamBuilder(
-                  stream: db
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
                       .collection('stories')
-                      .orderBy('createdAt', descending: false)
-                      .snapshots(),
+                      .where('creator', isEqualTo: 'blueishincolour')
+                      .get(),
                   builder: (context, snapshot) {
 //if we have data, get all dic
                     if (snapshot.hasData) {
-                      return ListView.separated(
-                          separatorBuilder: (context, index) {
-                            return Divider();
-                          },
+                      return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: ((context, index) {
                             //get indicidual doc
@@ -97,10 +86,9 @@ class BlogScreenState extends State<BlogScreen> {
                                 snapshot.data!.docs[index];
 
                             return Item(
+                              picture: documentSnapshot['picture'],
                               title: documentSnapshot['title'],
                               creator: documentSnapshot['creator'],
-                              reaction: documentSnapshot['reactions'],
-                              stories: Stories(createdAt: DateTime.now()),
                               onTap: () {},
                             );
                           }));

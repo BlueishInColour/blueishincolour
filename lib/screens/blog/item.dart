@@ -8,17 +8,17 @@ import '../../models/stories.dart';
 class Item extends StatefulWidget {
   const Item(
       {super.key,
-      required this.stories,
       this.title = '',
       this.creator = '',
       this.reaction = 0,
+      this.picture = '',
       this.index = 0,
       required this.onTap});
-  final Stories stories;
   final int index;
   final String title;
   final String creator;
   final int reaction;
+  final String picture;
 
   final Function() onTap;
   @override
@@ -28,44 +28,53 @@ class Item extends StatefulWidget {
 class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
-    Stories stories = widget.stories;
-
-    return TextButton(
-      onPressed: () {
-        Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
-          return Read(
-            stories: stories,
-          );
-        }));
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      margin: EdgeInsets.all(15),
+      child: Stack(
         children: [
-          Text(
-            widget.title,
-            style: GoogleFonts.pacifico(
-                fontSize: 25,
-                fontWeight: FontWeight.w600,
-                color: Colors.black54),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: CachedNetworkImage(
+              imageUrl: widget.picture,
+              fit: BoxFit.fill,
+              errorWidget: (context, _, __) => Container(color: Colors.red),
+              placeholder: (context, _) => Container(color: Colors.black26),
+            ),
           ),
-          Row(
-            children: [
-              Icon(Icons.favorite, color: Colors.black54),
+          Positioned(
+              bottom: 50,
+              child: Container(
+                margin: EdgeInsets.all(10),
+                child: Text(
+                  widget.title,
+                  maxLines: 3,
+                  style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 27),
+                ),
+              )),
+          Positioned(
+            top: 15,
+            left: 15,
+            child: Row(children: [
+              CircleAvatar(radius: 15),
               SizedBox(width: 10),
               Text(
-                widget.reaction.toString(),
-                style: TextStyle(color: Colors.black54),
-              ),
-              Expanded(child: SizedBox()),
-              Text(
                 widget.creator,
-                style: GoogleFonts.pacifico(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black54),
-              ),
-            ],
-          )
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14),
+              )
+            ]),
+          ),
+          Positioned(
+              bottom: 15,
+              right: 15,
+              child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.favorite_rounded, color: Colors.white)))
         ],
       ),
     );

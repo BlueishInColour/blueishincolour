@@ -135,8 +135,8 @@ class IndexState extends State<Index> {
     return Scaffold(
       body: [
         StoreScreen(),
-        CartScreen(),
         BlogScreen(),
+        CartScreen(),
         ProfileScreen(),
       ][currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -151,14 +151,19 @@ class IndexState extends State<Index> {
 //
 // featured
             BottomNavigationBarItem(
-                label: 'shop',
-                icon: Icon(Icons.shopping_bag, color: Colors.black26),
+                label: 'home',
+                icon: Icon(Icons.home_filled, color: Colors.black26),
                 activeIcon: Icon(
-                  Icons.shopping_bag,
+                  Icons.home_filled,
                   color: Colors.black,
-                  size: 30,
                 )),
 
+// blog
+            BottomNavigationBarItem(
+              label: 'blogs',
+              icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
+              activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
+            ), // upload
 //mine
             BottomNavigationBarItem(
               label: 'saved',
@@ -168,13 +173,6 @@ class IndexState extends State<Index> {
               ),
               activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
             ),
-
-// blog
-            BottomNavigationBarItem(
-              label: 'blogs',
-              icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
-              activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
-            ), // upload
             BottomNavigationBarItem(
               label: 'profile',
               icon: Icon(

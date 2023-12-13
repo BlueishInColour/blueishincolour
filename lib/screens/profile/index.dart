@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,8 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => ProfileScreenState();
 }
 
-class ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreenState extends State<ProfileScreen>
+    with AutomaticKeepAliveClientMixin {
   String url = 'http://localhost:8080/shop';
   List<Good> listOfGood = [];
   int cartCount = 3;
@@ -39,58 +41,102 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-        body: CustomScrollView(slivers: [
-      SliverToBoxAdapter(
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-            //profile
-            CircleAvatar(
-              radius: 50,
-            ),
-            Text('Oluwapelumi Eyelade'),
-
-            SizedBox(height: 10),
-
-            Text('@BlueishInColour'),
-
-            SizedBox(height: 10),
-          ],
-        ),
-      ),
-      //wordrope],)
-      SliverAppBar(
-        title: Text('wardrope',
-            style: GoogleFonts.pacifico(
-                fontSize: 30, color: Colors.blue.shade600)),
-        backgroundColor: Colors.transparent,
-        pinned: true,
-      ),
-      SliverList.separated(
-          //is there more data to load
-          separatorBuilder: (context, _) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Divider(
-                color: Colors.black45,
+        body: Container(
+      padding: EdgeInsets.all(5),
+      child: CustomScrollView(slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          floating: true,
+          elevation: 0,
+          toolbarHeight: 60,
+          title: Row(
+            children: [
+              SizedBox(height: 10),
+              //profile
+              CircleAvatar(
+                radius: 30,
               ),
-            );
-          },
-          //ListView
-          itemCount: listOfGood.length,
-          itemBuilder: (context, index) {
-            return Item(
-              goods: listOfGood[index],
-              index: index,
-              onTap: () {
-                setState(() {
-                  cartCount = ++cartCount;
-                });
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Oluwapelumi Eyelade',
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black54)),
+                  SizedBox(height: 10),
+                  Text('@blueishInColour',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black45)),
+                  SizedBox(height: 10),
+                ],
+              ),
+              Expanded(
+                child: SizedBox(),
+              ),
+              Column(children: [Text('posts'), Text('34')])
+            ],
+          ),
+        ),
+        //wordrope],
+
+        SliverToBoxAdapter(
+          child: Divider(),
+        ),
+
+        SliverToBoxAdapter(
+          child: Container(
+            height: 500,
+            child: FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('stories')
+                  .where('creator', isEqualTo: 'blueishincolour')
+                  .get(),
+              builder: (context, snapshot) {
+                //if we have data, get all dic
+
+                if (snapshot.hasData) {
+                  return GridView.builder(
+                    itemCount: snapshot.data?.docs.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2),
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot documentSnapshot =
+                          snapshot.data!.docs[index];
+                      return Item(
+                        picture: documentSnapshot['picture'],
+                      );
+                    },
+                  );
+                }
+
+                return GridView.count(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 2,
+                  mainAxisSpacing: 2,
+                  children: [
+                    Container(color: Colors.black26),
+                    Container(color: Colors.black26),
+                    Container(color: Colors.black26),
+                    Container(color: Colors.black26),
+                    Container(color: Colors.black26),
+                  ],
+                );
               },
-            );
-          }),
-    ]));
+            ),
+          ),
+        )
+      ]),
+    ));
   }
 }

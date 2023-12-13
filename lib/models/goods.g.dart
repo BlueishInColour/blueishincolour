@@ -18,6 +18,10 @@ Good _$GoodFromJson(Map<String, dynamic> json) => Good(
       stock: (json['stock'] as num?)?.toDouble() ?? 0,
       title: json['title'] as String? ?? '',
       category: json['category'] as String? ?? '',
+      listOfLikers: (json['listOfLikers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -25,6 +29,7 @@ Good _$GoodFromJson(Map<String, dynamic> json) => Good(
     );
 
 Map<String, dynamic> _$GoodToJson(Good instance) => <String, dynamic>{
+      'listOfLikers': instance.listOfLikers,
       'albumId': instance.albumId,
       'goodId': instance.goodId,
       'thumbnail': instance.thumbnail,

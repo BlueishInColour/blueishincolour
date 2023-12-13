@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../models/goods.dart';
@@ -11,10 +12,14 @@ class Item extends StatefulWidget {
       {super.key,
       this.title = 'fake title',
       this.index = 0,
+      this.pictures = const [],
+      this.id = 0,
       required this.onTap});
   final int index;
   final String title;
   final Function() onTap;
+  final int id;
+  final List<String> pictures;
   @override
   State<Item> createState() => ItemState();
 }
@@ -44,31 +49,30 @@ class ItemState extends State<Item> {
 
     return Container(
       margin: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.white,
-            width: 4,
-            style: BorderStyle.solid,
-          ),
-          borderRadius: BorderRadius.circular(15)),
       height: 300,
       child: Stack(
         children: [
           PageView.builder(
-              itemCount: images.length,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return CachedNetworkImage(
-                    imageUrl: 'https://source.unsplash.com/random '
+            onPageChanged: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            itemCount: widget.pictures.length,
+            itemBuilder: (context, index) => Container(
+              padding: EdgeInsets.all(5),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: CachedNetworkImage(
+                  imageUrl: widget.pictures[index], fit: BoxFit.fill,
+                  errorWidget: (context, _, __) => Container(color: Colors.red),
+                  placeholder: (context, _) => Container(color: Colors.black26),
 
-                    // images[index],
-                    );
-              }),
+                  // images[index],
+                ),
+              ),
+            ),
+          ),
           Positioned(
               top: 15,
               left: 15,
@@ -105,24 +109,20 @@ class ItemState extends State<Item> {
               right: 15,
               bottom: 15,
               child: button(context, onTap: () async {
-                var url = Uri.parse(
-                  'http://localhost:8080/cart',
-                );
-                var res = await http.post(url,
-                    body: json.encode(goods.toJson()),
-                    headers: {"Content-Type": "application/json"});
-                if (res.statusCode == 200) {
-                  showSnackBar(
-                      context,
-                      Icon(
-                        Icons.done_all_outlined,
-                        color: Colors.green,
-                      ),
-                      'added to cart');
-                } else {
-                  showSnackBar(context, Icon(Icons.error, color: Colors.red),
-                      'no internet connection');
-                }
+                FirebaseFirestore.instance
+                    .collection('goods')
+                    .where('id', isEqualTo: widget.id)
+                    .get()
+                    .then((querySnapshot) {
+                  querySnapshot.docs.forEach((element) {
+                    FirebaseFirestore.instance
+                        .collection('goods')
+                        .doc(element.id)
+                        .update({
+                      'listOfLikers': ['blueishincolour']
+                    });
+                  });
+                });
               })),
           Positioned(
               bottom: 3,
@@ -132,7 +132,7 @@ class ItemState extends State<Item> {
                 width: 200,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: images.length,
+                    itemCount: widget.pictures.length,
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.symmetric(horizontal: 3),
@@ -140,7 +140,7 @@ class ItemState extends State<Item> {
                           radius: 3,
                           backgroundColor: index == currentIndex
                               ? Colors.blue.shade600
-                              : Colors.black54,
+                              : Colors.white,
                         ),
                       );
                     }),

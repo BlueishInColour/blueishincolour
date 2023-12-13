@@ -8,20 +8,25 @@ class Stories {
   Stories(
       {
       //
+      this.id = '',
       this.creator = '',
       this.userId = 0,
       //
       this.title = '',
       this.body = '',
+      this.picture = '',
       required this.createdAt,
       //
 //counts
       this.reactions = 0,
+      this.postType = '',
+      this.listOfLikers = const [],
       this.tags = const []
 
       //
       });
   //id
+  String id;
   int userId;
   //creator
   String creator;
@@ -30,8 +35,11 @@ class Stories {
   String title;
   DateTime createdAt;
   //content
+  String picture;
   List<String> tags;
   int reactions;
+  String postType; //blog or goods
+  List<String> listOfLikers;
   String body;
 
   factory Stories.fromJson(Map<String, dynamic> json) =>

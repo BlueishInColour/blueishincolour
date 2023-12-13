@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,6 +95,7 @@ class WriteState extends State<Write> {
             style: GoogleFonts.pacifico(
                 fontSize: 30, color: Colors.blue.shade600)),
       ),
+      resizeToAvoidBottomInset: true,
       body: ListView(
         children: [
           textField(context,
@@ -142,8 +143,11 @@ class WriteState extends State<Write> {
                 createdAt: DateTime.now(),
                 title: titleController.text,
                 body: articleController.text,
+                picture: 'https://source.unsplash.com/random',
                 creator: creatorController.text,
                 reactions: 0,
+                listOfLikers: [],
+                id: Uuid.NAMESPACE_DNS,
                 tags: ['lifestyle', 'tech', 'fashion'],
               );
 
@@ -165,8 +169,10 @@ class WriteState extends State<Write> {
             },
             child: Text(
               'publish',
-              style:
-                  TextStyle(color: Colors.black54, fontWeight: FontWeight.w800),
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800),
             ),
           )),
         )

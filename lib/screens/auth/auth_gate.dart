@@ -18,7 +18,7 @@ class AuthGate extends StatelessWidget {
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: CachedNetworkImageProvider(
-                'https://source.unsplash.com/random ',
+                'https://source.unsplash.com/random',
               ))),
               child: Dialog(
                 child: SignInScreen(

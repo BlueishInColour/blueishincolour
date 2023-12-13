@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
-import './firebase_crud.dart';
 
 class AddItem extends StatefulWidget {
   const AddItem({super.key});
@@ -128,8 +127,8 @@ class AddItemState extends State<AddItem> {
                 height: 50,
                 child: Center(
                     child: TextButton(
-                  onPressed: () {
-                    addImage();
+                  onPressed: () async {
+                    await addImage();
                   },
                   child: Text('+  click to add image  +'),
                 )),
@@ -157,6 +156,7 @@ class AddItemState extends State<AddItem> {
           ),
         ),
       ),
+      resizeToAvoidBottomInset: true,
       bottomSheet: Row(children: [
         Expanded(
           child: SizedBox(),
@@ -177,7 +177,12 @@ class AddItemState extends State<AddItem> {
                   brand: brandController.text,
                   category: categoryController.text,
                   description: descriptionsController.text,
-                  images: images,
+                  images: [
+                    'https://source.unsplash.com/random',
+                    'https://source.unsplash.com/random',
+                    'https://source.unsplash.com/random'
+                  ],
+                  listOfLikers: [],
                   title: titleController.text);
 
               if (good.title.isEmpty) {
@@ -191,8 +196,10 @@ class AddItemState extends State<AddItem> {
             },
             child: Text(
               'add to store',
-              style:
-                  TextStyle(color: Colors.black54, fontWeight: FontWeight.w800),
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800),
             ),
           )),
         )

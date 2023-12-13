@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
-import 'package:blueishincolour/screens/store/firebase_crud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
 import 'package:flutter/material.dart';
@@ -81,77 +80,11 @@ class StoreScreenState extends State<StoreScreen>
   }
 
   PageStorageBucket bucket = PageStorageBucket();
+
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   bool get wantKeepAlive => true;
 
-//search types to bring result
-  Widget searcher(BuildContext context) {
-    return SizedBox(
-      height: 30,
-      child: ListView(scrollDirection: Axis.horizontal, children: [
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-              color: Colors.black54,
-              size: 16,
-            )),
-        button(context),
-        DropdownMenu(
-          hintText: 'country',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle())
-          ],
-        ),
-        DropdownMenu(
-          hintText: 'creator',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle())
-          ],
-        ),
-        DropdownMenu(
-          hintText: 'sizes',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle())
-          ],
-        ),
-        DropdownMenu(
-          hintText: 'oiejoik',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle()),
-          ],
-        ),
-        DropdownMenu(
-          hintText: 'nigerian',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle())
-          ],
-        ),
-        DropdownMenu(
-          hintText: 'nigerian',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle())
-          ],
-        ),
-        DropdownMenu(
-          hintText: 'nigerian',
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-                value: 'body', label: 'body', style: ButtonStyle())
-          ],
-        ),
-      ]),
-    );
-  }
-
-  FirestoreServices service = FirestoreServices();
-  final FirebaseFirestore db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -164,14 +97,14 @@ class StoreScreenState extends State<StoreScreen>
           title: BlueishInColourIcon()),
       backgroundColor: Colors.grey[200],
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade600,
+        backgroundColor: Colors.black,
         onPressed: () {
           Navigator.push(context,
               PageRouteBuilder(pageBuilder: (context, _, __) {
             return AddItem();
           }));
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white60),
       ),
       body: StreamBuilder(
         stream: db.collection('goods').snapshots(),
@@ -188,6 +121,7 @@ class StoreScreenState extends State<StoreScreen>
                   return Item(
                     onTap: () {},
                     title: documentSnapshot['title'],
+                    pictures: documentSnapshot['images'],
                   );
                 }));
           }

@@ -16,7 +16,9 @@ class Good {
       this.stock = 0,
       this.title = '',
       this.category = '',
+      this.listOfLikers = const [],
       this.images = const []});
+  List<String> listOfLikers;
 
   double albumId;
   String goodId;

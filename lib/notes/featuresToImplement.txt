@@ -3,3 +3,16 @@ blueishincolour is or will be a suit making brand, and will want to fully operat
 from order to delevery, 
 4 screens; main shop, cart, blog, profile(wardrope) 
 
+
+main = renders all document 
+cart renders document by liked by a perticular user, ie doc has a list of likers, if user is in the list, fetch it
+blog renders all document
+profile renders documents where creator is the username
+
+
+12 dec,2023
+
+> make the home screen display with pictures any how you can
+> ability to switch with masonery view with a button
+> make like button work so username are added to the good or stories list of likers and can be fetched dynamically by the page
+> find better design for the blog page and remove appbar

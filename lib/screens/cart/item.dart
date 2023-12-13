@@ -8,9 +8,14 @@ import '../../utils/utils_functions.dart';
 
 class Item extends StatefulWidget {
   const Item(
-      {super.key, required this.goods, this.index = 0, required this.onTap});
+      {super.key,
+      required this.goods,
+      this.id = 0,
+      this.index = 0,
+      required this.onTap});
   final Good goods;
   final int index;
+  final int id;
 
   final Function() onTap;
   @override
@@ -44,6 +49,7 @@ class ItemState extends State<Item> {
   Widget build(BuildContext context) {
     Good goods = widget.goods;
     int index = widget.index;
+
     String brand = goods.brand;
     String category = goods.category;
     List<String> images = goods.images;
