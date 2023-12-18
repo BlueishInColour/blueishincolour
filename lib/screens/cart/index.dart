@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-
+import '../cart/item.dart';
 import '../../models/goods.dart';
 import '../../utils/blueishincolour_icon.dart';
-import './item.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -20,32 +20,12 @@ class CartScreen extends StatefulWidget {
 
 class CartScreenState extends State<CartScreen>
     with AutomaticKeepAliveClientMixin {
-  String url = 'http://localhost:8080/cart';
-  List<Good> listOfGood = [];
-  int cartCount = 3;
-  Future<bool> fetch20Data() async {
-    debugPrint('getting data');
-    var res = await http.get(Uri.parse(url));
-    if (res.statusCode != 200) {}
-
-    List body = json.decode(res.body);
-    // List product = body['products'];
-    // print(product.toString());
-    // print(product);
-    List<Good> goods = body.map((e) => Good.fromJson(e)).toList();
-    setState(() {
-      listOfGood.addAll(goods);
-    });
-    return true;
-  }
-
   @override
   bool get wantKeepAlive => true;
 
   @override
   initState() {
     super.initState();
-    fetch20Data();
   }
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -59,7 +39,7 @@ class CartScreenState extends State<CartScreen>
           //sevices
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 200,
+              height: 250,
               child: GridView.count(
                 crossAxisCount: 4,
                 crossAxisSpacing: 5,
@@ -104,6 +84,74 @@ class CartScreenState extends State<CartScreen>
           ),
 
           //
+
+          SliverAppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Row(
+              children: [
+                Icon(Icons.favorite_rounded, color: Colors.black, size: 30),
+                SizedBox(width: 10),
+                Text('picks',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 30)),
+              ],
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.search, color: Colors.black))
+            ],
+          ),
+
+          SliverToBoxAdapter(
+              child: Container(
+            margin: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 15),
+                SizedBox(
+                  height: 700,
+                  child: StreamBuilder(
+                    stream: db
+                        .collection('goods')
+                        .where('listOfLikers',
+                            arrayContains:
+                                FirebaseAuth.instance.currentUser!.uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      //if we have data, get all dic
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: ListView.builder(
+                              itemCount: snapshot.data?.docs.length,
+                              itemBuilder: ((context, index) {
+                                //get indicidual doc
+                                DocumentSnapshot documentSnapshot =
+                                    snapshot.data!.docs[index];
+
+                                return Item(
+                                  onTap: () {},
+                                  title: documentSnapshot['title'],
+                                  pictures: documentSnapshot['images'],
+                                  id: documentSnapshot['goodId'],
+                                );
+                              })),
+                        );
+                      }
+
+                      return Center(
+                          child: CircularProgressIndicator(
+                              color: Colors.blue.shade600));
+                    },
+                  ),
+                ),
+              ],
+            ),
+          )),
         ]));
   }
 }

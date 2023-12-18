@@ -14,5 +14,30 @@ profile renders documents where creator is the username
 
 > make the home screen display with pictures any how you can
 > ability to switch with masonery view with a button
-> make like button work so username are added to the good or stories list of likers and can be fetched dynamically by the page
-> find better design for the blog page and remove appbar
+done  -  make like button work so username are added to the good or stories list of likers and can be fetched dynamically by the page
+done - find better design for the blog page and remove appbar
+
+14 dec, 2023
+
+>make chat screen work, so a chat button from the items is redirected to chat
+> te cart screen items like logistics should display profile photos of the owners that is taken with camera not gallry
+> report bug should immidiately go to steeze personal message box
+> profile should show posts count
+> home screen should sidplay the styles in better ways
+> blog items should be ablue to be clicked and display blog posts. 
+> create apk for this so it cakn easuly be used to upload styles
+> blog should display another type of item where there is no picture but words as click bait
+> try to create search
+> like button should download  the style for offline use
+> solve the user problem so each user is made accounted for 
+> slide left from home to enter post comments which will show the initial post then the post then the comments under the posts
+
+
+17 dec 2023
+> chat section should be built
+> heart on a user will had the user to chat
+> chat on  a user will directly move the user to chat with the other user
+> index page should list already added chats and also saved chats
+> the user identity like username displayname and profile pix , cover pix should be called as soon as app is loaded and saved 
+    to shared prefererence and for shared p. be called whenever needed
+> 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:blueishincolour/screens/auth/auth_gate.dart';
 import 'package:blueishincolour/screens/blog/index.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
+import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/store/index.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -92,7 +93,7 @@ class SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Index(),
+              builder: (context) => const AuthGate(),
             )));
   }
 
@@ -129,7 +130,7 @@ class Index extends StatefulWidget {
 }
 
 class IndexState extends State<Index> {
-  int currentIndex = 0;
+  int currentIndex = 3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,6 +138,7 @@ class IndexState extends State<Index> {
         StoreScreen(),
         BlogScreen(),
         CartScreen(),
+        ChatScreen(),
         ProfileScreen(),
       ][currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -172,6 +174,15 @@ class IndexState extends State<Index> {
                 color: Colors.black26,
               ),
               activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
+            ),
+//chat
+            BottomNavigationBarItem(
+              label: 'saved',
+              icon: Icon(
+                Icons.chat_bubble,
+                color: Colors.black26,
+              ),
+              activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
             ),
             BottomNavigationBarItem(
               label: 'profile',

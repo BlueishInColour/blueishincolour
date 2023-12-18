@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "blueblueish"
-  }
+    "default": "meninsuits",
+    "steeze": "meninsuits"
+  },
+  "targets": {},
+  "etags": {}
 }

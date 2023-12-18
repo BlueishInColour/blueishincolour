@@ -4,6 +4,7 @@ import 'package:blueishincolour/screens/blog/write.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -73,7 +74,8 @@ class BlogScreenState extends State<BlogScreen> {
                 child: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection('stories')
-                      .where('creator', isEqualTo: 'blueishincolour')
+                      .where('creator',
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                       .get(),
                   builder: (context, snapshot) {
 //if we have data, get all dic

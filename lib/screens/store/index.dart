@@ -122,6 +122,7 @@ class StoreScreenState extends State<StoreScreen>
                     onTap: () {},
                     title: documentSnapshot['title'],
                     pictures: documentSnapshot['images'],
+                    id: documentSnapshot['goodId'],
                   );
                 }));
           }

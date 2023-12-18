@@ -17,10 +17,12 @@ class AuthGate extends StatelessWidget {
             return Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
+                      fit: BoxFit.fill,
                       image: CachedNetworkImageProvider(
-                'https://source.unsplash.com/random',
-              ))),
+                        'https://source.unsplash.com/random',
+                      ))),
               child: Dialog(
+                backgroundColor: Colors.white24,
                 child: SignInScreen(
                   providers: [
                     EmailAuthProvider(),

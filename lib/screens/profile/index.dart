@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:blueishincolour/screens/profile/edit_profile.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -16,28 +19,21 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
-  String url = 'http://localhost:8080/shop';
   List<Good> listOfGood = [];
   int cartCount = 3;
-  Future<bool> fetch20Data() async {
-    debugPrint('getting data');
-    var res = await http.get(Uri.parse(url));
-    if (res.statusCode != 200) {}
+  String? displayName = FirebaseAuth.instance.currentUser == null
+      ? 'no name'
+      : FirebaseAuth.instance.currentUser?.displayName;
+  String userName = FirebaseAuth.instance.currentUser!.uid;
 
-    Map<String, dynamic> body = json.decode(res.body);
-    List product = body['products'];
-    print(product.toString());
-    print(product);
-    List<Good> goods = product.map((e) => Good.fromJson(e)).toList();
-    setState(() {
-      listOfGood.addAll(goods);
-    });
-    return true;
-  }
-
+  @override
   initState() {
     super.initState();
-    fetch20Data();
+    if (FirebaseAuth.instance.currentUser != null) {
+      print(FirebaseAuth.instance.currentUser?.uid);
+      print(FirebaseAuth.instance.currentUser?.email);
+      print(FirebaseAuth.instance.currentUser?.displayName);
+    }
   }
 
   @override
@@ -54,24 +50,38 @@ class ProfileScreenState extends State<ProfileScreen>
           floating: true,
           elevation: 0,
           toolbarHeight: 60,
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return EditProfile();
+                }));
+              },
+              child: Text('edit'),
+            )
+          ],
           title: Row(
             children: [
               SizedBox(height: 10),
               //profile
               CircleAvatar(
                 radius: 30,
+                backgroundColor: Colors.black,
+                backgroundImage: CachedNetworkImageProvider(
+                    FirebaseAuth.instance.currentUser!.photoURL!),
               ),
               SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Oluwapelumi Eyelade',
+                  Text('oluwapelumi',
                       style: GoogleFonts.montserrat(
-                          fontSize: 15,
+                          fontSize: 20,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black54)),
+                          color: Colors.black)),
                   SizedBox(height: 10),
-                  Text('@blueishInColour',
+                  Text(userName,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -98,12 +108,18 @@ class ProfileScreenState extends State<ProfileScreen>
             child: FutureBuilder(
               future: FirebaseFirestore.instance
                   .collection('stories')
-                  .where('creator', isEqualTo: 'blueishincolour')
+                  .where('creator',
+                      isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                   .get(),
               builder: (context, snapshot) {
                 //if we have data, get all dic
 
                 if (snapshot.hasData) {
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Text(' no content yet'),
+                    );
+                  }
                   return GridView.builder(
                     itemCount: snapshot.data?.docs.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -125,7 +141,6 @@ class ProfileScreenState extends State<ProfileScreen>
                   crossAxisSpacing: 2,
                   mainAxisSpacing: 2,
                   children: [
-                    Container(color: Colors.black26),
                     Container(color: Colors.black26),
                     Container(color: Colors.black26),
                     Container(color: Colors.black26),
