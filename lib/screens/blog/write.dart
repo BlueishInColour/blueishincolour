@@ -77,6 +77,10 @@ class WriteState extends State<Write> {
         return data.url!;
       });
       debugPrint(url);
+
+      setState(() {
+        images = url;
+      });
       return url;
     }
 
@@ -143,7 +147,7 @@ class WriteState extends State<Write> {
                 createdAt: DateTime.now(),
                 title: titleController.text,
                 body: articleController.text,
-                picture: 'https://source.unsplash.com/random',
+                picture: images,
                 creator: creatorController.text,
                 reactions: 0,
                 listOfLikers: [],

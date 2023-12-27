@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../models/goods.dart';
+import '../../utils/chat_button.dart';
+import '../../utils/like_button.dart';
+import '../chat/item.dart';
 
 class Item extends StatefulWidget {
   const Item(
@@ -16,11 +19,13 @@ class Item extends StatefulWidget {
       this.index = 0,
       this.pictures = const [],
       this.id = '',
+      required this.listOfLikers,
       required this.onTap});
   final int index;
   final String title;
   final Function() onTap;
   final String id;
+  final List listOfLikers;
   final List<dynamic> pictures;
   @override
   State<Item> createState() => ItemState();
@@ -85,39 +90,13 @@ class ItemState extends State<Item> {
             bottom: 15,
             child: Row(
               children: [
-                IconButton(
-                  onPressed: () async {
-                    debugPrint('clicked');
-                    print(widget.id);
-                    QuerySnapshot<Map<String, dynamic>> docs =
-                        await FirebaseFirestore.instance
-                            .collection('goods')
-                            .where('goodId',
-                                isEqualTo:
-                                    '6ba7b810-9dad-11d1-80b4-00c04fd430c8')
-                            .get();
-                    print(docs);
-                    for (var snapshot in docs.docs) {
-                      print(snapshot.id);
-
-                      await FirebaseFirestore.instance
-                          .collection('goods')
-                          .doc(snapshot.id)
-                          .update({
-                        'listOfLikers': [FirebaseAuth.instance.currentUser!.uid]
-                      });
-                      debugPrint('done');
-                    }
-                  },
-                  icon: Icon(Icons.favorite_rounded,
-                      color: Colors.white, size: 30),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.chat_bubble_rounded,
-                        color: Colors.white, size: 30)),
+                LikeButton(
+                    listOfLikers: widget.listOfLikers,
+                    itemId: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+                    collection: 'goods'),
+                ChatButton(
+                    displayName: 'oluwapelumi', userName: 'blueishincolour'),
                 SizedBox(width: 5),
-                CircleAvatar(radius: 15, backgroundColor: Colors.white)
               ],
             ),
           ),

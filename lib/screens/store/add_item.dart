@@ -25,7 +25,12 @@ class AddItemState extends State<AddItem> {
   TextEditingController descriptionsController = TextEditingController();
   TextEditingController discountedPriceController = TextEditingController();
   TextEditingController titleController = TextEditingController();
-  List<String> images = [];
+  List<String> images = [
+    'https://source.unsplash.com/random',
+    'https://source.unsplash.com/random',
+    'https://source.unsplash.com/random'
+  ];
+  String image = '';
   @override
   Widget build(BuildContext context) {
     textField(context,
@@ -56,6 +61,39 @@ class AddItemState extends State<AddItem> {
     }
 
     String privateKey = 'private_A9tBBPhf/8CSEYPp+CR986xpRzE=';
+
+    Future<String> addSingleImage() async {
+//
+      final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      File file = File(xFile!.path);
+      //
+
+      String url = await ImageKit.io(
+        file.readAsBytesSync(),
+        fileName: 'afilename',
+        //  folder: "folder_name/nested_folder", (Optional)
+        privateKey: privateKey, // (Keep Confidential)
+        onUploadProgress: (progressValue) {
+          if (true) {
+            debugPrint(progressValue.toString());
+          }
+        },
+      ).then((ImagekitResponse data) {
+        /// Get your uploaded Image file link from [ImageKit.io]
+        /// then save it anywhere you want. For Example- [Firebase, MongoDB] etc.
+
+        debugPrint(data.url!); // (you will get all Response data from ImageKit)
+        return data.url!;
+      });
+      debugPrint(url);
+
+      setState(() {
+        image = url;
+      });
+      return url;
+    }
+
     addImage() async {
 //
       final xFile = await ImagePicker().pickMultiImage();
@@ -177,11 +215,7 @@ class AddItemState extends State<AddItem> {
                   brand: brandController.text,
                   category: categoryController.text,
                   description: descriptionsController.text,
-                  images: [
-                    'https://source.unsplash.com/random',
-                    'https://source.unsplash.com/random',
-                    'https://source.unsplash.com/random'
-                  ],
+                  images: images,
                   listOfLikers: [],
                   title: titleController.text);
 

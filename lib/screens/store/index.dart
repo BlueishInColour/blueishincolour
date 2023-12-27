@@ -120,6 +120,7 @@ class StoreScreenState extends State<StoreScreen>
 
                   return Item(
                     onTap: () {},
+                    listOfLikers: documentSnapshot['listOfLikers'],
                     title: documentSnapshot['title'],
                     pictures: documentSnapshot['images'],
                     id: documentSnapshot['goodId'],

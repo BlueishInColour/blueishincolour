@@ -4,8 +4,9 @@ import 'package:blueishincolour/screens/auth/auth_gate.dart';
 import 'package:blueishincolour/screens/blog/index.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
-import 'package:blueishincolour/screens/profile/index.dart';
+import 'package:blueishincolour/utils/trash/profile/index.dart';
 import 'package:blueishincolour/screens/store/index.dart';
+import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'dart:math' as math;
 
 import 'package:google_fonts/google_fonts.dart';
 
+import 'utils/trash/profile/edit_profile.dart';
 import 'utils/blueishincolour_icon.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +27,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await SharedPrefs().init();
+
   runApp(
     const MyApp(),
   );
@@ -32,6 +36,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -100,19 +105,15 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const BlueishInColourIcon(),
-            SizedBox(height: 10),
-            Text('find your fashion',
-                style: GoogleFonts.pacifico(
-                    fontSize: 0,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black))
+            Icon(Icons.favorite_rounded, color: Colors.white, size: 200),
+            SizedBox(height: 100),
+            Text('steeze')
           ],
         ),
       ),
@@ -134,65 +135,66 @@ class IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: [
-        StoreScreen(),
-        BlogScreen(),
-        CartScreen(),
-        ChatScreen(),
-        ProfileScreen(),
-      ][currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (v) {
-            setState(() {
-              currentIndex = v;
-            });
-          },
-          showSelectedLabels: false,
-          items: <BottomNavigationBarItem>[
+        body: [
+          StoreScreen(),
+          BlogScreen(),
+          CartScreen(),
+          ChatScreen(),
+          // ProfileScreen(),
+          // EditProfile()
+        ][currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: (v) {
+              setState(() {
+                currentIndex = v;
+              });
+            },
+            showSelectedLabels: false,
+            items: <BottomNavigationBarItem>[
 //
 // featured
-            BottomNavigationBarItem(
-                label: 'home',
-                icon: Icon(Icons.home_filled, color: Colors.black26),
-                activeIcon: Icon(
-                  Icons.home_filled,
-                  color: Colors.black,
-                )),
+              BottomNavigationBarItem(
+                  label: 'home',
+                  icon: Icon(Icons.home_filled, color: Colors.black26),
+                  activeIcon: Icon(
+                    Icons.home_filled,
+                    color: Colors.black,
+                  )),
 
 // blog
-            BottomNavigationBarItem(
-              label: 'blogs',
-              icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
-              activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
-            ), // upload
+              BottomNavigationBarItem(
+                label: 'blogs',
+                icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
+                activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
+              ), // upload
 //mine
-            BottomNavigationBarItem(
-              label: 'saved',
-              icon: Icon(
-                Icons.favorite_rounded,
-                color: Colors.black26,
+              BottomNavigationBarItem(
+                label: 'saved',
+                icon: Icon(
+                  Icons.favorite_rounded,
+                  color: Colors.black26,
+                ),
+                activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
               ),
-              activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
-            ),
 //chat
-            BottomNavigationBarItem(
-              label: 'saved',
-              icon: Icon(
-                Icons.chat_bubble,
-                color: Colors.black26,
+              BottomNavigationBarItem(
+                label: 'saved',
+                icon: Icon(
+                  Icons.chat_bubble,
+                  color: Colors.black26,
+                ),
+                activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
               ),
-              activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
-            ),
-            BottomNavigationBarItem(
-              label: 'profile',
-              icon: Icon(
-                Icons.person,
-                color: Colors.black26,
-              ),
-              activeIcon: Icon(Icons.person, color: Colors.black),
-            ),
-          ]),
-    );
+              //   BottomNavigationBarItem(
+              //     label: 'profile',
+              //     icon: Icon(
+              //       Icons.person,
+              //       color: Colors.black26,
+              //     ),
+              //     activeIcon: Icon(Icons.person, color: Colors.black),
+              //   ),
+              // ]),
+            ]));
   }
 }

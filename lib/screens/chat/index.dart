@@ -1,6 +1,9 @@
+import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './item.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -11,6 +14,27 @@ class ChatScreen extends StatefulWidget {
 }
 
 class ChatScreenState extends State<ChatScreen> {
+  getDetailsFromFirebase() async {
+    print('trying to get data from firbase');
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    QueryDocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+    print(documentSnapshot.data);
+    print(documentSnapshot['userName']);
+    print(documentSnapshot['displayName']);
+
+    String userName = documentSnapshot['userName'];
+    String displayName = documentSnapshot['displayName'];
+
+    //
+    //
+
+    SharedPrefs().displayname = displayName;
+    SharedPrefs().username = userName;
+  }
+
   @override
   initState() {
     super.initState();
@@ -18,26 +42,43 @@ class ChatScreenState extends State<ChatScreen> {
       print(FirebaseAuth.instance.currentUser?.uid);
       print(FirebaseAuth.instance.currentUser?.photoURL);
     }
+
+    getDetailsFromFirebase();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.black,
-            backgroundImage: CachedNetworkImageProvider(
-                FirebaseAuth.instance.currentUser!.photoURL!),
-          ),
-          title: Text(FirebaseAuth.instance.currentUser!.uid),
-          subtitle: Text('creator'),
-          onTap: () => Navigator.push(context,
-              PageRouteBuilder(pageBuilder: (context, _, __) {
-            return Item();
-          })),
+        body: StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .where('listOfLikers', arrayContains: 'blueish')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.black,
+                ),
+                title: Text(documentSnapshot['displayName']),
+                subtitle: Text(
+                    '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}'),
+                onTap: () => Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return Item(
+                      userName: documentSnapshot['userName'],
+                      displayName: documentSnapshot['displayName']);
+                })),
+              );
+            },
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
         );
       },
     ));

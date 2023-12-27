@@ -1,8 +1,5 @@
 {
   "projects": {
-    "default": "meninsuits",
-    "steeze": "meninsuits"
-  },
-  "targets": {},
-  "etags": {}
+    "default": "saveonsteeze"
+  }
 }

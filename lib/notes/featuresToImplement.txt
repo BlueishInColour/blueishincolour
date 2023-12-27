@@ -41,3 +41,8 @@ done - find better design for the blog page and remove appbar
 > the user identity like username displayname and profile pix , cover pix should be called as soon as app is loaded and saved 
     to shared prefererence and for shared p. be called whenever needed
 > 
+
+20th dec 2023
+> build the profile screen with the entry screen with ring that shows the status of the person
+> user should swipe left to a steeze and woll be brought to steeze up page whith is a tab with 'comments' as the second tab
+>

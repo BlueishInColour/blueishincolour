@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import '../cart/item.dart';
 
 class Item extends StatefulWidget {
-  const Item({super.key});
+  const Item({super.key, required this.userName, required this.displayName});
+
+  final String userName;
+  final String displayName;
 
   @override
   State<Item> createState() => ItemState();
@@ -18,9 +21,20 @@ class ItemState extends State<Item> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            backgroundColor: Colors.black,
             automaticallyImplyLeading: true,
             title: Row(
-              children: [CircleAvatar(), SizedBox(width: 10), Text('Zainab')],
+              children: [
+                CircleAvatar(),
+                SizedBox(width: 10),
+                Text(widget.displayName,
+                    style: TextStyle(color: Colors.white60, fontSize: 20)),
+                SizedBox(width: 5),
+                Text(
+                  '@${widget.userName}',
+                  style: TextStyle(color: Colors.white54, fontSize: 15),
+                )
+              ],
             )),
         body: Column(children: [
           Expanded(
@@ -90,21 +104,14 @@ class ItemState extends State<Item> {
 
               debugPrint('message sent');
             },
+            sendButtonColor: Colors.black,
             actions: [
-              InkWell(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 24,
-                ),
-                onTap: () {},
-              ),
               Padding(
                 padding: EdgeInsets.only(left: 8, right: 8),
                 child: InkWell(
                   child: Icon(
                     Icons.camera_alt,
-                    color: Colors.green,
+                    color: Colors.black,
                     size: 24,
                   ),
                   onTap: () {},

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/material.dart';
-import '../../models/user.dart';
+import '../../../models/user.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -30,6 +31,7 @@ class EditProfileState extends State<EditProfile> {
           TextButton(
               onPressed: () async {
                 await FirebaseFirestore.instance.collection('users').add(User(
+                    id: FirebaseAuth.instance.currentUser!.uid,
                     userName: usernameController.text,
                     displayName: displaynameController.text,
                     listOfLikers: []).toJson());
