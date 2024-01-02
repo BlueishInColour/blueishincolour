@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:blueishincolour/models/goods.dart';
@@ -25,52 +24,61 @@ class AddItemState extends State<AddItem> {
   TextEditingController descriptionsController = TextEditingController();
   TextEditingController discountedPriceController = TextEditingController();
   TextEditingController titleController = TextEditingController();
-  List<String> images = [
-    'https://source.unsplash.com/random',
-    'https://source.unsplash.com/random',
-    'https://source.unsplash.com/random'
-  ];
+  List<String> images = [];
   String image = '';
-  @override
-  Widget build(BuildContext context) {
-    textField(context,
-        {String hintText = 'write something',
-        int maxlines = 1,
-        required TextEditingController controller}) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: TextField(
-          minLines: 1, maxLines: maxlines,
-          controller: controller,
-          //
-          decoration: InputDecoration(
-            hintText: hintText,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(color: Colors.grey.shade200, width: 6),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide(color: Colors.blue.shade300, width: 6),
-            ),
-          ),
 
-          //
-        ),
-      );
-    }
+  String privateKey = 'private_A9tBBPhf/8CSEYPp+CR986xpRzE=';
 
-    String privateKey = 'private_A9tBBPhf/8CSEYPp+CR986xpRzE=';
-
-    Future<String> addSingleImage() async {
+  Future<String> addSingleImage() async {
 //
-      final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-      File file = File(xFile!.path);
-      //
+    File file = File(xFile!.path);
+    //
 
-      String url = await ImageKit.io(
-        file.readAsBytesSync(),
+    String url = await ImageKit.io(
+      file.readAsBytesSync(),
+      fileName: 'afilename',
+      //  folder: "folder_name/nested_folder", (Optional)
+      privateKey: privateKey, // (Keep Confidential)
+      onUploadProgress: (progressValue) {
+        if (true) {
+          debugPrint(progressValue.toString());
+        }
+      },
+    ).then((ImagekitResponse data) {
+      /// Get your uploaded Image file link from [ImageKit.io]
+      /// then save it anywhere you want. For Example- [Firebase, MongoDB] etc.
+
+      debugPrint(data.url!); // (you will get all Response data from ImageKit)
+      return data.url!;
+    });
+    debugPrint(url);
+
+    setState(() {
+      image = url;
+    });
+    return url;
+  }
+
+  addImage() async {
+//
+    final xFile = await ImagePicker().pickMultiImage();
+
+    List<File> listOfXfile = [];
+
+    xFile.forEach(
+      (element) {
+        listOfXfile.add(File(element.path));
+      },
+    );
+
+    //
+
+    List<String> listOfUrl = [];
+    for (var i = 0; i < listOfXfile.length; i++) {
+      await ImageKit.io(
+        listOfXfile[i].readAsBytesSync(),
         fileName: 'afilename',
         //  folder: "folder_name/nested_folder", (Optional)
         privateKey: privateKey, // (Keep Confidential)
@@ -84,81 +92,150 @@ class AddItemState extends State<AddItem> {
         /// then save it anywhere you want. For Example- [Firebase, MongoDB] etc.
 
         debugPrint(data.url!); // (you will get all Response data from ImageKit)
-        return data.url!;
+        listOfUrl.add(data.url!);
       });
-      debugPrint(url);
-
-      setState(() {
-        image = url;
-      });
-      return url;
     }
 
-    addImage() async {
-//
-      final xFile = await ImagePicker().pickMultiImage();
+    print(listOfUrl);
 
-      List<File> listOfXfile = [];
+    //
+    setState(() {
+      images.addAll(listOfUrl);
+    });
+    debugPrint('images');
+  }
 
-      xFile.forEach(
-        (element) {
-          listOfXfile.add(File(element.path));
-        },
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addImage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    textField(context,
+        {String hintText = 'write something',
+        int maxlines = 1,
+        double height = 45,
+        required TextEditingController controller}) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: SizedBox(
+          height: height,
+          child: TextField(
+            minLines: 1, maxLines: maxlines,
+            controller: controller,
+            //
+            decoration: InputDecoration(
+              hintText: hintText,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: Colors.grey.shade200, width: 6),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: Colors.blue.shade300, width: 6),
+              ),
+            ),
+
+            //
+          ),
+        ),
       );
-
-      //
-
-      List<String> listOfUrl = [];
-      for (var i = 0; i < listOfXfile.length; i++) {
-        await ImageKit.io(
-          listOfXfile[i].readAsBytesSync(),
-          fileName: 'afilename',
-          //  folder: "folder_name/nested_folder", (Optional)
-          privateKey: privateKey, // (Keep Confidential)
-          onUploadProgress: (progressValue) {
-            if (true) {
-              debugPrint(progressValue.toString());
-            }
-          },
-        ).then((ImagekitResponse data) {
-          /// Get your uploaded Image file link from [ImageKit.io]
-          /// then save it anywhere you want. For Example- [Firebase, MongoDB] etc.
-
-          debugPrint(
-              data.url!); // (you will get all Response data from ImageKit)
-          listOfUrl.add(data.url!);
-        });
-      }
-
-      print(listOfUrl);
-
-      //
-      setState(() {
-        images.addAll(listOfUrl);
-      });
-      debugPrint('images');
     }
 
-    return Scaffold(
-      appBar: AppBar(title: Text('add items')),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.all(10),
-          width: 500,
-          child: ListView(
-            children: [
-              //images
-              images.isNotEmpty
-                  ? SizedBox(
+    return images.isNotEmpty
+        ? Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              automaticallyImplyLeading: true,
+              leading: IconButton.outlined(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    Good good = Good(
+                        goodId: Uuid.NAMESPACE_DNS,
+                        brand: brandController.text,
+                        category: categoryController.text,
+                        description: descriptionsController.text,
+                        images: images,
+                        listOfLikers: [],
+                        title: titleController.text);
+
+                    if (good.title.isEmpty) {
+                      debugPrint('images is empty , add to it');
+                    } else {
+                      final CollectionReference goodCollection =
+                          FirebaseFirestore.instance.collection('goods');
+                      await goodCollection.add(good.toJson());
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text(
+                    'add to store',
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ),
+              ],
+            ),
+            body: Center(
+              child: Container(
+                margin: EdgeInsets.all(10),
+                width: 500,
+                child: ListView(
+                  children: [
+                    //images
+                    SizedBox(
                       height: 400,
                       child: PageView.builder(
+                          scrollDirection: Axis.horizontal,
                           itemCount: images.length,
                           itemBuilder: (context, index) {
                             return CachedNetworkImage(imageUrl: images[index]);
                           }),
+                    ),
+
+                    //
+                    Text(
+                        '${images.length.toString()} images - scroll sideways'),
+                    textField(context,
+                        hintText: 'title ...', controller: titleController),
+                    textField(context,
+                        hintText: 'descriptions ...',
+                        controller: descriptionsController,
+                        height: 300,
+                        maxlines: 10),
+                    SizedBox(
+                      height: 50,
                     )
-                  : SizedBox(),
-              Container(
+                  ],
+                ),
+              ),
+            ),
+            resizeToAvoidBottomInset: true,
+          )
+        : Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(
+              automaticallyImplyLeading: true,
+              backgroundColor: Colors.black,
+            ),
+            body: Center(
+              child: Container(
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: Colors.grey.shade200, width: 6)),
@@ -171,73 +248,7 @@ class AddItemState extends State<AddItem> {
                   child: Text('+  click to add image  +'),
                 )),
               ),
-              //
-              textField(context,
-                  hintText: 'brand ', controller: brandController),
-
-              textField(context,
-                  hintText: 'category ...', controller: categoryController),
-
-              textField(context,
-                  hintText: 'title ...', controller: titleController),
-              textField(context,
-                  hintText: 'descriptions ...',
-                  controller: descriptionsController,
-                  maxlines: 10),
-
-              textField(context,
-                  hintText: 'price NGN', controller: priceController),
-              textField(context,
-                  hintText: 'discounted price NGN',
-                  controller: discountedPriceController),
-            ],
-          ),
-        ),
-      ),
-      resizeToAvoidBottomInset: true,
-      bottomSheet: Row(children: [
-        Expanded(
-          child: SizedBox(),
-        ),
-        Container(
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.blue.shade600,
-            borderRadius: BorderRadius.circular(25),
-          ),
-          height: 40,
-          child: Center(
-              child: TextButton(
-            onPressed: () async {
-              Good good = Good(
-                  goodId: Uuid.NAMESPACE_DNS,
-                  brand: brandController.text,
-                  category: categoryController.text,
-                  description: descriptionsController.text,
-                  images: images,
-                  listOfLikers: [],
-                  title: titleController.text);
-
-              if (good.title.isEmpty) {
-                debugPrint('images is empty , add to it');
-              } else {
-                final CollectionReference goodCollection =
-                    FirebaseFirestore.instance.collection('goods');
-                await goodCollection.add(good.toJson());
-                Navigator.pop(context);
-              }
-            },
-            child: Text(
-              'add to store',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800),
             ),
-          )),
-        )
-      ]),
-    );
+          );
   }
 }

@@ -95,7 +95,7 @@ Future<String> uploadPixGetUrl(File file) async {
     debugPrint(data.url!); // (you will get all Response data from ImageKit)
     return data.url;
   });
-  return url!;
+  return '';
 }
 
 uploadStories(context, {required Stories stories}) async {

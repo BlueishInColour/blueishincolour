@@ -9,9 +9,33 @@ class BlueishInColourIcon extends StatefulWidget {
 }
 
 class BlueishInColourIconState extends State<BlueishInColourIcon> {
+  TextEditingController steezeSearchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Text('steeze 14/12/2023',
-        style: GoogleFonts.pacifico(fontSize: 30, color: Colors.black));
+    return TextField(
+      onTapOutside: (event) {
+        print('event after tapedoutside');
+      },
+      controller: steezeSearchController,
+      cursorHeight: 10,
+      showCursor: false,
+      style: TextStyle(fontSize: 10),
+      decoration: InputDecoration(
+        suffixIcon: Icon(Icons.search, size: 19),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color: Colors.black, width: 0.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color: Colors.black54, width: 1),
+        ),
+        hintText: 'steeze - find your fashion',
+        hintStyle: GoogleFonts.pacifico(
+          fontStyle: FontStyle.italic,
+          fontSize: 14,
+        ),
+      ),
+    );
   }
 }

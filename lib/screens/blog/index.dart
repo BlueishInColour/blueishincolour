@@ -13,7 +13,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:loadmore_listview/loadmore_listview.dart';
 import 'package:refresh_loadmore/refresh_loadmore.dart';
 import '../../models/stories.dart';
-import '../../utils/blueishincolour_icon.dart';
 import 'item.dart';
 
 class BlogScreen extends StatefulWidget {
@@ -23,36 +22,26 @@ class BlogScreen extends StatefulWidget {
   State<BlogScreen> createState() => BlogScreenState();
 }
 
-class BlogScreenState extends State<BlogScreen> {
+class BlogScreenState extends State<BlogScreen>
+    with AutomaticKeepAliveClientMixin {
   String url = 'http://localhost:8080/blog';
 
   List<Stories> listOfStories = [];
   int cartCount = 3;
-  Future<bool> fetch20Data() async {
-    debugPrint('getting data');
-    var res = await http.get(Uri.parse(url));
-    if (res.statusCode != 200) {}
-
-    List body = json.decode(res.body);
-    // List product = body['products'];
-    // print(product.toString());
-    // print(product);
-    List<Stories> goods = body.map((e) => Stories.fromJson(e)).toList();
-    setState(() {
-      listOfStories.addAll(goods);
-    });
-    return true;
-  }
 
   initState() {
     super.initState();
-    fetch20Data();
   }
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
         backgroundColor: Colors.grey[100],
         floatingActionButton: FloatingActionButton(
@@ -72,11 +61,8 @@ class BlogScreenState extends State<BlogScreen> {
             child: SizedBox(
                 width: 500,
                 child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('stories')
-                      .where('creator',
-                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                      .get(),
+                  future:
+                      FirebaseFirestore.instance.collection('stories').get(),
                   builder: (context, snapshot) {
 //if we have data, get all dic
                     if (snapshot.hasData) {

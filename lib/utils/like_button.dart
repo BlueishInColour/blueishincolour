@@ -74,7 +74,9 @@ class LikeButtonState extends State<LikeButton> {
         }
       },
       icon: Icon(Icons.favorite_rounded,
-          color: haveLiked ? Colors.black54 : Colors.white60, size: 30),
+          color:
+              haveLiked ? const Color.fromARGB(255, 255, 17, 0) : Colors.white,
+          size: 30),
     );
   }
 }

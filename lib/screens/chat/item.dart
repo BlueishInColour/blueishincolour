@@ -4,8 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../cart/item.dart';
-
 class Item extends StatefulWidget {
   const Item({super.key, required this.userName, required this.displayName});
 
@@ -27,13 +25,17 @@ class ItemState extends State<Item> {
               children: [
                 CircleAvatar(),
                 SizedBox(width: 10),
-                Text(widget.displayName,
-                    style: TextStyle(color: Colors.white60, fontSize: 20)),
-                SizedBox(width: 5),
-                Text(
-                  '@${widget.userName}',
-                  style: TextStyle(color: Colors.white54, fontSize: 15),
-                )
+                Column(
+                  children: [
+                    Text(widget.displayName,
+                        style: TextStyle(color: Colors.white60, fontSize: 15)),
+                    SizedBox(height: 5),
+                    Text(
+                      '@${widget.userName}',
+                      style: TextStyle(color: Colors.white54, fontSize: 11),
+                    )
+                  ],
+                ),
               ],
             )),
         body: Column(children: [
@@ -77,7 +79,7 @@ class ItemState extends State<Item> {
                                 ? true
                                 : false,
                             textStyle:
-                                TextStyle(color: Colors.white, fontSize: 16),
+                                TextStyle(color: Colors.white, fontSize: 11),
                           );
                         })),
                   );

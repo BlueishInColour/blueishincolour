@@ -10,13 +10,9 @@ import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'dart:math' as math;
-
+// blueishincolour@gmail.com
+// Oluwapelumide631$
 import 'package:google_fonts/google_fonts.dart';
-
-import 'utils/trash/profile/edit_profile.dart';
-import 'utils/blueishincolour_icon.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

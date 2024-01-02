@@ -64,9 +64,13 @@ class ChatScreenState extends State<ChatScreen> {
                 leading: CircleAvatar(
                   backgroundColor: Colors.black,
                 ),
-                title: Text(documentSnapshot['displayName']),
+                title: Text(
+                  documentSnapshot['displayName'],
+                  style: TextStyle(fontSize: 15),
+                ),
                 subtitle: Text(
-                    '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}'),
+                    '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}',
+                    style: TextStyle(fontSize: 11)),
                 onTap: () => Navigator.push(context,
                     PageRouteBuilder(pageBuilder: (context, _, __) {
                   return Item(

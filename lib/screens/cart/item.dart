@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:blueishincolour/utils/chat_button.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../../models/goods.dart';
 
 class Item extends StatefulWidget {
   const Item(
@@ -42,7 +40,7 @@ class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.all(5),
       height: 300,
       child: Stack(
         children: [
@@ -67,69 +65,26 @@ class ItemState extends State<Item> {
               ),
             ),
           ),
+          // Positioned(
+          //     bottom: 40,
+          //     child: Container(
+          //       margin: EdgeInsets.all(10),
+          //       child: Text(
+          //         widget.title,
+          //         maxLines: 3,
+          //         style: GoogleFonts.pacifico(
+          //             color: Colors.white,
+          //             fontWeight: FontWeight.w800,
+          //             fontSize: 27),
+          //       ),
+          //     )),
           Positioned(
-              bottom: 40,
-              child: Container(
-                margin: EdgeInsets.all(10),
-                child: Text(
-                  widget.title,
-                  maxLines: 3,
-                  style: GoogleFonts.pacifico(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 27),
-                ),
+              right: 15,
+              bottom: 15,
+              child: ChatButton(
+                displayName: 'blaxxkboard',
+                userName: 'oluwapelumie',
               )),
-          Positioned(
-            right: 15,
-            bottom: 15,
-            child: button(
-              context,
-              onTap: () async {
-                debugPrint('clicked');
-                print(widget.id);
-                QuerySnapshot<Map<String, dynamic>> docs =
-                    await FirebaseFirestore.instance
-                        .collection('goods')
-                        .where('goodId',
-                            isEqualTo: '6ba7b810-9dad-11d1-80b4-00c04fd430c8')
-                        .get();
-                print(docs);
-                for (var snapshot in docs.docs) {
-                  print(snapshot.id);
-
-                  await FirebaseFirestore.instance
-                      .collection('goods')
-                      .doc(snapshot.id)
-                      .update({
-                    'listOfLikers': [FirebaseAuth.instance.currentUser!.uid]
-                  });
-                  debugPrint('done');
-                }
-              },
-            ),
-          ),
-          Positioned(
-              bottom: 3,
-              right: 10,
-              child: SizedBox(
-                height: 10,
-                width: 200,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.pictures.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 3),
-                        child: CircleAvatar(
-                          radius: 3,
-                          backgroundColor: index == currentIndex
-                              ? Colors.blue.shade600
-                              : Colors.white,
-                        ),
-                      );
-                    }),
-              ))
         ],
       ),
     );

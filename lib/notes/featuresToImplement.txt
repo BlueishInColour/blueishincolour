@@ -46,3 +46,9 @@ done - find better design for the blog page and remove appbar
 > build the profile screen with the entry screen with ring that shows the status of the person
 > user should swipe left to a steeze and woll be brought to steeze up page whith is a tab with 'comments' as the second tab
 >
+
+2nd jan, 2024
+> build the chat screen to be better, more fluid
+> build the save screeb to save any like post to offline, so that it can be viewed without data
+> build the search feature to be fluid
+> 

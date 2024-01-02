@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:blueishincolour/utils/trash/profile/edit_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/goods.dart';
 import 'item.dart';
-import '../../shared_pref.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
