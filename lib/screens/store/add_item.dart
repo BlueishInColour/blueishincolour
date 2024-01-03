@@ -165,7 +165,7 @@ class AddItemState extends State<AddItem> {
                 TextButton(
                   onPressed: () async {
                     Good good = Good(
-                        goodId: Uuid.NAMESPACE_DNS,
+                        goodId: Uuid().v1(),
                         brand: brandController.text,
                         category: categoryController.text,
                         description: descriptionsController.text,

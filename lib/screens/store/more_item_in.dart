@@ -31,34 +31,24 @@ class MoreItemInState extends State<MoreItemIn> {
           },
           child: Icon(Icons.add, color: Colors.white60),
         ),
-        body: FutureBuilder(
-            future: FirebaseFirestore.instance
-                .collection('goods')
-                .where('goodId', isEqualTo: widget.goodId)
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: widget.listOfPictures.length,
-                  itemBuilder: (context, index) {
-                    //get indicidual doc
-                    DocumentSnapshot documentSnapshot =
-                        snapshot.data!.docs[index];
-                    return Item(
-                      onTap: () {},
-                      showPix: widget.listOfPictures[index],
-                      listOfLikers: documentSnapshot['listOfLikers'],
-                      title: documentSnapshot['title'],
-                      pictures: widget.listOfPictures,
-                      id: documentSnapshot['goodId'],
-                    );
-                  },
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }));
+        body: widget.listOfPictures.isNotEmpty
+            ? ListView.builder(
+                itemCount: widget.listOfPictures.length,
+                itemBuilder: (context, index) {
+                  //get indicidual doc
+
+                  return Item(
+                    onTap: () {},
+                    showPix: widget.listOfPictures[index],
+                    listOfLikers: widget.listOflikers,
+                    title: widget.title,
+                    pictures: widget.listOfPictures,
+                    id: widget.id,
+                  );
+                },
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ));
   }
 }

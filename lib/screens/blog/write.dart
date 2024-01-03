@@ -150,7 +150,7 @@ class WriteState extends State<Write> {
                 creator: creatorController.text,
                 reactions: 0,
                 listOfLikers: [],
-                id: Uuid.NAMESPACE_DNS,
+                id: Uuid().v1(),
                 tags: ['lifestyle', 'tech', 'fashion'],
               );
 

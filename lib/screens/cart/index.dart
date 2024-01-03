@@ -30,9 +30,43 @@ class CartScreenState extends State<CartScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        backgroundColor: Colors.grey[100],
-        body: CustomScrollView(slivers: [
-          //sevices
+      backgroundColor: Colors.grey[100],
+      body: StreamBuilder(
+        stream: db
+            .collection('goods')
+            .where('listOfLikers',
+                arrayContains: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          //if we have data, get all dic
+          if (snapshot.hasData) {
+            return SizedBox(
+              height: 400,
+              child: ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: ((context, index) {
+                    //get indicidual doc
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
+
+                    return Item(
+                      onTap: () {},
+                      title: documentSnapshot['title'],
+                      pictures: documentSnapshot['images'],
+                      id: documentSnapshot['goodId'],
+                    );
+                  })),
+            );
+          }
+
+          return Center(
+              child: CircularProgressIndicator(color: Colors.blue.shade600));
+        },
+      ),
+    );
+  }
+}
+ //sevices
           // SliverToBoxAdapter(
           //   child: SizedBox(
           //     height: 250,
@@ -101,49 +135,3 @@ class CartScreenState extends State<CartScreen>
           //         icon: Icon(Icons.search, color: Colors.black))
           //   ],
           // ),
-
-          SliverToBoxAdapter(
-              child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 15),
-                StreamBuilder(
-                  stream: db
-                      .collection('goods')
-                      .where('listOfLikers',
-                          arrayContains: FirebaseAuth.instance.currentUser!.uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    //if we have data, get all dic
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        height: 400,
-                        child: ListView.builder(
-                            itemCount: snapshot.data?.docs.length,
-                            itemBuilder: ((context, index) {
-                              //get indicidual doc
-                              DocumentSnapshot documentSnapshot =
-                                  snapshot.data!.docs[index];
-
-                              return Item(
-                                onTap: () {},
-                                title: documentSnapshot['title'],
-                                pictures: documentSnapshot['images'],
-                                id: documentSnapshot['goodId'],
-                              );
-                            })),
-                      );
-                    }
-
-                    return Center(
-                        child: CircularProgressIndicator(
-                            color: Colors.blue.shade600));
-                  },
-                ),
-              ],
-            ),
-          )),
-        ]));
-  }
-}
