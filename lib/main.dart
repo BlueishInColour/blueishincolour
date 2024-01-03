@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+          appBarTheme: AppBarTheme(backgroundColor: Colors.black),
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: ButtonStyle(
             shape: MaterialStatePropertyAll(
@@ -127,7 +128,7 @@ class Index extends StatefulWidget {
 }
 
 class IndexState extends State<Index> {
-  int currentIndex = 3;
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

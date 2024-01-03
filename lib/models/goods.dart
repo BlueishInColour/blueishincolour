@@ -17,21 +17,24 @@ class Good {
       this.title = '',
       this.category = '',
       this.listOfLikers = const [],
+      this.headPostId = 'general',
       this.images = const []});
-  List<String> listOfLikers;
+
+  List<String> listOfLikers; //
 
   double albumId;
-  String goodId;
+  String goodId; //
   String thumbnail;
-  String title;
-  String description;
+  String title; //
+  String description; //
   double discountPercentage;
   double stock;
   double price;
   String category;
   String brand;
   double rating;
-  List<String> images;
+  List<String> images; //
+  String headPostId; //
 
   factory Good.fromJson(Map<String, dynamic> json) => _$GoodFromJson(json);
 

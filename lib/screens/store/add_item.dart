@@ -11,7 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({super.key});
+  const AddItem({super.key, required this.headPostId});
+  final String headPostId;
 
   @override
   State<AddItem> createState() => AddItemState();
@@ -170,6 +171,7 @@ class AddItemState extends State<AddItem> {
                         description: descriptionsController.text,
                         images: images,
                         listOfLikers: [],
+                        headPostId: widget.headPostId,
                         title: titleController.text);
 
                     if (good.title.isEmpty) {

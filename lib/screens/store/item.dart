@@ -57,7 +57,9 @@ class ItemState extends State<Item> {
       },
       onHorizontalDragEnd: (details) {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
-          return MoreItemOut();
+          return MoreItemOut(
+            headPostid: widget.id,
+          );
         }));
       },
       child: Container(

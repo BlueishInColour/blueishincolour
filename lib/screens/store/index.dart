@@ -77,7 +77,9 @@ class StoreScreenState extends State<StoreScreen>
           onPressed: () {
             Navigator.push(context,
                 PageRouteBuilder(pageBuilder: (context, _, __) {
-              return AddItem();
+              return AddItem(
+                headPostId: '',
+              );
             }));
           },
           child: Icon(Icons.add, color: Colors.white60),

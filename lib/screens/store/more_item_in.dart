@@ -1,3 +1,5 @@
+import 'package:blueishincolour/screens/store/add_item.dart';
+
 import './item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,18 @@ class MoreItemInState extends State<MoreItemIn> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(automaticallyImplyLeading: true),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          onPressed: () {
+            Navigator.push(context,
+                PageRouteBuilder(pageBuilder: (context, _, __) {
+              return AddItem(
+                headPostId: '',
+              );
+            }));
+          },
+          child: Icon(Icons.add, color: Colors.white60),
+        ),
         body: FutureBuilder(
             future: FirebaseFirestore.instance
                 .collection('goods')
