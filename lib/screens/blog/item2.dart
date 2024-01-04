@@ -28,7 +28,7 @@ class ItemTwoState extends State<ItemTwo> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey.shade500, borderRadius: BorderRadius.circular(15)),
+          color: Colors.white, borderRadius: BorderRadius.circular(15)),
       margin: EdgeInsets.all(5),
       padding: EdgeInsets.all(5),
       child: Column(

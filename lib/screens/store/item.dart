@@ -95,6 +95,14 @@ class ItemState extends State<Item> {
             //             fontSize: 27),
             //       ),
             //     )),
+
+            Positioned(
+                left: 15,
+                bottom: 15,
+                child: Row(children: [
+                  Icon(Icons.repeat, color: Colors.white, size: 20),
+                  Text('10', style: TextStyle(color: Colors.white))
+                ])),
             Positioned(
                 child: Badge(
               backgroundColor: Colors.black,

@@ -3,6 +3,9 @@ import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../models/comments.dart';
 import './item.dart';
 
 class MoreItemOut extends StatefulWidget {
@@ -46,16 +49,6 @@ class MoreItemOutState extends State<MoreItemOut>
                 )
               ]),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilder(pageBuilder: (context, _, __) {
-              return AddItem(headPostId: widget.headPostid);
-            }));
-          },
-          child: Icon(Icons.add, color: Colors.white60),
-        ),
         body: TabBarView(
           controller: tabController,
           children: [
@@ -79,38 +72,51 @@ class SteezeSection extends StatefulWidget {
 class SteezeSectionState extends State<SteezeSection> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('goods')
-            .where('headPostId', isEqualTo: widget.headPostId)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text('be the first to steeze-off this'),
-            );
-          } else if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data?.docs.length,
-              itemBuilder: (context, index) {
-                //get indicidual doc
-                DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-                return Item(
-                  onTap: () {},
-                  showPix: documentSnapshot['images'][0],
-                  listOfLikers: documentSnapshot['listOfLikers'],
-                  title: documentSnapshot['title'],
-                  pictures: documentSnapshot['images'],
-                  id: documentSnapshot['goodId'],
-                );
-              },
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(context,
+              PageRouteBuilder(pageBuilder: (context, _, __) {
+            return AddItem(headPostId: widget.headPostId);
+          }));
+        },
+        child: Icon(Icons.add, color: Colors.white60),
+      ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('goods')
+              .where('headPostId', isEqualTo: widget.headPostId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Text('be the first to steeze-off this'),
+              );
+            } else if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: (context, index) {
+                  //get indicidual doc
+                  DocumentSnapshot documentSnapshot =
+                      snapshot.data!.docs[index];
+                  return Item(
+                    onTap: () {},
+                    showPix: documentSnapshot['images'][0],
+                    listOfLikers: documentSnapshot['listOfLikers'],
+                    title: documentSnapshot['title'],
+                    pictures: documentSnapshot['images'],
+                    id: documentSnapshot['goodId'],
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+    );
   }
 }
 
@@ -126,43 +132,62 @@ class CommentSection extends StatefulWidget {
 class CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Center(
-          child: Icon(Icons.construction_sharp, size: 100),
-        ),
-        Expanded(child: SizedBox()),
-        MessageBar(
-          onSend: (text) async {
-            debugPrint('about to send message');
-            await FirebaseFirestore.instance.collection('messages').add({
-              'sender': FirebaseAuth.instance.currentUser!.uid,
-              'reciever': 'tinuke',
-              'text': text,
-              'picture': '',
-              'voiceNote': '',
-              'timestamp': Timestamp.now(),
-              'status': 'seen'
-            });
+    return Scaffold(
+      body: Column(
+        children: [
+          const Center(
+            child: Icon(Icons.construction_sharp, size: 100),
+          ),
+          StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection('comments').snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(itemBuilder: (context, index) {
+                  DocumentSnapshot documentSnapshot =
+                      snapshot.data!.docs[index];
+                  return ListTile(
+                    leading: CircleAvatar(),
+                    title: Text(documentSnapshot['text']),
+                    subtitle: Text(documentSnapshot['creator']),
+                  );
+                });
+              } else {
+                return Center(child: Text('noooooo dataaaaaaaaaaa'));
+              }
+            },
+          ),
+          const Expanded(child: SizedBox()),
+        ],
+      ),
+      bottomSheet: MessageBar(
+        messageBarHitText: 'write a comment',
+        onSend: (text) async {
+          debugPrint('about to send message');
+          await FirebaseFirestore.instance.collection('comments').add(Comments(
+                  commentId: Uuid().v1(),
+                  text: text,
+                  creator: 'blueishincolour',
+                  postId: widget.postId)
+              .toJson());
 
-            debugPrint('message sent');
-          },
-          sendButtonColor: Colors.black,
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(left: 8, right: 8),
-              child: InkWell(
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.black,
-                  size: 24,
-                ),
-                onTap: () {},
+          debugPrint('message sent');
+        },
+        sendButtonColor: Colors.black,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            child: InkWell(
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.black,
+                size: 24,
               ),
+              onTap: () {},
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
