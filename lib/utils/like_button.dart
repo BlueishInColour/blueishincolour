@@ -46,6 +46,7 @@ class LikeButtonState extends State<LikeButton> {
             .get();
         print(docs);
         for (var snapshot in docs.docs) {
+          print('started to find love');
           print(snapshot.id);
 
           if (haveLiked == false) {

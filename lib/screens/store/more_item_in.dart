@@ -1,14 +1,21 @@
 import 'package:blueishincolour/screens/store/add_item.dart';
+import 'package:blueishincolour/screens/store/index.dart';
+import '../../main.dart';
 
 import './item.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MoreItemIn extends StatefulWidget {
   const MoreItemIn(
-      {super.key, required this.goodId, required this.listOfPictures});
+      {super.key,
+      required this.goodId,
+      required this.listOfLikers,
+      required this.title,
+      required this.listOfPictures});
   final String goodId;
   final List listOfPictures;
+  final List listOfLikers;
+  final String title;
 
   @override
   State<MoreItemIn> createState() => MoreItemInState();
@@ -18,7 +25,23 @@ class MoreItemInState extends State<MoreItemIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(automaticallyImplyLeading: true),
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: Text('steeze-on'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      PageRouteBuilder(pageBuilder: (context, _, __) {
+                    return Index();
+                  }));
+                },
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ))
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           onPressed: () {
@@ -40,10 +63,10 @@ class MoreItemInState extends State<MoreItemIn> {
                   return Item(
                     onTap: () {},
                     showPix: widget.listOfPictures[index],
-                    listOfLikers: widget.listOflikers,
+                    listOfLikers: widget.listOfLikers,
                     title: widget.title,
                     pictures: widget.listOfPictures,
-                    id: widget.id,
+                    id: widget.goodId,
                   );
                 },
               )

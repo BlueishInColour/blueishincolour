@@ -35,7 +35,7 @@ class MoreItemOutState extends State<MoreItemOut>
               indicatorPadding: EdgeInsets.only(top: 15),
               tabs: [
                 Text(
-                  'steezes',
+                  'steeze-off',
                   style: TextStyle(color: Colors.white),
                 ),
                 Text(
@@ -85,7 +85,7 @@ class SteezeSectionState extends State<SteezeSection> {
         builder: (context, snapshot) {
           if (snapshot.data!.docs.isEmpty) {
             return Center(
-              child: Text('be the first to steeze-on this'),
+              child: Text('be the first to steeze-off this'),
             );
           } else if (snapshot.hasData) {
             return ListView.builder(

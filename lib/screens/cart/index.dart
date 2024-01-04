@@ -7,6 +7,50 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import '../cart/item.dart';
 
+// import 'package:flutter/material.dart';
+
+class SavedScreen extends StatefulWidget {
+  const SavedScreen({super.key});
+
+  @override
+  State<SavedScreen> createState() => SavedScreenState();
+}
+
+class SavedScreenState extends State<SavedScreen>
+    with TickerProviderStateMixin {
+  late TabController controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    controller = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          title: TabBar(
+        controller: controller,
+        indicatorColor: Colors.white,
+        indicatorSize: TabBarIndicatorSize.label,
+        indicatorPadding: EdgeInsets.only(top: 15),
+        tabs: [
+          Text('styles', style: TextStyle(color: Colors.white)),
+          Text('posts', style: TextStyle(color: Colors.white))
+        ],
+      )),
+      body: TabBarView(controller: controller, children: [
+        CartScreen(),
+        PostSection(),
+      ]),
+    );
+  }
+}
+
+//
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
@@ -40,23 +84,20 @@ class CartScreenState extends State<CartScreen>
         builder: (context, snapshot) {
           //if we have data, get all dic
           if (snapshot.hasData) {
-            return SizedBox(
-              height: 400,
-              child: ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: ((context, index) {
-                    //get indicidual doc
-                    DocumentSnapshot documentSnapshot =
-                        snapshot.data!.docs[index];
+            return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: ((context, index) {
+                  //get indicidual doc
+                  DocumentSnapshot documentSnapshot =
+                      snapshot.data!.docs[index];
 
-                    return Item(
-                      onTap: () {},
-                      title: documentSnapshot['title'],
-                      pictures: documentSnapshot['images'],
-                      id: documentSnapshot['goodId'],
-                    );
-                  })),
-            );
+                  return Item(
+                    onTap: () {},
+                    title: documentSnapshot['title'],
+                    pictures: documentSnapshot['images'],
+                    id: documentSnapshot['goodId'],
+                  );
+                }));
           }
 
           return Center(
@@ -66,72 +107,86 @@ class CartScreenState extends State<CartScreen>
     );
   }
 }
- //sevices
-          // SliverToBoxAdapter(
-          //   child: SizedBox(
-          //     height: 250,
-          //     child: GridView.count(
-          //       crossAxisCount: 4,
-          //       crossAxisSpacing: 5,
-          //       mainAxisSpacing: 5,
-          //       children: [
-          //         //services such as fabrics, loundry, cloth makers, agents , designers, logistics,
-          //         GridTile(
-          //           child: Container(child: LineIcon.store()),
-          //           footer: Center(child: Text('fabric')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: Icon(Icons.cut_rounded)),
-          //           footer: Center(child: Text('designers')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: LineIcon.tape()),
-          //           footer: Center(child: Text('dressmakers')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: Icon(Icons.electric_bike)),
-          //           footer: Center(child: Text('logitics')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: Icon(Icons.iron)),
-          //           footer: Center(child: Text('loundry')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: Icon(Icons.shopping_bag)),
-          //           footer: Center(child: Text('boutque')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: Icon(Icons.watch)),
-          //           footer: Center(child: Text('accessories')),
-          //         ),
-          //         GridTile(
-          //           child: Container(child: Icon(Icons.bug_report_rounded)),
-          //           footer: Center(child: Text('report')),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+//sevices
+// SliverToBoxAdapter(
+//   child: SizedBox(
+//     height: 250,
+//     child: GridView.count(
+//       crossAxisCount: 4,
+//       crossAxisSpacing: 5,
+//       mainAxisSpacing: 5,
+//       children: [
+//         //services such as fabrics, loundry, cloth makers, agents , designers, logistics,
+//         GridTile(
+//           child: Container(child: LineIcon.store()),
+//           footer: Center(child: Text('fabric')),
+//         ),
+//         GridTile(
+//           child: Container(child: Icon(Icons.cut_rounded)),
+//           footer: Center(child: Text('designers')),
+//         ),
+//         GridTile(
+//           child: Container(child: LineIcon.tape()),
+//           footer: Center(child: Text('dressmakers')),
+//         ),
+//         GridTile(
+//           child: Container(child: Icon(Icons.electric_bike)),
+//           footer: Center(child: Text('logitics')),
+//         ),
+//         GridTile(
+//           child: Container(child: Icon(Icons.iron)),
+//           footer: Center(child: Text('loundry')),
+//         ),
+//         GridTile(
+//           child: Container(child: Icon(Icons.shopping_bag)),
+//           footer: Center(child: Text('boutque')),
+//         ),
+//         GridTile(
+//           child: Container(child: Icon(Icons.watch)),
+//           footer: Center(child: Text('accessories')),
+//         ),
+//         GridTile(
+//           child: Container(child: Icon(Icons.bug_report_rounded)),
+//           footer: Center(child: Text('report')),
+//         ),
+//       ],
+//     ),
+//   ),
+// ),
 
-          //
+//
 
-          // SliverAppBar(
-          //   backgroundColor: Colors.transparent,
-          //   elevation: 0,
-          //   title: Row(
-          //     children: [
-          //       Icon(Icons.favorite_rounded, color: Colors.black, size: 30),
-          //       SizedBox(width: 10),
-          //       Text('picks',
-          //           style: GoogleFonts.montserrat(
-          //               color: Colors.black,
-          //               fontWeight: FontWeight.w900,
-          //               fontSize: 30)),
-          //     ],
-          //   ),
-          //   actions: [
-          //     IconButton(
-          //         onPressed: () {},
-          //         icon: Icon(Icons.search, color: Colors.black))
-          //   ],
-          // ),
+// SliverAppBar(
+//   backgroundColor: Colors.transparent,
+//   elevation: 0,
+//   title: Row(
+//     children: [
+//       Icon(Icons.favorite_rounded, color: Colors.black, size: 30),
+//       SizedBox(width: 10),
+//       Text('picks',
+//           style: GoogleFonts.montserrat(
+//               color: Colors.black,
+//               fontWeight: FontWeight.w900,
+//               fontSize: 30)),
+//     ],
+//   ),
+//   actions: [
+//     IconButton(
+//         onPressed: () {},
+//         icon: Icon(Icons.search, color: Colors.black))
+//   ],
+// ),
+
+class PostSection extends StatefulWidget {
+  const PostSection({super.key});
+
+  @override
+  State<PostSection> createState() => PostSectionState();
+}
+
+class PostSectionState extends State<PostSection> {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: Icon(Icons.construction_sharp, size: 100));
+  }
+}

@@ -5,10 +5,12 @@ class ChatButton extends StatefulWidget {
   const ChatButton({
     super.key,
     required this.userName,
+    required this.postId,
     required this.displayName,
   });
   final String userName;
   final String displayName;
+  final String postId;
   @override
   State<ChatButton> createState() => ChatButtonState();
 }

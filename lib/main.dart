@@ -135,7 +135,7 @@ class IndexState extends State<Index> {
         body: [
           StoreScreen(),
           BlogScreen(),
-          CartScreen(),
+          SavedScreen(),
           ChatScreen(),
           // ProfileScreen(),
           // EditProfile()

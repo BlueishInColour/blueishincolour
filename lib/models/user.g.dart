@@ -14,11 +14,16 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      listOfLikedPosts: (json['listOfLikedPosts'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'displayName': instance.displayName,
       'userName': instance.userName,
       'id': instance.id,
+      'listOfLikedPosts': instance.listOfLikedPosts,
       'listOfLikers': instance.listOfLikers,
     };

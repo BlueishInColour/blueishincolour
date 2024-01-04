@@ -41,28 +41,16 @@ class ItemState extends State<Item> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(5),
-      height: 300,
       child: Stack(
         children: [
-          PageView.builder(
-            onPageChanged: (index) {
-              setState(() {
-                currentIndex = index;
-              });
-            },
-            itemCount: widget.pictures.length,
-            itemBuilder: (context, index) => Container(
-              padding: EdgeInsets.all(5),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl: widget.pictures[index], fit: BoxFit.fill,
-                  errorWidget: (context, _, __) => Container(color: Colors.red),
-                  placeholder: (context, _) => Container(color: Colors.black26),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: CachedNetworkImage(
+              imageUrl: widget.pictures[0], fit: BoxFit.fill,
+              errorWidget: (context, _, __) => Container(color: Colors.red),
+              placeholder: (context, _) => Container(color: Colors.black26),
 
-                  // images[index],
-                ),
-              ),
+              // images[index],
             ),
           ),
           // Positioned(
@@ -84,6 +72,7 @@ class ItemState extends State<Item> {
               child: ChatButton(
                 displayName: 'blaxxkboard',
                 userName: 'oluwapelumie',
+                postId: widget.id,
               )),
         ],
       ),

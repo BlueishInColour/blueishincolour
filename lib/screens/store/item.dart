@@ -50,6 +50,8 @@ class ItemState extends State<Item> {
       onTap: () {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemIn(
+            listOfLikers: widget.listOfLikers,
+            title: widget.title,
             goodId: widget.id,
             listOfPictures: widget.pictures,
           );
@@ -94,13 +96,18 @@ class ItemState extends State<Item> {
             //       ),
             //     )),
             Positioned(
+                child: Badge(
+              backgroundColor: Colors.black,
+              label: Text(widget.pictures.length.toString()),
+            )),
+            Positioned(
               right: 15,
               bottom: 15,
               child: Row(
                 children: [
                   LikeButton(
                       listOfLikers: widget.listOfLikers,
-                      itemId: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+                      itemId: widget.id,
                       collection: 'goods'),
                   SizedBox(width: 5),
                 ],

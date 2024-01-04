@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:blueishincolour/screens/blog/item2.dart';
 import 'package:blueishincolour/screens/blog/write.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -73,12 +74,21 @@ class BlogScreenState extends State<BlogScreen>
                             DocumentSnapshot documentSnapshot =
                                 snapshot.data!.docs[index];
 
-                            return Item(
-                              picture: documentSnapshot['picture'],
-                              title: documentSnapshot['title'],
-                              creator: documentSnapshot['creator'],
-                              onTap: () {},
-                            );
+                            if ((index / 5).ceil().isOdd) {
+                              return Item(
+                                picture: documentSnapshot['picture'],
+                                title: documentSnapshot['title'],
+                                creator: documentSnapshot['creator'],
+                                onTap: () {},
+                              );
+                            } else {
+                              return ItemTwo(
+                                picture: documentSnapshot['picture'],
+                                title: documentSnapshot['title'],
+                                creator: documentSnapshot['creator'],
+                                onTap: () {},
+                              );
+                            }
                           }));
                     }
 
