@@ -76,9 +76,11 @@ class BlogScreenState extends State<BlogScreen>
 
                             if ((index / 5).ceil().isOdd) {
                               return Item(
+                                id: documentSnapshot['id'],
                                 picture: documentSnapshot['picture'],
                                 title: documentSnapshot['title'],
                                 creator: documentSnapshot['creator'],
+                                listOfLikers: documentSnapshot['listOfLikers'],
                                 onTap: () {},
                               );
                             } else {

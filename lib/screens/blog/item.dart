@@ -1,4 +1,5 @@
 import 'package:blueishincolour/screens/blog/read.dart';
+import 'package:blueishincolour/utils/like_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,17 +7,21 @@ import 'package:google_fonts/google_fonts.dart';
 class Item extends StatefulWidget {
   const Item(
       {super.key,
+      required this.id,
+      this.listOfLikers = const [],
       this.title = '',
       this.creator = '',
       this.reaction = 0,
       this.picture = '',
       this.index = 0,
       required this.onTap});
+  final String id;
   final int index;
   final String title;
   final String creator;
   final int reaction;
   final String picture;
+  final List listOfLikers;
 
   final Function() onTap;
   @override
@@ -74,9 +79,10 @@ class ItemState extends State<Item> {
           Positioned(
               bottom: 15,
               right: 15,
-              child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.favorite_rounded, color: Colors.white)))
+              child: LikeButton(
+                  itemId: widget.id,
+                  collection: 'stories',
+                  listOfLikers: widget.listOfLikers))
         ],
       ),
     );

@@ -53,7 +53,9 @@ class MoreItemOutState extends State<MoreItemOut>
           controller: tabController,
           children: [
             SteezeSection(headPostId: widget.headPostid),
-            CommentSection(),
+            CommentSection(
+              postId: widget.headPostid,
+            ),
           ],
         ));
   }
@@ -123,8 +125,8 @@ class SteezeSectionState extends State<SteezeSection> {
 // import 'package:flutter/material.dart';
 
 class CommentSection extends StatefulWidget {
-  const CommentSection({super.key});
-
+  const CommentSection({super.key, required this.postId});
+  final String postId;
   @override
   State<CommentSection> createState() => CommentSectionState();
 }
@@ -133,60 +135,67 @@ class CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const Center(
-            child: Icon(Icons.construction_sharp, size: 100),
-          ),
-          StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection('comments').snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(itemBuilder: (context, index) {
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('comments')
+            .where('postId', isEqualTo: widget.postId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          //if we have data, get all dic
+          if (snapshot.hasData) {
+            return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: ((context, index) {
+                  //get indicidual doc
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
-                  return ListTile(
-                    leading: CircleAvatar(),
-                    title: Text(documentSnapshot['text']),
-                    subtitle: Text(documentSnapshot['creator']),
-                  );
-                });
-              } else {
-                return Center(child: Text('noooooo dataaaaaaaaaaa'));
-              }
-            },
-          ),
-          const Expanded(child: SizedBox()),
-        ],
-      ),
-      bottomSheet: MessageBar(
-        messageBarHitText: 'write a comment',
-        onSend: (text) async {
-          debugPrint('about to send message');
-          await FirebaseFirestore.instance.collection('comments').add(Comments(
-                  commentId: Uuid().v1(),
-                  text: text,
-                  creator: 'blueishincolour',
-                  postId: widget.postId)
-              .toJson());
 
-          debugPrint('message sent');
+                  return ListTile(
+                    titleTextStyle:
+                        TextStyle(color: Colors.black, fontSize: 11),
+                    subtitleTextStyle: TextStyle(fontSize: 13),
+                    leading: CircleAvatar(),
+                    title: Text(documentSnapshot['creator']),
+                    subtitle: Text(documentSnapshot['text']),
+                  );
+                }));
+          }
+
+          return Center(
+              child: CircularProgressIndicator(color: Colors.blue.shade600));
         },
-        sendButtonColor: Colors.black,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: 8, right: 8),
-            child: InkWell(
-              child: Icon(
-                Icons.camera_alt,
-                color: Colors.black,
-                size: 24,
+      ),
+      bottomSheet: SizedBox(
+        height: 70,
+        child: MessageBar(
+          messageBarHitText: 'write a comment',
+          onSend: (text) async {
+            debugPrint('about to send message');
+            await FirebaseFirestore.instance.collection('comments').add(
+                Comments(
+                        commentId: Uuid().v1(),
+                        text: text,
+                        creator: 'blueishincolour',
+                        postId: widget.postId)
+                    .toJson());
+
+            debugPrint('message sent');
+          },
+          sendButtonColor: Colors.black,
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: InkWell(
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.black,
+                  size: 24,
+                ),
+                onTap: () {},
               ),
-              onTap: () {},
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

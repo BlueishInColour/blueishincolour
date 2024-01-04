@@ -154,7 +154,9 @@ class WriteState extends State<Write> {
                 tags: ['lifestyle', 'tech', 'fashion'],
               );
 
-              if (stories.body.isEmpty) {
+              if (stories.body.isEmpty &&
+                  stories.picture.isEmpty &&
+                  stories.title.isEmpty) {
                 debugPrint('images is empty , add to it');
               } else {
                 final CollectionReference goodCollection =

@@ -187,6 +187,37 @@ class PostSection extends StatefulWidget {
 class PostSectionState extends State<PostSection> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Icon(Icons.construction_sharp, size: 100));
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('stories')
+            .where('listOfLikers',
+                arrayContains: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          //if we have data, get all dic
+          if (snapshot.hasData) {
+            return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: ((context, index) {
+                  //get indicidual doc
+                  DocumentSnapshot documentSnapshot =
+                      snapshot.data!.docs[index];
+
+                  return Item(
+                    onTap: () {},
+                    title: documentSnapshot['title'],
+                    pictures: documentSnapshot['images'],
+                    id: documentSnapshot['goodId'],
+                  );
+                }));
+          }
+
+          return Center(
+              child: CircularProgressIndicator(color: Colors.blue.shade600));
+        },
+      ),
+    );
   }
 }
