@@ -16,6 +16,7 @@ class Good {
       this.stock = 0,
       this.title = '',
       this.category = '',
+      // this.timestamp =
       this.listOfLikers = const [],
       this.headPostId = 'general',
       this.images = const []});
@@ -32,6 +33,7 @@ class Good {
   double price;
   String category;
   String brand;
+  // Time timestamp;
   double rating;
   List<String> images; //
   String headPostId; //
@@ -55,11 +57,10 @@ class Every {
   Map<String, dynamic> toJson() => _$EveryToJson(this);
 }
 
-
-  // {
-  //   "albumId": 1,
-  //   "id": 2,
-  //   "title": "reprehenderit est deserunt velit ipsam",
-  //   "url": "https://via.placeholder.com/600/771796",
-  //   "thumbnailUrl": "https://via.placeholder.com/150/771796"
-  // },
+// {
+//   "albumId": 1,
+//   "id": 2,
+//   "title": "reprehenderit est deserunt velit ipsam",
+//   "url": "https://via.placeholder.com/600/771796",
+//   "thumbnailUrl": "https://via.placeholder.com/150/771796"
+// },

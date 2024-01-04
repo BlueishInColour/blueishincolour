@@ -1,5 +1,7 @@
 import 'package:blueishincolour/screens/store/add_item.dart';
+import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './item.dart';
 
@@ -124,6 +126,43 @@ class CommentSection extends StatefulWidget {
 class CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Icon(Icons.construction_sharp, size: 100));
+    return Column(
+      children: [
+        const Center(
+          child: Icon(Icons.construction_sharp, size: 100),
+        ),
+        Expanded(child: SizedBox()),
+        MessageBar(
+          onSend: (text) async {
+            debugPrint('about to send message');
+            await FirebaseFirestore.instance.collection('messages').add({
+              'sender': FirebaseAuth.instance.currentUser!.uid,
+              'reciever': 'tinuke',
+              'text': text,
+              'picture': '',
+              'voiceNote': '',
+              'timestamp': Timestamp.now(),
+              'status': 'seen'
+            });
+
+            debugPrint('message sent');
+          },
+          sendButtonColor: Colors.black,
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: InkWell(
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.black,
+                  size: 24,
+                ),
+                onTap: () {},
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

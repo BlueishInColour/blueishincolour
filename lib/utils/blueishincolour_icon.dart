@@ -21,20 +21,18 @@ class BlueishInColourIconState extends State<BlueishInColourIcon> {
       showCursor: false,
       style: TextStyle(fontSize: 10),
       decoration: InputDecoration(
-        suffixIcon: Icon(Icons.search, size: 19),
+        suffixIcon: Icon(Icons.search, size: 19, color: Colors.white),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide(color: Colors.black, width: 0.5),
+          borderSide: BorderSide(color: Colors.white, width: 0.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide(color: Colors.black54, width: 1),
+          borderSide: BorderSide(color: Colors.blue, width: 1),
         ),
         hintText: 'steeze - find your fashion',
         hintStyle: GoogleFonts.pacifico(
-          fontStyle: FontStyle.italic,
-          fontSize: 14,
-        ),
+            fontStyle: FontStyle.italic, fontSize: 17, color: Colors.white),
       ),
     );
   }

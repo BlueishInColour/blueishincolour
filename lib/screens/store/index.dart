@@ -71,63 +71,49 @@ class StoreScreenState extends State<StoreScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilder(pageBuilder: (context, _, __) {
-              return AddItem(
-                headPostId: '',
-              );
-            }));
-          },
-          child: Icon(Icons.add, color: Colors.white60),
-        ),
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-                forceMaterialTransparency: true,
-                toolbarHeight: 50,
-                floating: true,
-                // pinned: true,
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: SizedBox(height: 45, child: BlueishInColourIcon())),
-            SliverToBoxAdapter(
-              child: StreamBuilder(
-                stream: db.collection('goods').snapshots(),
-                builder: (context, snapshot) {
+      appBar: AppBar(toolbarHeight: 70, title: BlueishInColourIcon()),
+      backgroundColor: Colors.grey[200],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(context,
+              PageRouteBuilder(pageBuilder: (context, _, __) {
+            return AddItem(
+              headPostId: '',
+            );
+          }));
+        },
+        child: Icon(Icons.add, color: Colors.white60),
+      ),
+      body: StreamBuilder(
+        stream: db.collection('goods').snapshots(),
+        builder: (context, snapshot) {
 //if we have data, get all dic
-                  if (snapshot.hasData) {
-                    return SizedBox(
-                      height: 500,
-                      child: ListView.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: ((context, index) {
-                            //get indicidual doc
-                            DocumentSnapshot documentSnapshot =
-                                snapshot.data!.docs[index];
+          if (snapshot.hasData) {
+            return SizedBox(
+              child: ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: ((context, index) {
+                    //get indicidual doc
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
 
-                            return Item(
-                              showPix: documentSnapshot['images'][0],
-                              onTap: () {},
-                              listOfLikers: documentSnapshot['listOfLikers'],
-                              title: documentSnapshot['title'],
-                              pictures: documentSnapshot['images'],
-                              id: documentSnapshot['goodId'],
-                            );
-                          })),
+                    return Item(
+                      showPix: documentSnapshot['images'][0],
+                      onTap: () {},
+                      listOfLikers: documentSnapshot['listOfLikers'],
+                      title: documentSnapshot['title'],
+                      pictures: documentSnapshot['images'],
+                      id: documentSnapshot['goodId'],
                     );
-                  }
+                  })),
+            );
+          }
 
-                  return Center(
-                      child: CircularProgressIndicator(
-                          color: Colors.blue.shade600));
-                },
-              ),
-            )
-          ],
-        ));
+          return Center(
+              child: CircularProgressIndicator(color: Colors.blue.shade600));
+        },
+      ),
+    );
   }
 }
