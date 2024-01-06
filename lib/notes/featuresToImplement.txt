@@ -52,3 +52,8 @@ done - find better design for the blog page and remove appbar
 > build the save screeb to save any like post to offline, so that it can be viewed without data
 > build the search feature to be fluid
 > 
+
+5th jan, 2024
+> remove blog and work on profile
+> work on the chat screen a lot better
+> make the styles screen a lot finer

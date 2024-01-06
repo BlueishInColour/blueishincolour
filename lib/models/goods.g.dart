@@ -18,6 +18,8 @@ Good _$GoodFromJson(Map<String, dynamic> json) => Good(
       stock: (json['stock'] as num?)?.toDouble() ?? 0,
       title: json['title'] as String? ?? '',
       category: json['category'] as String? ?? '',
+      creator: json['creator'] as String? ?? '',
+      creatorPix: json['creatorPix'] as String? ?? '',
       listOfLikers: (json['listOfLikers'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -44,6 +46,8 @@ Map<String, dynamic> _$GoodToJson(Good instance) => <String, dynamic>{
       'rating': instance.rating,
       'images': instance.images,
       'headPostId': instance.headPostId,
+      'creator': instance.creator,
+      'creatorPix': instance.creatorPix,
     };
 
 Every _$EveryFromJson(Map<String, dynamic> json) => Every(

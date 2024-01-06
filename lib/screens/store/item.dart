@@ -68,12 +68,13 @@ class ItemState extends State<Item> {
       child: Container(
         margin: EdgeInsets.all(5),
         // height: 300,
-        child: Stack(
+        child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(5),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15)),
                 child: CachedNetworkImage(
                   imageUrl: widget.showPix, fit: BoxFit.fill,
                   errorWidget: (context, _, __) => Container(color: Colors.red),
@@ -97,23 +98,46 @@ class ItemState extends State<Item> {
             //             fontSize: 27),
             //       ),
             //     )),
-
-            Positioned(
-                right: 100,
-                bottom: 15,
-                child: SteezeOffButton(
-                  headPostId: widget.id,
-                )),
-            Positioned(
-                child: Badge(
-              backgroundColor: Colors.black,
-              label: Text(widget.pictures.length.toString()),
-            )),
-            Positioned(
-              right: 15,
-              bottom: 15,
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
+                  color: Colors.black),
               child: Row(
                 children: [
+                  SizedBox(width: 5),
+                  CircleAvatar(
+                    radius: 17,
+                  ),
+                  SizedBox(width: 5),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'oluwapelumi',
+                        style: TextStyle(fontSize: 16, color: Colors.white70),
+                      ),
+                      Text(
+                        '@blueishincolour',
+                        style: TextStyle(fontSize: 11, color: Colors.white60),
+                      )
+                    ],
+                  ),
+                  Expanded(child: SizedBox()),
+                  SteezeOffButton(
+                    headPostId: widget.id,
+                  ),
+                  Badge(
+                    child: Icon(
+                      Icons.image,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    backgroundColor: Colors.green,
+                    label: Text(widget.pictures.length.toString()),
+                  ),
                   LikeButton(
                       idType: 'goodId',
                       listOfLikers: widget.listOfLikers,
@@ -122,7 +146,7 @@ class ItemState extends State<Item> {
                   SizedBox(width: 5),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

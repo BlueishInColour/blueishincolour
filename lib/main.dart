@@ -4,7 +4,7 @@ import 'package:blueishincolour/screens/auth/auth_gate.dart';
 import 'package:blueishincolour/screens/blog/index.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
-import 'package:blueishincolour/utils/trash/profile/index.dart';
+import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //
       theme: ThemeData(
           appBarTheme: AppBarTheme(backgroundColor: Colors.black),
           outlinedButtonTheme: OutlinedButtonThemeData(
@@ -134,10 +135,10 @@ class IndexState extends State<Index> {
     return Scaffold(
         body: [
           StoreScreen(),
-          BlogScreen(),
-          SavedScreen(),
+          // BlogScreen(),
+          CartScreen(),
           ChatScreen(),
-          // ProfileScreen(),
+          ProfileScreen(),
           // EditProfile()
         ][currentIndex],
         bottomNavigationBar: BottomNavigationBar(
@@ -147,24 +148,30 @@ class IndexState extends State<Index> {
                 currentIndex = v;
               });
             },
+            iconSize: 25,
             showSelectedLabels: false,
             items: <BottomNavigationBarItem>[
 //
 // featured
               BottomNavigationBarItem(
                   label: 'home',
-                  icon: Icon(Icons.home_filled, color: Colors.black26),
+                  icon: Icon(
+                    Icons.home_filled,
+                    color: Colors.black26,
+                    size: 25,
+                  ),
                   activeIcon: Icon(
                     Icons.home_filled,
+                    size: 25,
                     color: Colors.black,
                   )),
 
 // blog
-              BottomNavigationBarItem(
-                label: 'blogs',
-                icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
-                activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
-              ), // upload
+              // BottomNavigationBarItem(
+              //   label: 'blogs',
+              //   icon: Icon(Icons.table_rows_rounded, color: Colors.black26),
+              //   activeIcon: Icon(Icons.table_rows_rounded, color: Colors.black),
+              // ), // upload
 //mine
               BottomNavigationBarItem(
                 label: 'saved',
@@ -183,15 +190,14 @@ class IndexState extends State<Index> {
                 ),
                 activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
               ),
-              //   BottomNavigationBarItem(
-              //     label: 'profile',
-              //     icon: Icon(
-              //       Icons.person,
-              //       color: Colors.black26,
-              //     ),
-              //     activeIcon: Icon(Icons.person, color: Colors.black),
-              //   ),
-              // ]),
+              BottomNavigationBarItem(
+                label: 'profile',
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.black26,
+                ),
+                activeIcon: Icon(Icons.person, color: Colors.black),
+              ),
             ]));
   }
 }

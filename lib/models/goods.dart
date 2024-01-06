@@ -16,6 +16,8 @@ class Good {
       this.stock = 0,
       this.title = '',
       this.category = '',
+      this.creator = '',
+      this.creatorPix = '',
       // this.timestamp =
       this.listOfLikers = const [],
       this.headPostId = 'general',
@@ -37,6 +39,8 @@ class Good {
   double rating;
   List<String> images; //
   String headPostId; //
+  String creator; //
+  String creatorPix; //
 
   factory Good.fromJson(Map<String, dynamic> json) => _$GoodFromJson(json);
 

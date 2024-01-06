@@ -67,7 +67,7 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
             }));
           },
           icon: Badge(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.blue,
             label: Text(count.toString()),
             child: Icon(
               Icons.repeat,

@@ -22,6 +22,24 @@ class LikeButton extends StatefulWidget {
 class LikeButtonState extends State<LikeButton> {
   bool haveLiked = false;
 
+  int count = 0;
+
+  getAggregateCount() async {
+    AggregateQuerySnapshot query = await FirebaseFirestore.instance
+        .collection('goods')
+        .where(
+          'itemId',
+          isEqualTo: widget.itemId,
+        )
+        .count()
+        .get();
+
+    debugPrint('The number of products: ${query.count}');
+    setState(() {
+      count = query.count;
+    });
+  }
+
   checkLike() async {
     if (widget.listOfLikers.contains(FirebaseAuth.instance.currentUser!.uid)) {
       setState(() {
@@ -76,10 +94,15 @@ class LikeButtonState extends State<LikeButton> {
           }
         }
       },
-      icon: Icon(Icons.favorite_rounded,
-          color:
-              haveLiked ? const Color.fromARGB(255, 255, 17, 0) : Colors.white,
-          size: 30),
+      icon: Badge(
+        label: Text(widget.listOfLikers.length.toString()),
+        backgroundColor: Colors.purple,
+        child: Icon(Icons.favorite_rounded,
+            color: haveLiked
+                ? const Color.fromARGB(255, 255, 17, 0)
+                : Colors.white,
+            size: 30),
+      ),
     );
   }
 }

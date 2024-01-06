@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
-import '../cart/item.dart';
+import '../store/item.dart';
 
 // import 'package:flutter/material.dart';
 
@@ -39,8 +39,8 @@ class SavedScreenState extends State<SavedScreen>
         indicatorSize: TabBarIndicatorSize.label,
         indicatorPadding: EdgeInsets.only(top: 15),
         tabs: [
-          Text('styles', style: TextStyle(color: Colors.white)),
-          Text('posts', style: TextStyle(color: Colors.white))
+          Text('all', style: TextStyle(color: Colors.white)),
+          Text('mine', style: TextStyle(color: Colors.white))
         ],
       )),
       body: TabBarView(controller: controller, children: [
@@ -84,15 +84,27 @@ class CartScreenState extends State<CartScreen>
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic
+
+          if (snapshot.data?.docs.length == 0) {
+            return Center(
+              child: Text(
+                "any style you like will appear here",
+                style: TextStyle(color: Colors.black54),
+              ),
+            );
+          }
           if (snapshot.hasData) {
             return ListView.builder(
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: ((context, index) {
+//
+
                   //get indicidual doc
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
-
                   return Item(
+                    listOfLikers: documentSnapshot['listOfLikers'],
+                    showPix: documentSnapshot['images'][0],
                     onTap: () {},
                     title: documentSnapshot['title'],
                     pictures: documentSnapshot['images'],

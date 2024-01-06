@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/material.dart';
-import '../../../models/user.dart';
+import '../../models/user.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
