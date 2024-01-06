@@ -1,5 +1,6 @@
 import 'package:blueishincolour/screens/store/more_item_in.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
+import 'package:blueishincolour/utils/steeze_off_button.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,7 +77,8 @@ class ItemState extends State<Item> {
                 child: CachedNetworkImage(
                   imageUrl: widget.showPix, fit: BoxFit.fill,
                   errorWidget: (context, _, __) => Container(color: Colors.red),
-                  placeholder: (context, _) => Container(color: Colors.black26),
+                  placeholder: (context, _) =>
+                      Container(color: Colors.black26, height: 500),
 
                   // images[index],
                 ),
@@ -97,12 +99,11 @@ class ItemState extends State<Item> {
             //     )),
 
             Positioned(
-                left: 15,
+                right: 100,
                 bottom: 15,
-                child: Row(children: [
-                  Icon(Icons.repeat, color: Colors.white, size: 20),
-                  Text('10', style: TextStyle(color: Colors.white))
-                ])),
+                child: SteezeOffButton(
+                  headPostId: widget.id,
+                )),
             Positioned(
                 child: Badge(
               backgroundColor: Colors.black,
@@ -114,6 +115,7 @@ class ItemState extends State<Item> {
               child: Row(
                 children: [
                   LikeButton(
+                      idType: 'goodId',
                       listOfLikers: widget.listOfLikers,
                       itemId: widget.id,
                       collection: 'goods'),

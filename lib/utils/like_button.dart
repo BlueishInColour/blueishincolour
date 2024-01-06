@@ -7,10 +7,12 @@ class LikeButton extends StatefulWidget {
       {super.key,
       required this.itemId,
       required this.collection,
+      required this.idType,
       required this.listOfLikers});
 
   final String collection;
   final String itemId;
+  final String idType; //canbe goodsid or style id
   final List listOfLikers;
 
   @override
@@ -42,7 +44,7 @@ class LikeButtonState extends State<LikeButton> {
         QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore
             .instance
             .collection(widget.collection)
-            .where('goodId', isEqualTo: widget.itemId)
+            .where(widget.idType, isEqualTo: widget.itemId)
             .get();
         print(docs);
         for (var snapshot in docs.docs) {

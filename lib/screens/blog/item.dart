@@ -80,6 +80,7 @@ class ItemState extends State<Item> {
               bottom: 15,
               right: 15,
               child: LikeButton(
+                  idType: 'id',
                   itemId: widget.id,
                   collection: 'stories',
                   listOfLikers: widget.listOfLikers))

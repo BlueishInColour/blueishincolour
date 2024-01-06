@@ -1,3 +1,4 @@
+import 'package:blueishincolour/screens/blog/item2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -205,11 +206,12 @@ class PostSectionState extends State<PostSection> {
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
 
-                  return Item(
+                  return ItemTwo(
                     onTap: () {},
                     title: documentSnapshot['title'],
-                    pictures: documentSnapshot['images'],
-                    id: documentSnapshot['goodId'],
+                    creator: documentSnapshot['creator'],
+                    picture: documentSnapshot['picture'],
+                    index: index,
                   );
                 }));
           }
