@@ -52,38 +52,39 @@ class ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            backgroundColor: Colors.transparent,
             title: SizedBox(
-          height: 40,
-          child: TextField(
-            onTapOutside: (event) {
-              print('event after tapedoutside');
-            },
-            controller: controller,
-            cursorHeight: 10,
-            showCursor: false,
-            style: TextStyle(fontSize: 10),
-            decoration: InputDecoration(
-              suffixIcon: Icon(Icons.search, size: 19, color: Colors.white),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(color: Colors.white, width: 0.5),
+              height: 40,
+              child: TextField(
+                // onTapOutside: (event) {
+                //   print('event after tapedoutside');
+                // },
+                controller: controller,
+                cursorHeight: 10,
+                showCursor: false,
+                style: TextStyle(fontSize: 10),
+                decoration: InputDecoration(
+                  suffixIcon: Icon(Icons.search, size: 19, color: Colors.black),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(color: Colors.black, width: 0.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide(color: Colors.blue, width: 1),
+                  ),
+                  hintText: 'find designers, dressmakers or friends',
+                  hintStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 12,
+                      color: Colors.white),
+                ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(color: Colors.blue, width: 1),
-              ),
-              hintText: 'find designers, dressmakers or friends',
-              hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 12,
-                  color: Colors.white),
-            ),
-          ),
-        )),
+            )),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('users')
-              .where('listOfLikers', arrayContains: 'blueish')
+              // .where('listOfLikers', arrayContains: 'blueish')
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -106,6 +107,7 @@ class ChatScreenState extends State<ChatScreen> {
                     onTap: () => Navigator.push(context,
                         PageRouteBuilder(pageBuilder: (context, _, __) {
                       return Item(
+                          uid: documentSnapshot['uid'],
                           userName: documentSnapshot['userName'],
                           displayName: documentSnapshot['displayName']);
                     })),

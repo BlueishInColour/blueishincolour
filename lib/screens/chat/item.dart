@@ -2,13 +2,19 @@ import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class Item extends StatefulWidget {
-  const Item({super.key, required this.userName, required this.displayName});
+  const Item(
+      {super.key,
+      required this.uid,
+      required this.userName,
+      required this.displayName});
 
   final String userName;
   final String displayName;
+  final String uid;
 
   @override
   State<Item> createState() => ItemState();
@@ -17,6 +23,9 @@ class Item extends StatefulWidget {
 class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
+    List chatKey = ['FirebaseAuth.instance.currentUser!.uid', ''];
+    chatKey.sort();
+    String key = chatKey.join();
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.black,
@@ -42,9 +51,9 @@ class ItemState extends State<Item> {
           Expanded(
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
+                  .collection('chatroom')
+                  .doc(key)
                   .collection('messages')
-                  .orderBy('timestamp', descending: false)
-                  // .where('sender', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                   .snapshots(),
               builder: (context, snapshot) {
                 //if we have data, get all dic
@@ -60,12 +69,12 @@ class ItemState extends State<Item> {
 
                           return BubbleSpecialThree(
                             text: documentSnapshot['text'],
-                            color: documentSnapshot['sender'] ==
+                            color: documentSnapshot['senderId'] ==
                                     FirebaseAuth.instance.currentUser!.uid
                                 ? Colors.black
                                 : Color(0xFF1B97F3),
                             tail: false,
-                            isSender: documentSnapshot['sender'] ==
+                            isSender: documentSnapshot['senderId'] ==
                                     FirebaseAuth.instance.currentUser!.uid
                                 ? true
                                 : false,
@@ -94,9 +103,14 @@ class ItemState extends State<Item> {
           MessageBar(
             onSend: (text) async {
               debugPrint('about to send message');
-              await FirebaseFirestore.instance.collection('messages').add({
-                'sender': FirebaseAuth.instance.currentUser!.uid,
+              await FirebaseFirestore.instance
+                  .collection('chatroom')
+                  .doc(key)
+                  .collection('messages')
+                  .add({
+                'senderId': FirebaseAuth.instance.currentUser!.uid,
                 'reciever': 'tinuke',
+                'recieverId': widget.uid,
                 'text': text,
                 'picture': '',
                 'voiceNote': '',

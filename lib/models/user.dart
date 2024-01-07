@@ -8,6 +8,7 @@ class User {
       {this.uid = '',
       this.displayName = '',
       this.userName = '',
+      this.typeOfUser = '',
       this.listOfLikers = const [],
       this.listOfLikedPosts = const []});
 
@@ -15,6 +16,7 @@ class User {
   String userName;
   String uid;
   List<String> listOfLikedPosts;
+  String typeOfUser;
 
   List<String> listOfLikers;
 

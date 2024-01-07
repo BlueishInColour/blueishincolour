@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../models/stories.dart';
+import '../../../models/stories.dart';
 
 class Read extends StatefulWidget {
   const Read({super.key, required this.stories});

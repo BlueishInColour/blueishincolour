@@ -14,12 +14,14 @@ class Item extends StatefulWidget {
       this.index = 0,
       this.pictures = const [],
       this.id = '',
+      required this.uid,
       required this.onTap});
   final int index;
   final String title;
   final Function() onTap;
   final String id;
   final List<dynamic> pictures;
+  final String uid;
   @override
   State<Item> createState() => ItemState();
 }
@@ -70,6 +72,7 @@ class ItemState extends State<Item> {
               right: 15,
               bottom: 15,
               child: ChatButton(
+                uid: widget.uid,
                 displayName: 'blaxxkboard',
                 userName: 'oluwapelumie',
                 postId: widget.id,

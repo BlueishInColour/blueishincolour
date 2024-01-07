@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
@@ -122,4 +123,24 @@ uploadStories(context, {required Stories stories}) async {
           'no internet connection');
     };
   }
+}
+
+getUserDetails(String uid) async {
+  QuerySnapshot documentSnapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .where('uid', isEqualTo: uid)
+      .get();
+
+  // DocumentSnapshot snapshot = documentSnapshot.
+  QueryDocumentSnapshot snap = documentSnapshot.docs[0];
+  debugPrint(snap['uid']);
+  debugPrint(snap['userName']);
+
+  debugPrint(snap['displayName']);
+
+  return {
+    'userName': snap['userName'],
+    'displayName': snap['displayName'],
+    'uid': snap['uid']
+  };
 }

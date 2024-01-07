@@ -14,6 +14,8 @@ class EditProfileState extends State<EditProfile> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController displaynameController = TextEditingController();
 
+  TextEditingController typeOfUserController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +29,17 @@ class EditProfileState extends State<EditProfile> {
             controller: displaynameController,
             decoration: InputDecoration(hintText: 'new username'),
           ),
+          TextField(
+            controller: typeOfUserController,
+            decoration: InputDecoration(hintText: 'type of user'),
+          ),
           SizedBox(height: 20),
           TextButton(
               onPressed: () async {
                 await FirebaseFirestore.instance.collection('users').add(User(
                     uid: FirebaseAuth.instance.currentUser!.uid,
                     userName: usernameController.text,
+                    typeOfUser: typeOfUserController.text,
                     displayName: displaynameController.text,
                     listOfLikers: []).toJson());
               },

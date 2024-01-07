@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:blueishincolour/screens/auth/auth_gate.dart';
-import 'package:blueishincolour/screens/blog/index.dart';
+import 'package:blueishincolour/utils/trash/blog/index.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';

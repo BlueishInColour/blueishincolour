@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
-import '../../models/stories.dart';
-import '../../utils/utils_functions.dart';
+import '../../../models/stories.dart';
+import '../../utils_functions.dart';
 
 class Write extends StatefulWidget {
   const Write({super.key});

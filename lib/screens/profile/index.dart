@@ -41,7 +41,11 @@ class ProfileScreenState extends State<ProfileScreen>
       displayName = snap['displayName'];
       // userPix = snap['userPix'];
     });
-    return {'userName': userName};
+    return {
+      'userName': snap['userName'],
+      'displayName': snap['displayName'],
+      'uid': snap['uid']
+    };
   }
 
   @override

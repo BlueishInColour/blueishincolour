@@ -1,4 +1,4 @@
-import 'package:blueishincolour/screens/blog/read.dart';
+import 'package:blueishincolour/utils/trash/blog/read.dart';
 import 'package:blueishincolour/utils/like_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

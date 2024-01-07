@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:blueishincolour/screens/blog/item2.dart';
-import 'package:blueishincolour/screens/blog/write.dart';
+import 'package:blueishincolour/utils/trash/blog/item2.dart';
+import 'package:blueishincolour/utils/trash/blog/write.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
@@ -13,7 +13,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:loadmore_listview/loadmore_listview.dart';
 import 'package:refresh_loadmore/refresh_loadmore.dart';
-import '../../models/stories.dart';
+import '../../../models/stories.dart';
 import 'item.dart';
 
 class BlogScreen extends StatefulWidget {
