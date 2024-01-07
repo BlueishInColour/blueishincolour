@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'screens/profile/edit_profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -142,13 +143,14 @@ class IndexState extends State<Index> {
           // EditProfile()
         ][currentIndex],
         bottomNavigationBar: BottomNavigationBar(
+            landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
             currentIndex: currentIndex,
             onTap: (v) {
               setState(() {
                 currentIndex = v;
               });
             },
-            iconSize: 25,
+            // iconSize: 25,
             showSelectedLabels: false,
             items: <BottomNavigationBarItem>[
 //
@@ -158,11 +160,11 @@ class IndexState extends State<Index> {
                   icon: Icon(
                     Icons.home_filled,
                     color: Colors.black26,
-                    size: 25,
+                    size: 20,
                   ),
                   activeIcon: Icon(
                     Icons.home_filled,
-                    size: 25,
+                    size: 20,
                     color: Colors.black,
                   )),
 
@@ -178,25 +180,30 @@ class IndexState extends State<Index> {
                 icon: Icon(
                   Icons.favorite_rounded,
                   color: Colors.black26,
+                  size: 20,
                 ),
-                activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
+                activeIcon:
+                    Icon(Icons.favorite_rounded, size: 20, color: Colors.black),
               ),
 //chat
               BottomNavigationBarItem(
                 label: 'saved',
                 icon: Icon(
                   Icons.chat_bubble,
+                  size: 20,
                   color: Colors.black26,
                 ),
-                activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
+                activeIcon:
+                    Icon(Icons.chat_bubble, size: 20, color: Colors.black),
               ),
               BottomNavigationBarItem(
                 label: 'profile',
                 icon: Icon(
                   Icons.person,
                   color: Colors.black26,
+                  size: 20,
                 ),
-                activeIcon: Icon(Icons.person, color: Colors.black),
+                activeIcon: Icon(Icons.person, size: 20, color: Colors.black),
               ),
             ]));
   }

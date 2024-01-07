@@ -18,6 +18,40 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  String userName = 'oluwa';
+  String displayName = '@blue';
+  String userPix = '';
+  getUserDetails() async {
+    QuerySnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    // DocumentSnapshot snapshot = documentSnapshot.
+    QueryDocumentSnapshot snap = documentSnapshot.docs[0];
+    debugPrint(snap['uid']);
+    debugPrint(snap['userName']);
+
+    debugPrint(snap['displayName']);
+
+    setState(() {
+      uid = snap['uid'];
+      userName = snap['userName'];
+      displayName = snap['displayName'];
+      // userPix = snap['userPix'];
+    });
+    return {'userName': userName};
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getUserDetails();
+  }
+
   @override
   bool get wantKeepAlive => true;
   @override
@@ -48,13 +82,13 @@ class ProfileScreenState extends State<ProfileScreen>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Oluwapelumi',
+                  Text(displayName,
                       style: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Colors.white)),
                   SizedBox(height: 10),
-                  Text('@BlueishInColour',
+                  Text(userName,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -79,7 +113,7 @@ class ProfileScreenState extends State<ProfileScreen>
               child: FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('goods')
-                    .where('creator', isEqualTo: 'blueishincolour')
+                    .where('uid', isEqualTo: uid)
                     .get(),
                 builder: (context, snapshot) {
                   //if we have data, get all dic

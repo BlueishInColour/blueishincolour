@@ -31,7 +31,7 @@ class EditProfileState extends State<EditProfile> {
           TextButton(
               onPressed: () async {
                 await FirebaseFirestore.instance.collection('users').add(User(
-                    id: FirebaseAuth.instance.currentUser!.uid,
+                    uid: FirebaseAuth.instance.currentUser!.uid,
                     userName: usernameController.text,
                     displayName: displaynameController.text,
                     listOfLikers: []).toJson());

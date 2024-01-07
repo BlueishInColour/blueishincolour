@@ -5,7 +5,7 @@ part 'user.g.dart';
 @JsonSerializable()
 class User {
   User(
-      {this.id = '',
+      {this.uid = '',
       this.displayName = '',
       this.userName = '',
       this.listOfLikers = const [],
@@ -13,7 +13,7 @@ class User {
 
   String displayName;
   String userName;
-  String id;
+  String uid;
   List<String> listOfLikedPosts;
 
   List<String> listOfLikers;
