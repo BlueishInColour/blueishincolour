@@ -52,6 +52,7 @@ class ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            elevation: 0,
             backgroundColor: Colors.transparent,
             title: SizedBox(
               height: 40,
@@ -77,48 +78,50 @@ class ChatScreenState extends State<ChatScreen> {
                   hintStyle: TextStyle(
                       fontStyle: FontStyle.italic,
                       fontSize: 12,
-                      color: Colors.white),
+                      color: Colors.black),
                 ),
               ),
             )),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              // .where('listOfLikers', arrayContains: 'blueish')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot documentSnapshot =
-                      snapshot.data!.docs[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.black,
-                    ),
-                    title: Text(
-                      documentSnapshot['displayName'],
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    subtitle: Text(
-                        '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}',
-                        style: TextStyle(fontSize: 11)),
-                    onTap: () => Navigator.push(context,
-                        PageRouteBuilder(pageBuilder: (context, _, __) {
-                      return Item(
-                          uid: documentSnapshot['uid'],
-                          userName: documentSnapshot['userName'],
-                          displayName: documentSnapshot['displayName']);
-                    })),
-                  );
-                },
+        body: SafeArea(
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                // .where('listOfLikers', arrayContains: 'blueish')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.black,
+                      ),
+                      title: Text(
+                        documentSnapshot['displayName'],
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      subtitle: Text(
+                          '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}',
+                          style: TextStyle(fontSize: 11)),
+                      onTap: () => Navigator.push(context,
+                          PageRouteBuilder(pageBuilder: (context, _, __) {
+                        return Item(
+                            uid: documentSnapshot['uid'],
+                            userName: documentSnapshot['userName'],
+                            displayName: documentSnapshot['displayName']);
+                      })),
+                    );
+                  },
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
+            },
+          ),
         ));
   }
 }

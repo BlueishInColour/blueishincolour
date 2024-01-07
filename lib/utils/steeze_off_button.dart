@@ -62,6 +62,7 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
             Navigator.push(context,
                 PageRouteBuilder(pageBuilder: (context, _, __) {
               return MoreItemOut(
+                selectedPage: 1,
                 headPostid: widget.headPostId,
               );
             }));

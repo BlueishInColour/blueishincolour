@@ -9,8 +9,10 @@ import '../../models/comments.dart';
 import './item.dart';
 
 class MoreItemOut extends StatefulWidget {
-  const MoreItemOut({super.key, required this.headPostid});
+  const MoreItemOut(
+      {super.key, required this.headPostid, required this.selectedPage});
   final String headPostid;
+  final int selectedPage;
 
   @override
   State<MoreItemOut> createState() => MoreItemOutState();
@@ -31,32 +33,49 @@ class MoreItemOutState extends State<MoreItemOut>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 60,
           automaticallyImplyLeading: true,
-          title: TabBar(
-              controller: tabController,
-              indicatorColor: Colors.white,
-              indicatorSize: TabBarIndicatorSize.label,
-              indicatorPadding: EdgeInsets.only(top: 15),
-              tabs: [
-                Text(
-                  'steeze-off',
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  'comments',
-                  style: TextStyle(color: Colors.white),
-                )
-              ]),
+          toolbarHeight: 35,
         ),
-        body: TabBarView(
-          controller: tabController,
-          children: [
-            SteezeSection(headPostId: widget.headPostid),
-            CommentSection(
-              postId: widget.headPostid,
+        body: SafeArea(
+          child: DefaultTabController(
+            length: 2,
+            initialIndex: 1,
+            child: Builder(
+              builder: (context) => Column(
+                children: [
+                  TabBar(
+                      // controller: tabController,
+                      controller: DefaultTabController.of(context),
+                      indicatorColor: Colors.black,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicatorPadding: EdgeInsets.only(top: 15),
+                      tabs: [
+                        Text(
+                          'steeze-off',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        Text(
+                          'comments',
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ]),
+                  Expanded(
+                    child: TabBarView(
+                      // controller: tabController,
+                      controller: DefaultTabController.of(context),
+
+                      children: [
+                        SteezeSection(headPostId: widget.headPostid),
+                        CommentSection(
+                          postId: widget.headPostid,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ));
   }
 }

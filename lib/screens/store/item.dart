@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/chat_button.dart';
+import '../../utils/comment_button.dart';
 import '../../utils/like_button.dart';
 
 class Item extends StatefulWidget {
@@ -61,6 +62,7 @@ class ItemState extends State<Item> {
       onHorizontalDragEnd: (details) {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemOut(
+            selectedPage: 1,
             headPostid: widget.id,
           );
         }));
@@ -126,6 +128,9 @@ class ItemState extends State<Item> {
                     ],
                   ),
                   Expanded(child: SizedBox()),
+                  CommentButton(
+                    headPostId: widget.id,
+                  ),
                   SteezeOffButton(
                     headPostId: widget.id,
                   ),
