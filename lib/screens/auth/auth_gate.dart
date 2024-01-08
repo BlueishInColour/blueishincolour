@@ -1,4 +1,5 @@
 import 'package:blueishincolour/main.dart';
+import 'package:blueishincolour/screens/profile/edit_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -38,12 +39,14 @@ class AuthGate extends StatelessWidget {
                     );
                   },
                   footerBuilder: (context, action) {
-                    return const Padding(
+                    return Padding(
                       padding: EdgeInsets.only(top: 16),
-                      child: Text(
-                        'By signing in, you agree to our terms and conditions.',
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      child: action == AuthAction.signIn
+                          ? Text(
+                              'By signing in, you agree to our terms and conditions.',
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          : EditProfile(),
                     );
                   },
                 ),

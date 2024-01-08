@@ -129,6 +129,7 @@ class ItemState extends State<Item> {
                   ),
                   Expanded(child: SizedBox()),
                   CommentButton(
+                    postId: widget.id,
                     headPostId: widget.id,
                   ),
                   SteezeOffButton(

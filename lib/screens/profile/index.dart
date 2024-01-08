@@ -66,15 +66,15 @@ class ProfileScreenState extends State<ProfileScreen>
           elevation: 0,
           toolbarHeight: 60,
           actions: [
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.push(context,
-            //         PageRouteBuilder(pageBuilder: (context, _, __) {
-            //       return EditProfile();
-            //     }));
-            //   },
-            //   child: Text('edit'),
-            // )
+            TextButton(
+              onPressed: () {
+                Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return EditProfile();
+                }));
+              },
+              child: Text('edit'),
+            )
           ],
           title: Row(
             children: [

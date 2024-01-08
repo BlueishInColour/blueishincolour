@@ -161,6 +161,11 @@ class CommentSectionState extends State<CommentSection> {
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic
+          if (snapshot.data!.docs.isEmpty) {
+            return (Center(
+              child: Text('be the first to comment on this'),
+            ));
+          }
           if (snapshot.hasData) {
             return ListView.builder(
                 itemCount: snapshot.data?.docs.length,

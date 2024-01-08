@@ -54,6 +54,7 @@ class ItemState extends State<Item> {
                   .collection('chatroom')
                   .doc(key)
                   .collection('messages')
+                  .orderBy('timestamp', descending: false)
                   .snapshots(),
               builder: (context, snapshot) {
                 //if we have data, get all dic
