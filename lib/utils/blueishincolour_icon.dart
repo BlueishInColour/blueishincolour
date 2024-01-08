@@ -32,7 +32,7 @@ class BlueishInColourIconState extends State<BlueishInColourIcon> {
             borderRadius: BorderRadius.circular(25),
             borderSide: BorderSide(color: Colors.blue, width: 1),
           ),
-          hintText: 'steeze - find your fashion',
+          hintText: 'steeze - find your fashionnnn',
           hintStyle: GoogleFonts.pacifico(
               fontStyle: FontStyle.italic, fontSize: 17, color: Colors.white),
         ),
