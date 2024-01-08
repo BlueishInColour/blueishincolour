@@ -95,6 +95,29 @@ class ChatScreenState extends State<ChatScreen> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot documentSnapshot =
                         snapshot.data!.docs[index];
+                    if (documentSnapshot['uid'] ==
+                        FirebaseAuth.instance.currentUser!.uid) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.black,
+                        ),
+                        title: Text(
+                          documentSnapshot['displayName'],
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        subtitle: Text(
+                            '@${documentSnapshot['userName']} | chat myself up}',
+                            style: TextStyle(fontSize: 11)),
+                        onTap: () => Navigator.push(context,
+                            PageRouteBuilder(pageBuilder: (context, _, __) {
+                          return Item(
+                              uid: documentSnapshot['uid'],
+                              userName: documentSnapshot['userName'],
+                              displayName: documentSnapshot['displayName']);
+                        })),
+                      );
+                    }
+
                     return ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Colors.black,

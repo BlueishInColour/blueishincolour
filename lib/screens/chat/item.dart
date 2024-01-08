@@ -23,7 +23,10 @@ class Item extends StatefulWidget {
 class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
-    List chatKey = ['FirebaseAuth.instance.currentUser!.uid', ''];
+    List chatKey = [
+      '${FirebaseAuth.instance.currentUser!.uid}',
+      '${widget.uid}'
+    ];
     chatKey.sort();
     String key = chatKey.join();
     return Scaffold(
