@@ -45,5 +45,5 @@ app.*.map.json
 # mine
 /linux
 /web
-/.firebase
+# /.firebase
 /android

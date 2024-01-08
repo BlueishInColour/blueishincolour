@@ -51,6 +51,7 @@ class EditProfileState extends State<EditProfile> {
                     'displayName': displaynameController.text,
                     'listOfLikers': []
                   });
+                  Navigator.pop(context);
                 }
               },
               child: Text('save')),
