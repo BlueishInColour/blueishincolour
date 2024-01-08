@@ -105,8 +105,7 @@ class ChatScreenState extends State<ChatScreen> {
                           documentSnapshot['displayName'],
                           style: TextStyle(fontSize: 15),
                         ),
-                        subtitle: Text(
-                            '@${documentSnapshot['userName']} | chat myself up}',
+                        subtitle: Text('chat myself up',
                             style: TextStyle(fontSize: 11)),
                         onTap: () => Navigator.push(context,
                             PageRouteBuilder(pageBuilder: (context, _, __) {

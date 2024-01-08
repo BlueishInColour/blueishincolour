@@ -34,20 +34,16 @@ class AuthGate extends StatelessWidget {
                       child: action == AuthAction.signIn
                           ? const Text(
                               'Welcome to BlueishInColour, please sign in!')
-                          : const Text(
-                              'Welcome to BlueishInColour, please sign up!'),
+                          : EditProfile(),
                     );
                   },
                   footerBuilder: (context, action) {
                     return Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: action == AuthAction.signIn
-                          ? Text(
-                              'By signing in, you agree to our terms and conditions.',
-                              style: TextStyle(color: Colors.grey),
-                            )
-                          : EditProfile(),
-                    );
+                        padding: EdgeInsets.only(top: 16),
+                        child: Text(
+                          'By signing in, you agree to our terms and conditions.',
+                          style: TextStyle(color: Colors.grey),
+                        ));
                   },
                 ),
               ),

@@ -23,42 +23,45 @@ class EditProfileState extends State<EditProfile> {
       height: 400,
       child: Column(
         children: [
+          SizedBox(
+            height: 5,
+          ),
           TextField(
             controller: usernameController,
             decoration: InputDecoration(hintText: 'new diplay name'),
+          ),
+          SizedBox(
+            height: 5,
           ),
           TextField(
             controller: displaynameController,
             decoration: InputDecoration(hintText: 'new username'),
           ),
+          SizedBox(
+            height: 5,
+          ),
           TextField(
             controller: typeOfUserController,
-            decoration: InputDecoration(hintText: 'type of user'),
+            decoration: InputDecoration(hintText: 'short description'),
           ),
           SizedBox(height: 20),
           TextButton(
               onPressed: () async {
-                Map userDetails = await getUserDetails(
-                    FirebaseAuth.instance.currentUser!.uid);
-                if (userDetails.isNotEmpty) {
-                  debugPrint('user have been registered before ');
-                  Navigator.pop(context);
-                } else {
-                  await FirebaseFirestore.instance.collection('users').add({
-                    'uid': FirebaseAuth.instance.currentUser!.uid,
-                    'userName': usernameController.text,
-                    'typeOfUser': typeOfUserController.text,
-                    'displayName': displaynameController.text,
-                    'listOfLikers': []
-                  });
-                  Navigator.pop(context);
-                }
+                await FirebaseFirestore.instance.collection('users').add({
+                  'uid': FirebaseAuth.instance.currentUser!.uid,
+                  'userName': usernameController.text,
+                  'typeOfUser': typeOfUserController.text,
+                  'displayName': displaynameController.text,
+                  'listOfLikers': [],
+                  'listOfLikedPosts': []
+                });
+                Navigator.pop(context);
               },
               child: Text('save')),
           SizedBox(
             height: 100,
           ),
-          Text('editing can only be done once')
+          Text('do this before signing up')
         ],
       ),
     );
