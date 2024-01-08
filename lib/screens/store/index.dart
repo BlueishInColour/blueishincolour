@@ -71,8 +71,12 @@ class StoreScreenState extends State<StoreScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(toolbarHeight: 70, title: BlueishInColourIcon()),
-      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          toolbarHeight: 70,
+          title: BlueishInColourIcon()),
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
@@ -99,6 +103,9 @@ class StoreScreenState extends State<StoreScreen>
                         snapshot.data!.docs[index];
 
                     return Item(
+                      creatorDisplayName:
+                          documentSnapshot['creatorDisplayName'],
+                      creatorUserName: documentSnapshot['creatorUserName'],
                       showPix: documentSnapshot['images'][0],
                       onTap: () {},
                       listOfLikers: documentSnapshot['listOfLikers'],

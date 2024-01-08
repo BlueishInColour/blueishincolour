@@ -10,6 +10,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       uid: json['uid'] as String? ?? '',
       displayName: json['displayName'] as String? ?? '',
       userName: json['userName'] as String? ?? '',
+      typeOfUser: json['typeOfUser'] as String? ?? '',
       listOfLikers: (json['listOfLikers'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -25,5 +26,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'userName': instance.userName,
       'uid': instance.uid,
       'listOfLikedPosts': instance.listOfLikedPosts,
+      'typeOfUser': instance.typeOfUser,
       'listOfLikers': instance.listOfLikers,
     };

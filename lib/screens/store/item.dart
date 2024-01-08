@@ -18,6 +18,8 @@ class Item extends StatefulWidget {
       this.title = 'fake title',
       this.index = 0,
       this.pictures = const [],
+      this.creatorDisplayName = 'sampleDisplayName',
+      this.creatorUserName = 'sampleUserName',
       required this.showPix,
       this.id = '',
       required this.listOfLikers,
@@ -26,6 +28,8 @@ class Item extends StatefulWidget {
   final String title;
   final Function() onTap;
   final String id;
+  final String creatorUserName;
+  final String creatorDisplayName;
   final List listOfLikers;
   final List<dynamic> pictures;
   final String showPix;
@@ -118,11 +122,11 @@ class ItemState extends State<Item> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'oluwapelumi',
+                        widget.creatorDisplayName,
                         style: TextStyle(fontSize: 16, color: Colors.white70),
                       ),
                       Text(
-                        '@blueishincolour',
+                        widget.creatorUserName,
                         style: TextStyle(fontSize: 11, color: Colors.white60),
                       )
                     ],

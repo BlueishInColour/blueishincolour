@@ -73,7 +73,7 @@ class ProfileScreenState extends State<ProfileScreen>
                   return EditProfile();
                 }));
               },
-              child: Text('edit'),
+              child: Text('edit', style: TextStyle(color: Colors.white)),
             )
           ],
           title: Row(
@@ -83,7 +83,7 @@ class ProfileScreenState extends State<ProfileScreen>
               CircleAvatar(),
               SizedBox(width: 10),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(displayName,

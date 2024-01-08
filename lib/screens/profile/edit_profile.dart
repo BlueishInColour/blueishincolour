@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import '../../models/user.dart';
 import '../../utils/utils_functions.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class EditProfil extends StatefulWidget {
+  const EditProfil({super.key});
 
   @override
-  State<EditProfile> createState() => EditProfileState();
+  State<EditProfil> createState() => EditProfilState();
 }
 
-class EditProfileState extends State<EditProfile> {
+class EditProfilState extends State<EditProfil> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController displaynameController = TextEditingController();
 
@@ -55,7 +55,8 @@ class EditProfileState extends State<EditProfile> {
                   'listOfLikers': [],
                   'listOfLikedPosts': []
                 });
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                debugPrint('done');
               },
               child: Text('save')),
           SizedBox(
@@ -63,6 +64,83 @@ class EditProfileState extends State<EditProfile> {
           ),
           Text('do this before signing up')
         ],
+      ),
+    );
+  }
+}
+
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
+
+  @override
+  State<EditProfile> createState() => EditProfileState();
+}
+
+class EditProfileState extends State<EditProfile> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController displaynameController = TextEditingController();
+
+  TextEditingController typeOfUserController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SizedBox(
+        height: 400,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 5,
+            ),
+            TextField(
+              controller: usernameController,
+              decoration: InputDecoration(hintText: 'new diplay name'),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            TextField(
+              controller: displaynameController,
+              decoration: InputDecoration(hintText: 'new username'),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            TextField(
+              controller: typeOfUserController,
+              decoration: InputDecoration(hintText: 'short description'),
+            ),
+            SizedBox(height: 20),
+            TextButton(
+                onPressed: () async {
+                  Map userDetails =
+                      getUserDetails(FirebaseAuth.instance.currentUser!.uid);
+                  if (userDetails.isEmpty) {
+                    Scaffold.of(context).showBottomSheet((context) => SnackBar(
+                        content:
+                            Text('you cannot change this details but once')));
+
+                    Navigator.pop(context);
+                  }
+                  await FirebaseFirestore.instance.collection('users').add({
+                    'uid': FirebaseAuth.instance.currentUser!.uid,
+                    'userName': usernameController.text,
+                    'typeOfUser': typeOfUserController.text,
+                    'displayName': displaynameController.text,
+                    'listOfLikers': [],
+                    'listOfLikedPosts': []
+                  });
+                  debugPrint('done');
+
+                  Navigator.pop(context);
+                },
+                child: Text('save')),
+            SizedBox(
+              height: 100,
+            ),
+            Text('do this before signing up')
+          ],
+        ),
       ),
     );
   }

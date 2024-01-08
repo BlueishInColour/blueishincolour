@@ -36,7 +36,7 @@ class LikeButtonState extends State<LikeButton> {
 
     debugPrint('The number of products: ${query.count}');
     setState(() {
-      count = query.count;
+      count = query.count!;
     });
   }
 

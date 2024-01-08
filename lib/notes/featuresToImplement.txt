@@ -57,3 +57,11 @@ done - find better design for the blog page and remove appbar
 > remove blog and work on profile
 > work on the chat screen a lot better
 > make the styles screen a lot finer
+
+8th jan, 2024
+> ensure that the   profile screen is more efficirent
+> chat screen should arrainge chatby latest timestamp
+> searches should start working
+> add tags to goods  items so that they are easily searched
+> comment button should be replace by chat button so when clicked, it will be dirrected to the creator chat screen
+> 

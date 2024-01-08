@@ -4,6 +4,7 @@ import 'package:blueishincolour/models/goods.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
@@ -27,6 +28,14 @@ class AddItemState extends State<AddItem> {
   TextEditingController titleController = TextEditingController();
   List<String> images = [];
   String image = '';
+  Map userDetails = {};
+
+  getThoseUserDetails() {
+    Map details = getUserDetails(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      userDetails = details;
+    });
+  }
 
   String privateKey = 'private_A9tBBPhf/8CSEYPp+CR986xpRzE=';
 
@@ -171,6 +180,9 @@ class AddItemState extends State<AddItem> {
                         description: descriptionsController.text,
                         images: images,
                         listOfLikers: [],
+                        creatorUserName: userDetails['userName'],
+                        creatorDisplayName: userDetails['displayName'],
+                        creatorProfilePicture: userDetails['profilePicture'],
                         headPostId: widget.headPostId,
                         title: titleController.text);
 
@@ -184,7 +196,7 @@ class AddItemState extends State<AddItem> {
                     }
                   },
                   child: Text(
-                    'add to store',
+                    'add to dressApp',
                     style: TextStyle(
                         fontSize: 14,
                         color: Colors.blue,

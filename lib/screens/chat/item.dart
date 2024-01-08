@@ -38,9 +38,11 @@ class ItemState extends State<Item> {
                 CircleAvatar(),
                 SizedBox(width: 10),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.displayName,
-                        style: TextStyle(color: Colors.white60, fontSize: 15)),
+                        style: TextStyle(color: Colors.white60, fontSize: 14)),
                     SizedBox(height: 5),
                     Text(
                       '@${widget.userName}',
@@ -80,15 +82,6 @@ class ItemState extends State<Item> {
                             tail: false,
                             isSender: documentSnapshot['senderId'] ==
                                     FirebaseAuth.instance.currentUser!.uid
-                                ? true
-                                : false,
-                            delivered: documentSnapshot['status'] == 'delivered'
-                                ? true
-                                : false,
-                            sent: documentSnapshot['status'] == 'sent'
-                                ? true
-                                : false,
-                            seen: documentSnapshot['status'] == 'seen'
                                 ? true
                                 : false,
                             textStyle:

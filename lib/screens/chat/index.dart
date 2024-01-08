@@ -53,7 +53,7 @@ class ChatScreenState extends State<ChatScreen> {
     return Scaffold(
         appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             title: SizedBox(
               height: 40,
               child: TextField(
@@ -115,27 +115,27 @@ class ChatScreenState extends State<ChatScreen> {
                               displayName: documentSnapshot['displayName']);
                         })),
                       );
+                    } else {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.black,
+                        ),
+                        title: Text(
+                          documentSnapshot['displayName'],
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        subtitle: Text(
+                            '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}',
+                            style: TextStyle(fontSize: 11)),
+                        onTap: () => Navigator.push(context,
+                            PageRouteBuilder(pageBuilder: (context, _, __) {
+                          return Item(
+                              uid: documentSnapshot['uid'],
+                              userName: documentSnapshot['userName'],
+                              displayName: documentSnapshot['displayName']);
+                        })),
+                      );
                     }
-
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.black,
-                      ),
-                      title: Text(
-                        documentSnapshot['displayName'],
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      subtitle: Text(
-                          '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}',
-                          style: TextStyle(fontSize: 11)),
-                      onTap: () => Navigator.push(context,
-                          PageRouteBuilder(pageBuilder: (context, _, __) {
-                        return Item(
-                            uid: documentSnapshot['uid'],
-                            userName: documentSnapshot['userName'],
-                            displayName: documentSnapshot['displayName']);
-                      })),
-                    );
                   },
                 );
               }

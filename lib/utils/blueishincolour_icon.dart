@@ -15,26 +15,23 @@ class BlueishInColourIconState extends State<BlueishInColourIcon> {
     return SizedBox(
       height: 45,
       child: TextField(
-        onTapOutside: (event) {
-          print('event after tapedoutside');
-        },
         controller: steezeSearchController,
         cursorHeight: 10,
         showCursor: false,
         style: TextStyle(fontSize: 10),
         decoration: InputDecoration(
-          suffixIcon: Icon(Icons.search, size: 19, color: Colors.white),
+          suffixIcon: Icon(Icons.search, size: 19, color: Colors.black),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
-            borderSide: BorderSide(color: Colors.white, width: 0.5),
+            borderSide: BorderSide(color: Colors.black, width: 0.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
             borderSide: BorderSide(color: Colors.blue, width: 1),
           ),
+          hintStyle: TextStyle(
+              fontStyle: FontStyle.italic, fontSize: 12, color: Colors.black),
           hintText: 'steeze - find your fashionnnn',
-          hintStyle: GoogleFonts.pacifico(
-              fontStyle: FontStyle.italic, fontSize: 17, color: Colors.white),
         ),
       ),
     );

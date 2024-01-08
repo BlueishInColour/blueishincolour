@@ -34,7 +34,7 @@ class AuthGate extends StatelessWidget {
                       child: action == AuthAction.signIn
                           ? const Text(
                               'Welcome to BlueishInColour, please sign in!')
-                          : EditProfile(),
+                          : EditProfil(),
                     );
                   },
                   footerBuilder: (context, action) {
