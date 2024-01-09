@@ -136,6 +136,11 @@ class SteezeSectionState extends State<SteezeSection> {
                     title: documentSnapshot['title'],
                     pictures: documentSnapshot['images'],
                     postId: documentSnapshot['goodId'],
+                    creatorDisplayName: documentSnapshot['creatorDisplayName'],
+                    creatorProfilePicture:
+                        documentSnapshot['creatorProfilePicture'],
+                    creatorUserName: documentSnapshot['creatorUserName'],
+                    creatorUid: documentSnapshot['creatorUid'],
                   );
                 },
               );
@@ -178,6 +183,7 @@ class CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('comments')
