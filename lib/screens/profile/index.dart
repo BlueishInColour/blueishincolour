@@ -65,16 +65,17 @@ class ProfileScreenState extends State<ProfileScreen>
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 60,
+          backgroundColor: Colors.transparent,
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.push(context,
-                    PageRouteBuilder(pageBuilder: (context, _, __) {
-                  return EditProfile();
-                }));
-              },
-              child: Text('edit', style: TextStyle(color: Colors.white)),
-            )
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(context,
+            //         PageRouteBuilder(pageBuilder: (context, _, __) {
+            //       return EditProfile();
+            //     }));
+            //   },
+            //   child: Text('edit', style: TextStyle(color: Colors.black54)),
+            // )
           ],
           title: Row(
             children: [
@@ -82,23 +83,28 @@ class ProfileScreenState extends State<ProfileScreen>
               //profile
               CircleAvatar(),
               SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(displayName,
-                      style: GoogleFonts.montserrat(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white)),
-                  SizedBox(height: 10),
-                  Text(userName,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white60)),
-                  SizedBox(height: 10),
-                ],
+              SizedBox(
+                height: 45,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(displayName,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 15,
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black)),
+                    Text(userName,
+                        style: TextStyle(
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54)),
+                    SizedBox(height: 10),
+                  ],
+                ),
               ),
               Expanded(
                 child: SizedBox(),
