@@ -108,6 +108,7 @@ class SteezeSectionState extends State<SteezeSection> {
           stream: FirebaseFirestore.instance
               .collection('goods')
               .where('headPostId', isEqualTo: widget.headPostId)
+              .orderBy('timestamp', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.data!.docs.isEmpty) {
@@ -158,6 +159,7 @@ class CommentSectionState extends State<CommentSection> {
         stream: FirebaseFirestore.instance
             .collection('comments')
             .where('postId', isEqualTo: widget.postId)
+            .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic

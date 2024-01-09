@@ -2,6 +2,7 @@ import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class SteezeOffButton extends StatefulWidget {
   const SteezeOffButton({super.key, required this.headPostId});
@@ -68,10 +69,13 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
             }));
           },
           icon: Badge(
-            backgroundColor: Colors.blue,
-            label: Text(count.toString()),
+            backgroundColor: Colors.white60,
+            label: Text(
+              count.toString(),
+              style: TextStyle(color: Colors.black),
+            ),
             child: Icon(
-              Icons.repeat,
+              LineIcons.retweet,
               color: Colors.white,
               size: 30,
               // weight: 15,
