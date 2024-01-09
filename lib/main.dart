@@ -9,10 +9,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(home: const AuthGate()));
+  runApp(
+      MaterialApp(debugShowCheckedModeBanner: false, home: const AuthGate()));
 }
 
 // import 'package:flutter/material.dart';
@@ -52,6 +54,7 @@ class IndexState extends State<Index> {
           ProfileScreen()
         ][currentIndex],
         bottomNavigationBar: BottomNavigationBar(
+            landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
             onTap: (index) {
               setState(() {
                 currentIndex = index;
