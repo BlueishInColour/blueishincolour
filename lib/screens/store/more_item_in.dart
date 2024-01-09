@@ -6,16 +6,25 @@ import './item.dart';
 import 'package:flutter/material.dart';
 
 class MoreItemIn extends StatefulWidget {
-  const MoreItemIn(
-      {super.key,
-      required this.goodId,
-      required this.listOfLikers,
-      required this.title,
-      required this.listOfPictures});
+  const MoreItemIn({
+    super.key,
+    required this.goodId,
+    required this.listOfLikers,
+    required this.title,
+    required this.listOfPictures,
+    this.creatorDisplayName = 'sampleDisplayName',
+    this.creatorUserName = 'sampleUserName',
+    this.creatorUid = 'sampleUid',
+    this.creatorProfilePicture = 'https://source.unsplash.com/random',
+  });
   final String goodId;
   final List listOfPictures;
   final List listOfLikers;
   final String title;
+  final String creatorUserName;
+  final String creatorDisplayName;
+  final String creatorUid;
+  final String creatorProfilePicture;
 
   @override
   State<MoreItemIn> createState() => MoreItemInState();
@@ -61,6 +70,10 @@ class MoreItemInState extends State<MoreItemIn> {
                   //get indicidual doc
 
                   return Item(
+                    creatorDisplayName: widget.creatorDisplayName,
+                    creatorProfilePicture: widget.creatorProfilePicture,
+                    creatorUserName: widget.creatorUserName,
+                    creatorUid: widget.creatorUid,
                     onTap: () {},
                     showPix: widget.listOfPictures[index],
                     listOfLikers: widget.listOfLikers,

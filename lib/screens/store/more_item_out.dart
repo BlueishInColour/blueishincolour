@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,6 +5,7 @@ import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../models/comments.dart';
@@ -40,51 +39,64 @@ class MoreItemOutState extends State<MoreItemOut>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          toolbarHeight: 35,
-        ),
         body: SafeArea(
-          child: DefaultTabController(
-            length: 2,
-            initialIndex: 1,
-            child: Builder(
-              builder: (context) => Column(
+      child: DefaultTabController(
+        length: 2,
+        initialIndex: 1,
+        child: Builder(
+          builder: (context) => Column(
+            children: [
+              Row(
                 children: [
-                  TabBar(
-                      // controller: tabController,
-                      controller: DefaultTabController.of(context),
-                      indicatorColor: Colors.black,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicatorPadding: EdgeInsets.only(top: 15),
-                      tabs: [
-                        Text(
-                          'steeze-off',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        Text(
-                          'comments',
-                          style: TextStyle(color: Colors.black),
-                        )
-                      ]),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios_new_outlined)),
                   Expanded(
-                    child: TabBarView(
-                      // controller: tabController,
-                      controller: DefaultTabController.of(context),
-
-                      children: [
-                        SteezeSection(headPostId: widget.headPostid),
-                        CommentSection(
-                          postId: widget.postId,
-                        ),
-                      ],
-                    ),
+                    child: TabBar(
+                        // controller: tabController,
+                        controller: DefaultTabController.of(context),
+                        indicatorColor: Colors.black,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        indicatorPadding: EdgeInsets.only(top: 15),
+                        tabs: [
+                          Text(
+                            'dress-offs',
+                            style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w800),
+                          ),
+                          Text(
+                            'comments',
+                            style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w800),
+                          )
+                        ]),
                   ),
                 ],
               ),
-            ),
+              Expanded(
+                child: TabBarView(
+                  // controller: tabController,
+                  controller: DefaultTabController.of(context),
+
+                  children: [
+                    SteezeSection(headPostId: widget.headPostid),
+                    CommentSection(
+                      postId: widget.postId,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 }
 

@@ -47,6 +47,7 @@ class ProfileScreenState extends State<ProfileScreen>
     return {
       'userName': snap['userName'],
       'displayName': snap['displayName'],
+      'profilePicture': snap['profilePicture'],
       'uid': snap['uid']
     };
   }
@@ -86,7 +87,8 @@ class ProfileScreenState extends State<ProfileScreen>
             children: [
               SizedBox(height: 10),
               //profile
-              CircleAvatar(),
+              CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(profilePicture)),
               SizedBox(width: 10),
               SizedBox(
                 height: 45,

@@ -62,6 +62,10 @@ class ItemState extends State<Item> {
       onTap: () {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemIn(
+            creatorDisplayName: widget.creatorDisplayName,
+            creatorProfilePicture: widget.creatorProfilePicture,
+            creatorUserName: widget.creatorUserName,
+            creatorUid: widget.creatorUid,
             listOfLikers: widget.listOfLikers,
             title: widget.title,
             goodId: widget.postId,
