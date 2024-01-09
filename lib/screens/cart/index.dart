@@ -10,47 +10,6 @@ import '../store/item.dart';
 
 // import 'package:flutter/material.dart';
 
-class SavedScreen extends StatefulWidget {
-  const SavedScreen({super.key});
-
-  @override
-  State<SavedScreen> createState() => SavedScreenState();
-}
-
-class SavedScreenState extends State<SavedScreen>
-    with TickerProviderStateMixin {
-  late TabController controller;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    controller = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: TabBar(
-        controller: controller,
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.label,
-        indicatorPadding: EdgeInsets.only(top: 15),
-        tabs: [
-          Text('all', style: TextStyle(color: Colors.white)),
-          Text('mine', style: TextStyle(color: Colors.white))
-        ],
-      )),
-      body: TabBarView(controller: controller, children: [
-        CartScreen(),
-        PostSection(),
-      ]),
-    );
-  }
-}
-
 //
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -75,12 +34,23 @@ class CartScreenState extends State<CartScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: Text('saved',
+            style: GoogleFonts.montserratAlternates(
+              fontSize: 30,
+              fontWeight: FontWeight.w800,
+              color: Colors.black,
+            )),
+      ),
       backgroundColor: Colors.grey[100],
       body: StreamBuilder(
         stream: db
             .collection('goods')
             .where('listOfLikers',
                 arrayContains: FirebaseAuth.instance.currentUser!.uid)
+            .orderBy('timestamp', descending: false)
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic
@@ -120,6 +90,50 @@ class CartScreenState extends State<CartScreen>
     );
   }
 }
+
+
+
+// class SavedScreen extends StatefulWidget {
+//   const SavedScreen({super.key});
+
+//   @override
+//   State<SavedScreen> createState() => SavedScreenState();
+// }
+
+// class SavedScreenState extends State<SavedScreen>
+//     with TickerProviderStateMixin {
+//   late TabController controller;
+
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+
+//     controller = TabController(length: 2, vsync: this);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//           title: TabBar(
+//         controller: controller,
+//         indicatorColor: Colors.white,
+//         indicatorSize: TabBarIndicatorSize.label,
+//         indicatorPadding: EdgeInsets.only(top: 15),
+//         tabs: [
+//           Text('all', style: TextStyle(color: Colors.white)),
+//           Text('mine', style: TextStyle(color: Colors.white))
+//         ],
+//       )),
+//       body: TabBarView(controller: controller, children: [
+//         CartScreen(),
+//         // PostSection(),
+//       ]),
+//     );
+//   }
+// }
+
 //sevices
 // SliverToBoxAdapter(
 //   child: SizedBox(
@@ -190,48 +204,48 @@ class CartScreenState extends State<CartScreen>
 //   ],
 // ),
 
-class PostSection extends StatefulWidget {
-  const PostSection({super.key});
+// class PostSection extends StatefulWidget {
+//   const PostSection({super.key});
 
-  @override
-  State<PostSection> createState() => PostSectionState();
-}
+//   @override
+//   State<PostSection> createState() => PostSectionState();
+// }
 
-class PostSectionState extends State<PostSection> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('stories')
-            .where('listOfLikers',
-                arrayContains: FirebaseAuth.instance.currentUser!.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          //if we have data, get all dic
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: ((context, index) {
-                  //get indicidual doc
-                  DocumentSnapshot documentSnapshot =
-                      snapshot.data!.docs[index];
+// class PostSectionState extends State<PostSection> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.grey[100],
+//       body: StreamBuilder(
+//         stream: FirebaseFirestore.instance
+//             .collection('stories')
+//             .where('listOfLikers',
+//                 arrayContains: FirebaseAuth.instance.currentUser!.uid)
+//             .snapshots(),
+//         builder: (context, snapshot) {
+//           //if we have data, get all dic
+//           if (snapshot.hasData) {
+//             return ListView.builder(
+//                 itemCount: snapshot.data?.docs.length,
+//                 itemBuilder: ((context, index) {
+//                   //get indicidual doc
+//                   DocumentSnapshot documentSnapshot =
+//                       snapshot.data!.docs[index];
 
-                  return ItemTwo(
-                    onTap: () {},
-                    title: documentSnapshot['title'],
-                    creator: documentSnapshot['creator'],
-                    picture: documentSnapshot['picture'],
-                    index: index,
-                  );
-                }));
-          }
+//                   return ItemTwo(
+//                     onTap: () {},
+//                     title: documentSnapshot['title'],
+//                     creator: documentSnapshot['creator'],
+//                     picture: documentSnapshot['picture'],
+//                     index: index,
+//                   );
+//                 }));
+//           }
 
-          return Center(
-              child: CircularProgressIndicator(color: Colors.blue.shade600));
-        },
-      ),
-    );
-  }
-}
+//           return Center(
+//               child: CircularProgressIndicator(color: Colors.blue.shade600));
+//         },
+//       ),
+//     );
+//   }
+// }

@@ -90,7 +90,10 @@ class StoreScreenState extends State<StoreScreen>
         child: Icon(Icons.add, color: Colors.white60),
       ),
       body: StreamBuilder(
-        stream: db.collection('goods').snapshots(),
+        stream: db
+            .collection('goods')
+            .orderBy('timestamp', descending: false)
+            .snapshots(),
         builder: (context, snapshot) {
 //if we have data, get all dic
           if (snapshot.hasData) {
@@ -106,6 +109,7 @@ class StoreScreenState extends State<StoreScreen>
                       creatorDisplayName:
                           documentSnapshot['creatorDisplayName'],
                       creatorUserName: documentSnapshot['creatorUserName'],
+                      creatorUid: documentSnapshot['creatorUid'],
                       showPix: documentSnapshot['images'][0],
                       onTap: () {},
                       listOfLikers: documentSnapshot['listOfLikers'],

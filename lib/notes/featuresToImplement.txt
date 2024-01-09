@@ -65,3 +65,8 @@ done - find better design for the blog page and remove appbar
 > add tags to goods  items so that they are easily searched
 > comment button should be replace by chat button so when clicked, it will be dirrected to the creator chat screen
 > 
+
+9th jan, 2024
+> find how swipe leftand right works
+> include my icon
+> 

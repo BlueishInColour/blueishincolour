@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import '../screens/chat/item.dart';
 
 class ChatButton extends StatefulWidget {
@@ -30,6 +31,6 @@ class ChatButtonState extends State<ChatButton> {
             );
           }));
         },
-        icon: Icon(Icons.chat_bubble_rounded, color: Colors.white60, size: 30));
+        icon: Icon(LineIcons.comment, color: Colors.white60, size: 30));
   }
 }

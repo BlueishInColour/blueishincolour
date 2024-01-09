@@ -173,25 +173,35 @@ class AddItemState extends State<AddItem> {
               actions: [
                 TextButton(
                   onPressed: () async {
-                    Good good = Good(
-                        goodId: Uuid().v1(),
-                        brand: brandController.text,
-                        category: categoryController.text,
-                        description: descriptionsController.text,
-                        images: images,
-                        listOfLikers: [],
-                        creatorUserName: userDetails['userName'],
-                        creatorDisplayName: userDetails['displayName'],
-                        creatorProfilePicture: userDetails['profilePicture'],
-                        headPostId: widget.headPostId,
-                        title: titleController.text);
+                    Map good = {
+                      //id
+                      'goodId': Uuid().v1(),
+                      'headPostId': widget.headPostId,
 
-                    if (good.title.isEmpty) {
-                      debugPrint('images is empty , add to it');
+                      //titles and content
+                      'title': titleController.text,
+                      'description': descriptionsController.text,
+
+                      'images': images,
+
+                      //creator
+                      'creatorUserName': userDetails['userName'],
+                      'creatorDisplayName': userDetails['displayName'],
+                      'creatorUid': FirebaseAuth.instance.currentUser!.uid,
+                      'creatorProfilePicture': userDetails['profilePicture'],
+
+                      //metadata
+                      'listOfLikers': [],
+
+                      'timestamp': Timestamp.now()
+                    };
+
+                    if (good['title'].isEmpty && good['images'].isEmpty) {
+                      debugPrint('title is empty , add to it');
                     } else {
                       final CollectionReference goodCollection =
                           FirebaseFirestore.instance.collection('goods');
-                      await goodCollection.add(good.toJson());
+                      await goodCollection.add(good);
                       Navigator.pop(context);
                     }
                   },

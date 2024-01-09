@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class LikeButton extends StatefulWidget {
   const LikeButton(
@@ -95,9 +96,12 @@ class LikeButtonState extends State<LikeButton> {
         }
       },
       icon: Badge(
-        label: Text(widget.listOfLikers.length.toString()),
-        backgroundColor: Colors.purple,
-        child: Icon(Icons.favorite_rounded,
+        backgroundColor: Colors.white60,
+        label: Text(
+          count.toString(),
+          style: TextStyle(color: Colors.black),
+        ),
+        child: Icon(LineIcons.heart,
             color: haveLiked
                 ? const Color.fromARGB(255, 255, 17, 0)
                 : Colors.white,

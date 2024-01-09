@@ -20,6 +20,8 @@ class Item extends StatefulWidget {
       this.pictures = const [],
       this.creatorDisplayName = 'sampleDisplayName',
       this.creatorUserName = 'sampleUserName',
+      this.creatorUid = 'sampleUid',
+      this.creatorProfilePicture = 'https://sample',
       required this.showPix,
       this.id = '',
       required this.listOfLikers,
@@ -30,6 +32,8 @@ class Item extends StatefulWidget {
   final String id;
   final String creatorUserName;
   final String creatorDisplayName;
+  final String creatorUid;
+  final String creatorProfilePicture;
   final List listOfLikers;
   final List<dynamic> pictures;
   final String showPix;
@@ -52,7 +56,7 @@ class ItemState extends State<Item> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
       onTap: () {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemIn(
@@ -63,7 +67,10 @@ class ItemState extends State<Item> {
           );
         }));
       },
-      onHorizontalDragEnd: (details) {
+      onScrollRight: () {
+        Navigator.pop(context);
+      },
+      onScrollLeft: () {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemOut(
             selectedPage: 1,
@@ -115,6 +122,16 @@ class ItemState extends State<Item> {
                   SizedBox(width: 5),
                   CircleAvatar(
                     radius: 17,
+                    child: CachedNetworkImage(
+                        imageUrl: widget.creatorProfilePicture,
+                        placeholder: (context, url) {
+                          return Container(
+                            color: Colors.purple,
+                          );
+                        },
+                        errorWidget: (context, url, error) {
+                          return Container(color: Colors.red);
+                        }),
                   ),
                   SizedBox(width: 5),
                   Column(
@@ -132,10 +149,11 @@ class ItemState extends State<Item> {
                     ],
                   ),
                   Expanded(child: SizedBox()),
-                  CommentButton(
-                    postId: widget.id,
-                    headPostId: widget.id,
-                  ),
+                  ChatButton(
+                      userName: widget.creatorUserName,
+                      postId: widget.id,
+                      displayName: widget.creatorDisplayName,
+                      uid: widget.creatorUid),
                   SteezeOffButton(
                     headPostId: widget.id,
                   ),
