@@ -35,6 +35,7 @@ class CartScreenState extends State<CartScreen>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         title: Text('saved',
@@ -50,7 +51,6 @@ class CartScreenState extends State<CartScreen>
             .collection('goods')
             .where('listOfLikers',
                 arrayContains: FirebaseAuth.instance.currentUser!.uid)
-            .orderBy('timestamp', descending: false)
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic

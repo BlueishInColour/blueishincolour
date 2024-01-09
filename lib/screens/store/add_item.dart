@@ -28,10 +28,10 @@ class AddItemState extends State<AddItem> {
   TextEditingController titleController = TextEditingController();
   List<String> images = [];
   String image = '';
-  Map userDetails = {};
+  var userDetails = {};
 
-  getThoseUserDetails() {
-    Map details = getUserDetails(FirebaseAuth.instance.currentUser!.uid);
+  getThoseUserDetails() async {
+    var details = await getUserDetails(FirebaseAuth.instance.currentUser!.uid);
     setState(() {
       userDetails = details;
     });
@@ -120,6 +120,7 @@ class AddItemState extends State<AddItem> {
     // TODO: implement initState
     super.initState();
     addImage();
+    getThoseUserDetails();
   }
 
   @override
@@ -173,7 +174,7 @@ class AddItemState extends State<AddItem> {
               actions: [
                 TextButton(
                   onPressed: () async {
-                    Map good = {
+                    var good = {
                       //id
                       'goodId': Uuid().v1(),
                       'headPostId': widget.headPostId,

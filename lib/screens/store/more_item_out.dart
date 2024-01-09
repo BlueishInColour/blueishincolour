@@ -1,4 +1,8 @@
+import 'dart:html';
+
 import 'package:blueishincolour/screens/store/add_item.dart';
+import 'package:blueishincolour/utils/utils_functions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -108,7 +112,6 @@ class SteezeSectionState extends State<SteezeSection> {
           stream: FirebaseFirestore.instance
               .collection('goods')
               .where('headPostId', isEqualTo: widget.headPostId)
-              .orderBy('timestamp', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.data!.docs.isEmpty) {
@@ -152,6 +155,22 @@ class CommentSection extends StatefulWidget {
 }
 
 class CommentSectionState extends State<CommentSection> {
+  var userDetails = {};
+
+  getTheUserDetails() async {
+    var details = await getUserDetails(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      userDetails = details;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTheUserDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,7 +178,6 @@ class CommentSectionState extends State<CommentSection> {
         stream: FirebaseFirestore.instance
             .collection('comments')
             .where('postId', isEqualTo: widget.postId)
-            .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic
@@ -180,8 +198,13 @@ class CommentSectionState extends State<CommentSection> {
                     titleTextStyle:
                         TextStyle(color: Colors.black, fontSize: 11),
                     subtitleTextStyle: TextStyle(fontSize: 13),
-                    leading: CircleAvatar(),
-                    title: Text(documentSnapshot['creator']),
+                    leading: CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(
+                          documentSnapshot['creatorProfilePicture']),
+                    ),
+                    title: Text('${documentSnapshot['creatorDisplayName']}'
+                        '| @'
+                        '${documentSnapshot['creatorUserName']}'),
                     subtitle: Text(documentSnapshot['text']),
                   );
                 }));
@@ -197,13 +220,14 @@ class CommentSectionState extends State<CommentSection> {
           messageBarHitText: 'write a comment',
           onSend: (text) async {
             debugPrint('about to send message');
-            await FirebaseFirestore.instance.collection('comments').add(
-                Comments(
-                        commentId: Uuid().v1(),
-                        text: text,
-                        creator: 'blueishincolour',
-                        postId: widget.postId)
-                    .toJson());
+            await FirebaseFirestore.instance.collection('comments').add({
+              'commentId': Uuid().v1(),
+              text: text,
+              'creatorProfilePicture': userDetails['profilePicture'],
+              'creatorDisplayName': userDetails['displayName'],
+              'creatorUserName': userDetails['userName'],
+              'postId': widget.postId
+            });
 
             debugPrint('message sent');
           },

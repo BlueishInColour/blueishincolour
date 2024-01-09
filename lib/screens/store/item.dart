@@ -121,32 +121,32 @@ class ItemState extends State<Item> {
                 children: [
                   SizedBox(width: 5),
                   CircleAvatar(
-                    radius: 17,
-                    child: CachedNetworkImage(
-                        imageUrl: widget.creatorProfilePicture,
-                        placeholder: (context, url) {
-                          return Container(
-                            color: Colors.purple,
-                          );
-                        },
-                        errorWidget: (context, url, error) {
-                          return Container(color: Colors.red);
-                        }),
-                  ),
+                      radius: 17,
+                      backgroundImage: CachedNetworkImageProvider(
+                          widget.creatorProfilePicture)),
                   SizedBox(width: 5),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.creatorDisplayName,
-                        style: TextStyle(fontSize: 16, color: Colors.white70),
-                      ),
-                      Text(
-                        widget.creatorUserName,
-                        style: TextStyle(fontSize: 11, color: Colors.white60),
-                      )
-                    ],
+                  SizedBox(
+                    width: 120,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.creatorDisplayName,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white70,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        Text(
+                          widget.creatorUserName,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 11,
+                              color: Colors.white60),
+                        )
+                      ],
+                    ),
                   ),
                   Expanded(child: SizedBox()),
                   ChatButton(
@@ -158,12 +158,12 @@ class ItemState extends State<Item> {
                     headPostId: widget.id,
                   ),
                   Badge(
+                    backgroundColor: Colors.white,
                     child: Icon(
-                      Icons.image,
-                      color: Colors.white,
-                      size: 30,
+                      Icons.calendar_view_month_rounded,
+                      color: Colors.white60,
+                      size: 20,
                     ),
-                    backgroundColor: Colors.green,
                     label: Text(widget.pictures.length.toString()),
                   ),
                   LikeButton(

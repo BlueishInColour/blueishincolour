@@ -31,6 +31,11 @@ class ChatButtonState extends State<ChatButton> {
             );
           }));
         },
-        icon: Icon(LineIcons.comment, color: Colors.white60, size: 30));
+        icon: Icon(
+          LineIcons.alternateComment,
+          color: Colors.white60,
+          size: 20,
+          weight: 1,
+        ));
   }
 }

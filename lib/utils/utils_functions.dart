@@ -141,6 +141,7 @@ getUserDetails(String uid) async {
   return {
     'userName': snap['userName'],
     'displayName': snap['displayName'],
-    'uid': snap['uid']
+    'uid': snap['uid'],
+    'profilePicture': 'https://source.unsplash.com/random'
   };
 }

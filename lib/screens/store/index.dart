@@ -83,7 +83,7 @@ class StoreScreenState extends State<StoreScreen>
           Navigator.push(context,
               PageRouteBuilder(pageBuilder: (context, _, __) {
             return AddItem(
-              headPostId: '',
+              headPostId: 'g',
             );
           }));
         },
@@ -106,6 +106,8 @@ class StoreScreenState extends State<StoreScreen>
                         snapshot.data!.docs[index];
 
                     return Item(
+                      creatorProfilePicture:
+                          documentSnapshot['creatorProfilePicture'],
                       creatorDisplayName:
                           documentSnapshot['creatorDisplayName'],
                       creatorUserName: documentSnapshot['creatorUserName'],

@@ -123,7 +123,8 @@ class ProfileScreenState extends State<ProfileScreen>
               child: FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('goods')
-                    .where('uid', isEqualTo: uid)
+                    .where('creatorUid',
+                        isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .get(),
                 builder: (context, snapshot) {
                   //if we have data, get all dic
@@ -144,7 +145,7 @@ class ProfileScreenState extends State<ProfileScreen>
                         DocumentSnapshot documentSnapshot =
                             snapshot.data!.docs[index];
                         return Item(
-                          picture: documentSnapshot['picture'],
+                          picture: documentSnapshot['images'][index],
                         );
                       },
                     );

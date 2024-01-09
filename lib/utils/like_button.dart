@@ -96,16 +96,22 @@ class LikeButtonState extends State<LikeButton> {
         }
       },
       icon: Badge(
-        backgroundColor: Colors.white60,
+        backgroundColor: Colors.white,
         label: Text(
           count.toString(),
           style: TextStyle(color: Colors.black),
         ),
-        child: Icon(LineIcons.heart,
-            color: haveLiked
-                ? const Color.fromARGB(255, 255, 17, 0)
-                : Colors.white,
-            size: 30),
+        child: haveLiked
+            ? Icon(
+                Icons.favorite,
+                color: const Color.fromARGB(255, 255, 17, 0),
+                size: 20,
+              )
+            : Icon(
+                LineIcons.heart,
+                color: Colors.white60,
+                size: 20,
+              ),
       ),
     );
   }

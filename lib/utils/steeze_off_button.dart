@@ -69,15 +69,15 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
             }));
           },
           icon: Badge(
-            backgroundColor: Colors.white60,
+            backgroundColor: Colors.white,
             label: Text(
               count.toString(),
               style: TextStyle(color: Colors.black),
             ),
             child: Icon(
               LineIcons.retweet,
-              color: Colors.white,
-              size: 30,
+              color: Colors.white60,
+              size: 20,
               // weight: 15,
             ),
           )),
