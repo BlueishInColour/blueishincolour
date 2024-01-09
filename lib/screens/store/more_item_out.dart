@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
@@ -114,16 +115,18 @@ class SteezeSectionState extends State<SteezeSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          Navigator.push(context,
-              PageRouteBuilder(pageBuilder: (context, _, __) {
-            return AddItem(headPostId: widget.headPostId);
-          }));
-        },
-        child: Icon(Icons.add, color: Colors.white60),
-      ),
+      floatingActionButton: kIsWeb
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Colors.black,
+              onPressed: () {
+                Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return AddItem(headPostId: widget.headPostId);
+                }));
+              },
+              child: Icon(Icons.add, color: Colors.white60),
+            ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('goods')

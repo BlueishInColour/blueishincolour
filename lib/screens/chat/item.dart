@@ -51,7 +51,9 @@ class ItemState extends State<Item> {
                         style: TextStyle(color: Colors.white, fontSize: 14)),
                     SizedBox(height: 5),
                     Text(
-                      '@${widget.userName}',
+                      widget.uid == FirebaseAuth.instance.currentUser!.uid
+                          ? 'messaging myself'
+                          : '@${widget.userName}',
                       style: TextStyle(color: Colors.white54, fontSize: 11),
                     )
                   ],

@@ -4,6 +4,7 @@ import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
@@ -80,18 +81,20 @@ class StoreScreenState extends State<StoreScreen>
             controller: searchBarController,
           )),
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          Navigator.push(context,
-              PageRouteBuilder(pageBuilder: (context, _, __) {
-            return AddItem(
-              headPostId: 'g',
-            );
-          }));
-        },
-        child: Icon(Icons.add, color: Colors.white60),
-      ),
+      floatingActionButton: kIsWeb
+          ? null
+          : FloatingActionButton(
+              backgroundColor: Colors.black,
+              onPressed: () {
+                Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return AddItem(
+                    headPostId: 'g',
+                  );
+                }));
+              },
+              child: Icon(Icons.add, color: Colors.white60),
+            ),
       body: StreamBuilder(
         stream: db
             .collection('goods')

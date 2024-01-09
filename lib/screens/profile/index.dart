@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masonry_view/flutter_masonry_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -147,20 +148,15 @@ class ProfileScreenState extends State<ProfileScreen>
                         child: Text(' no content yet'),
                       );
                     }
-                    return GridView.builder(
-                      itemCount: snapshot.data?.docs.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 2,
-                          mainAxisSpacing: 2),
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot documentSnapshot =
-                            snapshot.data!.docs[index];
-                        return Item(
-                          picture: documentSnapshot['images'][index],
-                        );
-                      },
-                    );
+                    return MasonryView(
+                        itemPadding: 3,
+                        listOfItem: snapshot.data!.docs,
+                        numberOfColumn: 4,
+                        itemBuilder: (item) {
+                          return Item(
+                            picture: item['images'][0],
+                          );
+                        });
                   }
 
                   return GridView.count(

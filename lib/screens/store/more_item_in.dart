@@ -1,5 +1,6 @@
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/index.dart';
+import 'package:flutter/foundation.dart';
 import '../../main.dart';
 
 import './item.dart';
@@ -51,18 +52,20 @@ class MoreItemInState extends State<MoreItemIn> {
                 ))
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
-          onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilder(pageBuilder: (context, _, __) {
-              return AddItem(
-                headPostId: '',
-              );
-            }));
-          },
-          child: Icon(Icons.add, color: Colors.white60),
-        ),
+        floatingActionButton: kIsWeb
+            ? null
+            : FloatingActionButton(
+                backgroundColor: Colors.black,
+                onPressed: () {
+                  Navigator.push(context,
+                      PageRouteBuilder(pageBuilder: (context, _, __) {
+                    return AddItem(
+                      headPostId: '',
+                    );
+                  }));
+                },
+                child: Icon(Icons.add, color: Colors.white60),
+              ),
         body: widget.listOfPictures.isNotEmpty
             ? ListView.builder(
                 itemCount: widget.listOfPictures.length,
