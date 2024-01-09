@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BlueishInColourIcon extends StatefulWidget {
-  const BlueishInColourIcon({super.key});
+  const BlueishInColourIcon({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   State<BlueishInColourIcon> createState() => BlueishInColourIconState();
 }
 
 class BlueishInColourIconState extends State<BlueishInColourIcon> {
-  TextEditingController steezeSearchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 45,
       child: TextField(
-        controller: steezeSearchController,
+        controller: widget.controller,
         cursorHeight: 10,
         showCursor: false,
         style: TextStyle(fontSize: 10),
@@ -31,7 +31,7 @@ class BlueishInColourIconState extends State<BlueishInColourIcon> {
           ),
           hintStyle: TextStyle(
               fontStyle: FontStyle.italic, fontSize: 12, color: Colors.black),
-          hintText: 'steeze - find your fashionnnn',
+          hintText: 'dress`Up - meet fashion v11:08',
         ),
       ),
     );

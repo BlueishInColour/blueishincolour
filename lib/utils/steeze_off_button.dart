@@ -5,14 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SteezeOffButton extends StatefulWidget {
-  const SteezeOffButton({super.key, required this.headPostId});
+  const SteezeOffButton(
+      {super.key, required this.postId, required this.headPostId});
   final String headPostId;
+  final String postId;
   @override
   State<SteezeOffButton> createState() => SteezeOffButtonState();
 }
 
 class SteezeOffButtonState extends State<SteezeOffButton> {
   int count = 0;
+  int commentCount = 0;
+
+  getCommentAggregateCount() async {
+    AggregateQuerySnapshot query = await FirebaseFirestore.instance
+        .collection('comments')
+        .where(
+          'postId',
+          isEqualTo: widget.postId,
+        )
+        .count()
+        .get();
+
+    debugPrint('The number of products: ${query.count}');
+    setState(() {
+      count = query.count!;
+    });
+  }
 
   getAggregateCount() async {
     AggregateQuerySnapshot query = await FirebaseFirestore.instance
@@ -30,22 +49,6 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
     });
   }
 
-  getSteezeOffCount() async {
-    int counts = await FirebaseFirestore.instance
-        .collection('goods')
-        .where(
-          'goodsId',
-          isEqualTo: widget.headPostId,
-        )
-        .snapshots()
-        .length;
-    // int number = counts.get();
-
-    setState(() {
-      count = counts;
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -53,6 +56,7 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
 
     // getSteezeOffCount();
     getAggregateCount();
+    getCommentAggregateCount();
   }
 
   @override
@@ -63,22 +67,31 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
             Navigator.push(context,
                 PageRouteBuilder(pageBuilder: (context, _, __) {
               return MoreItemOut(
-                selectedPage: 1,
+                selectedPage: 0,
+                postId: widget.postId,
                 headPostid: widget.headPostId,
               );
             }));
           },
           icon: Badge(
+            alignment: Alignment.centerRight,
             backgroundColor: Colors.white,
             label: Text(
-              count.toString(),
+              commentCount.toString(),
               style: TextStyle(color: Colors.black),
             ),
-            child: Icon(
-              LineIcons.retweet,
-              color: Colors.white60,
-              size: 20,
-              // weight: 15,
+            child: Badge(
+              backgroundColor: Colors.white,
+              label: Text(
+                count.toString(),
+                style: TextStyle(color: Colors.black),
+              ),
+              child: Icon(
+                LineIcons.retweet,
+                color: Colors.white60,
+                size: 20,
+                // weight: 15,
+              ),
             ),
           )),
       // Text(count.toString(), style: TextStyle(color: Colors.white))

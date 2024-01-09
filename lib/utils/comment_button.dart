@@ -59,6 +59,7 @@ class CommentButtonState extends State<CommentButton> {
               PageRouteBuilder(pageBuilder: (context, _, __) {
             return MoreItemOut(
               selectedPage: 1,
+              postId: widget.postId,
               headPostid: widget.headPostId,
             );
           }));

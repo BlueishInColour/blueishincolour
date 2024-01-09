@@ -6,13 +6,13 @@ import 'package:line_icons/line_icons.dart';
 class LikeButton extends StatefulWidget {
   const LikeButton(
       {super.key,
-      required this.itemId,
+      required this.goodId,
       required this.collection,
       required this.idType,
       required this.listOfLikers});
 
   final String collection;
-  final String itemId;
+  final String goodId;
   final String idType; //canbe goodsid or style id
   final List listOfLikers;
 
@@ -29,8 +29,8 @@ class LikeButtonState extends State<LikeButton> {
     AggregateQuerySnapshot query = await FirebaseFirestore.instance
         .collection('goods')
         .where(
-          'itemId',
-          isEqualTo: widget.itemId,
+          'goodId',
+          isEqualTo: widget.goodId,
         )
         .count()
         .get();
@@ -63,7 +63,7 @@ class LikeButtonState extends State<LikeButton> {
         QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore
             .instance
             .collection(widget.collection)
-            .where(widget.idType, isEqualTo: widget.itemId)
+            .where(widget.idType, isEqualTo: widget.goodId)
             .get();
         print(docs);
         for (var snapshot in docs.docs) {
@@ -98,7 +98,7 @@ class LikeButtonState extends State<LikeButton> {
       icon: Badge(
         backgroundColor: Colors.white,
         label: Text(
-          count.toString(),
+          widget.listOfLikers.length.toString(),
           style: TextStyle(color: Colors.black),
         ),
         child: haveLiked

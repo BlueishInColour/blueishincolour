@@ -4,16 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Item extends StatefulWidget {
   const Item(
       {super.key,
       required this.uid,
       required this.userName,
+      required this.profilePicture,
       required this.displayName});
 
   final String userName;
   final String displayName;
+  final String profilePicture;
   final String uid;
 
   @override
@@ -35,14 +38,17 @@ class ItemState extends State<Item> {
             automaticallyImplyLeading: true,
             title: Row(
               children: [
-                CircleAvatar(),
+                CircleAvatar(
+                  backgroundImage:
+                      CachedNetworkImageProvider(widget.profilePicture),
+                ),
                 SizedBox(width: 10),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.displayName,
-                        style: TextStyle(color: Colors.white60, fontSize: 14)),
+                        style: TextStyle(color: Colors.white, fontSize: 14)),
                     SizedBox(height: 5),
                     Text(
                       '@${widget.userName}',
@@ -73,13 +79,13 @@ class ItemState extends State<Item> {
                           DocumentSnapshot documentSnapshot =
                               snapshot.data!.docs[index];
 
-                          return BubbleSpecialThree(
+                          return BubbleSpecialTwo(
                             text: documentSnapshot['text'],
                             color: documentSnapshot['senderId'] ==
                                     FirebaseAuth.instance.currentUser!.uid
                                 ? Colors.black
                                 : Color(0xFF1B97F3),
-                            tail: false,
+                            tail: true,
                             isSender: documentSnapshot['senderId'] ==
                                     FirebaseAuth.instance.currentUser!.uid
                                 ? true

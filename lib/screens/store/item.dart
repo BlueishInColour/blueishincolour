@@ -23,13 +23,15 @@ class Item extends StatefulWidget {
       this.creatorUid = 'sampleUid',
       this.creatorProfilePicture = 'https://sample',
       required this.showPix,
-      this.id = '',
+      this.postId = '',
+      this.headPostId = '',
       required this.listOfLikers,
       required this.onTap});
   final int index;
   final String title;
   final Function() onTap;
-  final String id;
+  final String postId;
+  final String headPostId;
   final String creatorUserName;
   final String creatorDisplayName;
   final String creatorUid;
@@ -56,25 +58,26 @@ class ItemState extends State<Item> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Semantics(
+    return GestureDetector(
       onTap: () {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemIn(
             listOfLikers: widget.listOfLikers,
             title: widget.title,
-            goodId: widget.id,
+            goodId: widget.postId,
             listOfPictures: widget.pictures,
           );
         }));
       },
-      onScrollRight: () {
-        Navigator.pop(context);
-      },
-      onScrollLeft: () {
+      // onScrollRi: () {
+      //   Navigator.pop(context);
+      // },
+      onHorizontalDragStart: (details) {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemOut(
             selectedPage: 1,
-            headPostid: widget.id,
+            postId: widget.postId,
+            headPostid: widget.headPostId,
           );
         }));
       },
@@ -83,39 +86,12 @@ class ItemState extends State<Item> {
         // height: 300,
         child: Column(
           children: [
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.showPix, fit: BoxFit.fill,
-                  errorWidget: (context, _, __) => Container(color: Colors.red),
-                  placeholder: (context, _) =>
-                      Container(color: Colors.black26, height: 500),
-
-                  // images[index],
-                ),
-              ),
-            ),
-            // Positioned(
-            //     bottom: 40,
-            //     child: Container(
-            //       margin: EdgeInsets.all(10),
-            //       child: Text(
-            //         widget.title,
-            //         maxLines: 3,
-            //         style: GoogleFonts.pacifico(
-            //             color: Colors.white,
-            //             fontWeight: FontWeight.w800,
-            //             fontSize: 27),
-            //       ),
-            //     )),
+            //headder`
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15)),
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15)),
                   color: Colors.black),
               child: Row(
                 children: [
@@ -150,12 +126,14 @@ class ItemState extends State<Item> {
                   ),
                   Expanded(child: SizedBox()),
                   ChatButton(
+                      profilePicture: widget.creatorProfilePicture,
                       userName: widget.creatorUserName,
-                      postId: widget.id,
+                      postId: widget.postId,
                       displayName: widget.creatorDisplayName,
                       uid: widget.creatorUid),
                   SteezeOffButton(
-                    headPostId: widget.id,
+                    postId: widget.postId,
+                    headPostId: widget.headPostId,
                   ),
                   Badge(
                     backgroundColor: Colors.white,
@@ -164,17 +142,47 @@ class ItemState extends State<Item> {
                       color: Colors.white60,
                       size: 20,
                     ),
-                    label: Text(widget.pictures.length.toString()),
+                    label: Text(widget.pictures.length.toString(),
+                        style: TextStyle(color: Colors.black)),
                   ),
                   LikeButton(
                       idType: 'goodId',
                       listOfLikers: widget.listOfLikers,
-                      itemId: widget.id,
+                      goodId: widget.postId,
                       collection: 'goods'),
                   SizedBox(width: 5),
                 ],
               ),
-            )
+            ),
+            //body and image
+            Container(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15)),
+                child: CachedNetworkImage(
+                  imageUrl: widget.showPix, fit: BoxFit.fill,
+                  errorWidget: (context, _, __) => Container(color: Colors.red),
+                  placeholder: (context, _) =>
+                      Container(color: Colors.black26, height: 500),
+
+                  // images[index],
+                ),
+              ),
+            ),
+            // Positioned(
+            //     bottom: 40,
+            //     child: Container(
+            //       margin: EdgeInsets.all(10),
+            //       child: Text(
+            //         widget.title,
+            //         maxLines: 3,
+            //         style: GoogleFonts.pacifico(
+            //             color: Colors.white,
+            //             fontWeight: FontWeight.w800,
+            //             fontSize: 27),
+            //       ),
+            //     )),
           ],
         ),
       ),

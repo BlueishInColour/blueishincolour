@@ -14,8 +14,12 @@ import './item.dart';
 
 class MoreItemOut extends StatefulWidget {
   const MoreItemOut(
-      {super.key, required this.headPostid, required this.selectedPage});
+      {super.key,
+      required this.headPostid,
+      required this.postId,
+      required this.selectedPage});
   final String headPostid;
+  final String postId;
   final int selectedPage;
 
   @override
@@ -71,7 +75,7 @@ class MoreItemOutState extends State<MoreItemOut>
                       children: [
                         SteezeSection(headPostId: widget.headPostid),
                         CommentSection(
-                          postId: widget.headPostid,
+                          postId: widget.postId,
                         ),
                       ],
                     ),
@@ -131,7 +135,7 @@ class SteezeSectionState extends State<SteezeSection> {
                     listOfLikers: documentSnapshot['listOfLikers'],
                     title: documentSnapshot['title'],
                     pictures: documentSnapshot['images'],
-                    id: documentSnapshot['goodId'],
+                    postId: documentSnapshot['goodId'],
                   );
                 },
               );
@@ -222,7 +226,7 @@ class CommentSectionState extends State<CommentSection> {
             debugPrint('about to send message');
             await FirebaseFirestore.instance.collection('comments').add({
               'commentId': Uuid().v1(),
-              text: text,
+              'text': text,
               'creatorProfilePicture': userDetails['profilePicture'],
               'creatorDisplayName': userDetails['displayName'],
               'creatorUserName': userDetails['userName'],

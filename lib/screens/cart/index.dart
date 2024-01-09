@@ -1,4 +1,3 @@
-import 'package:blueishincolour/utils/trash/blog/item2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +77,12 @@ class CartScreenState extends State<CartScreen>
                     onTap: () {},
                     title: documentSnapshot['title'],
                     pictures: documentSnapshot['images'],
-                    id: documentSnapshot['goodId'],
+                    postId: documentSnapshot['goodId'],
+                    creatorDisplayName: documentSnapshot['creatorDisplayName'],
+                    creatorUserName: documentSnapshot['creatorUserName'],
+                    creatorProfilePicture:
+                        documentSnapshot['creatorProfilePicture'],
+                    creatorUid: documentSnapshot['creatorUid'],
                   );
                 }));
           }

@@ -100,6 +100,8 @@ class ChatScreenState extends State<ChatScreen> {
                       return ListTile(
                         leading: CircleAvatar(
                           backgroundColor: Colors.black,
+                          backgroundImage: CachedNetworkImageProvider(
+                              documentSnapshot['profilePicture']),
                         ),
                         title: Text(
                           documentSnapshot['displayName'],
@@ -110,6 +112,8 @@ class ChatScreenState extends State<ChatScreen> {
                         onTap: () => Navigator.push(context,
                             PageRouteBuilder(pageBuilder: (context, _, __) {
                           return Item(
+                              profilePicture:
+                                  documentSnapshot['profilePicture'],
                               uid: documentSnapshot['uid'],
                               userName: documentSnapshot['userName'],
                               displayName: documentSnapshot['displayName']);
@@ -130,6 +134,8 @@ class ChatScreenState extends State<ChatScreen> {
                         onTap: () => Navigator.push(context,
                             PageRouteBuilder(pageBuilder: (context, _, __) {
                           return Item(
+                              profilePicture:
+                                  documentSnapshot['profilePicture'],
                               uid: documentSnapshot['uid'],
                               userName: documentSnapshot['userName'],
                               displayName: documentSnapshot['displayName']);

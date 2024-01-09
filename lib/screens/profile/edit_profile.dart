@@ -85,6 +85,7 @@ class EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(automaticallyImplyLeading: true),
       body: SizedBox(
         height: 400,
         child: Column(
@@ -116,23 +117,25 @@ class EditProfileState extends State<EditProfile> {
                   Map userDetails =
                       getUserDetails(FirebaseAuth.instance.currentUser!.uid);
                   if (userDetails.isEmpty) {
+                    await FirebaseFirestore.instance.collection('users').add({
+                      'uid': FirebaseAuth.instance.currentUser!.uid,
+                      'profilePiture': 'https://source.unsplash.com/random',
+                      'userName': usernameController.text,
+                      'typeOfUser': typeOfUserController.text,
+                      'displayName': displaynameController.text,
+                      'listOfLikers': [],
+                      'listOfLikedPosts': []
+                    });
+                    debugPrint('done');
+
+                    Navigator.pop(context);
+                  } else {
                     Scaffold.of(context).showBottomSheet((context) => SnackBar(
                         content:
                             Text('you cannot change this details but once')));
 
                     Navigator.pop(context);
                   }
-                  await FirebaseFirestore.instance.collection('users').add({
-                    'uid': FirebaseAuth.instance.currentUser!.uid,
-                    'userName': usernameController.text,
-                    'typeOfUser': typeOfUserController.text,
-                    'displayName': displaynameController.text,
-                    'listOfLikers': [],
-                    'listOfLikedPosts': []
-                  });
-                  debugPrint('done');
-
-                  Navigator.pop(context);
                 },
                 child: Text('save')),
             SizedBox(

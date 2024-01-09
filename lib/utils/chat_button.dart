@@ -8,10 +8,12 @@ class ChatButton extends StatefulWidget {
       required this.userName,
       required this.postId,
       required this.displayName,
+      required this.profilePicture,
       required this.uid});
   final String userName;
   final String displayName;
   final String postId;
+  final String profilePicture;
   final String uid;
   @override
   State<ChatButton> createState() => ChatButtonState();
@@ -25,6 +27,7 @@ class ChatButtonState extends State<ChatButton> {
           Navigator.push(context,
               PageRouteBuilder(pageBuilder: (context, _, __) {
             return Item(
+              profilePicture: widget.profilePicture,
               uid: widget.uid,
               displayName: widget.displayName,
               userName: widget.userName,

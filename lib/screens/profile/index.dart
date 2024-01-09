@@ -19,8 +19,9 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
   String uid = FirebaseAuth.instance.currentUser!.uid;
-  String userName = 'oluwa';
-  String displayName = '@blue';
+  String userName = '';
+  String displayName = '';
+  String profilePicture = '';
   String userPix = '';
   getUserDetails() async {
     QuerySnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -34,11 +35,13 @@ class ProfileScreenState extends State<ProfileScreen>
     debugPrint(snap['userName']);
 
     debugPrint(snap['displayName']);
+    debugPrint(snap['profilePicture']);
 
     setState(() {
       uid = snap['uid'];
       userName = snap['userName'];
       displayName = snap['displayName'];
+      profilePicture = snap['profilePicture'];
       // userPix = snap['userPix'];
     });
     return {
@@ -67,17 +70,19 @@ class ProfileScreenState extends State<ProfileScreen>
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           actions: [
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.push(context,
-            //         PageRouteBuilder(pageBuilder: (context, _, __) {
-            //       return EditProfile();
-            //     }));
-            //   },
-            //   child: Text('edit', style: TextStyle(color: Colors.black54)),
-            // )
+            TextButton(
+              onPressed: () {
+                Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return EditProfile();
+                }));
+              },
+              child: Text('edit', style: TextStyle(color: Colors.black54)),
+            )
           ],
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               SizedBox(height: 10),
               //profile
@@ -85,6 +90,7 @@ class ProfileScreenState extends State<ProfileScreen>
               SizedBox(width: 10),
               SizedBox(
                 height: 45,
+                width: 200,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -130,6 +136,10 @@ class ProfileScreenState extends State<ProfileScreen>
                   //if we have data, get all dic
 
                   if (snapshot.hasData) {
+                    if (userName.isEmpty) {
+                      return Scaffold(
+                          body: Center(child: CircularProgressIndicator()));
+                    }
                     if (snapshot.data!.docs.isEmpty) {
                       return Center(
                         child: Text(' no content yet'),

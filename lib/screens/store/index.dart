@@ -23,6 +23,7 @@ class StoreScreen extends StatefulWidget {
 
 class StoreScreenState extends State<StoreScreen>
     with AutomaticKeepAliveClientMixin {
+  TextEditingController searchBarController = TextEditingController();
   bool click = false;
   String url = 'http://localhost:8080/shop';
   List<Good> listOfGood = [];
@@ -75,7 +76,9 @@ class StoreScreenState extends State<StoreScreen>
           elevation: 0,
           backgroundColor: Colors.transparent,
           toolbarHeight: 70,
-          title: BlueishInColourIcon()),
+          title: BlueishInColourIcon(
+            controller: searchBarController,
+          )),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
@@ -117,7 +120,8 @@ class StoreScreenState extends State<StoreScreen>
                       listOfLikers: documentSnapshot['listOfLikers'],
                       title: documentSnapshot['title'],
                       pictures: documentSnapshot['images'],
-                      id: documentSnapshot['goodId'],
+                      postId: documentSnapshot['goodId'],
+                      headPostId: documentSnapshot['headPostId'],
                     );
                   })),
             );

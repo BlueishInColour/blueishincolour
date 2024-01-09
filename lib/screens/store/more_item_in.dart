@@ -66,7 +66,7 @@ class MoreItemInState extends State<MoreItemIn> {
                     listOfLikers: widget.listOfLikers,
                     title: widget.title,
                     pictures: widget.listOfPictures,
-                    id: widget.goodId,
+                    postId: widget.goodId,
                   );
                 },
               )
