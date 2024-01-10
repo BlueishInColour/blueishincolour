@@ -12,97 +12,6 @@ import 'package:uuid/uuid.dart';
 import '../../models/comments.dart';
 import './item.dart';
 
-class MoreItemOut extends StatefulWidget {
-  const MoreItemOut(
-      {super.key,
-      required this.headPostid,
-      required this.postId,
-      required this.selectedPage});
-  final String headPostid;
-  final String postId;
-  final int selectedPage;
-
-  @override
-  State<MoreItemOut> createState() => MoreItemOutState();
-}
-
-class MoreItemOutState extends State<MoreItemOut>
-    with TickerProviderStateMixin {
-  late TabController tabController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        initialIndex: 1,
-        child: Builder(
-          builder: (context) => Column(
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(Icons.arrow_back_ios_new_outlined)),
-                  Expanded(
-                    child: TabBar(
-                        // controller: tabController,
-                        controller: DefaultTabController.of(context),
-                        indicatorColor: Colors.black,
-                        indicatorSize: TabBarIndicatorSize.label,
-                        indicatorPadding: EdgeInsets.only(top: 15),
-                        tabs: [
-                          Text(
-                            'dress-offs',
-                            style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800),
-                          ),
-                          Text(
-                            'comments',
-                            style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800),
-                          )
-                        ]),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  // controller: tabController,
-                  controller: DefaultTabController.of(context),
-
-                  children: [
-                    SteezeSection(headPostId: widget.headPostid),
-                    CommentSection(
-                      postId: widget.postId,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ));
-  }
-}
-
-// import 'package:flutter/material.dart';
-
 class SteezeSection extends StatefulWidget {
   const SteezeSection({super.key, required this.headPostId});
   final String headPostId;
@@ -147,11 +56,7 @@ class SteezeSectionState extends State<SteezeSection> {
               .where('headPostId', isEqualTo: widget.headPostId)
               .snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.data!.docs.isEmpty) {
-              return Center(
-                child: Text('be the first to steeze-off this'),
-              );
-            } else if (snapshot.hasData) {
+            if (snapshot.hasData) {
               return ListView.builder(
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {

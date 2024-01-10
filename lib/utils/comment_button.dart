@@ -57,11 +57,8 @@ class CommentButtonState extends State<CommentButton> {
         onPressed: () {
           Navigator.push(context,
               PageRouteBuilder(pageBuilder: (context, _, __) {
-            return MoreItemOut(
-              selectedPage: 1,
-              postId: widget.postId,
-              headPostid: widget.headPostId,
-            );
+            return CommentButton(
+                headPostId: widget.headPostId, postId: widget.postId);
           }));
         },
         icon: Icon(LineIcons.comment, size: 25, color: Colors.white),
