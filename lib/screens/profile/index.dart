@@ -23,12 +23,12 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
-  String uid = FirebaseAuth.instance.currentUser!.uid;
+  String uid = '';
   String userName = '';
   String displayName = '';
   String profilePicture = '';
   String userPix = '';
-  getUserDetails() async {
+  getUserDetails(String uid) async {
     QuerySnapshot documentSnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('uid', isEqualTo: uid)
@@ -62,7 +62,7 @@ class ProfileScreenState extends State<ProfileScreen>
     // TODO: implement initState
     super.initState();
 
-    getUserDetails();
+    getUserDetails(widget.userUid);
   }
 
   @override
@@ -72,15 +72,26 @@ class ProfileScreenState extends State<ProfileScreen>
     super.build(context);
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.black,
+              )),
           elevation: 0,
           toolbarHeight: 60,
           backgroundColor: Colors.transparent,
           actions: [
-            TextButton(
+            IconButton(
                 onPressed: () {
                   AuthService().logout();
                 },
-                child: Text('logout')),
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                )),
             // TextButton(
             //   onPressed: () {
             //     Navigator.push(context,
@@ -102,24 +113,28 @@ class ProfileScreenState extends State<ProfileScreen>
               SizedBox(width: 10),
               SizedBox(
                 height: 45,
-                width: 200,
+                width: 170,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(displayName,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 15,
-                            overflow: TextOverflow.ellipsis,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black)),
-                    Text(userName,
-                        style: TextStyle(
-                            fontSize: 14,
-                            overflow: TextOverflow.ellipsis,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black54)),
+                    Expanded(
+                      child: Text(displayName,
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 15,
+                              overflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black)),
+                    ),
+                    Expanded(
+                      child: Text(userName,
+                          style: TextStyle(
+                              fontSize: 14,
+                              overflow: TextOverflow.ellipsis,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54)),
+                    ),
                     SizedBox(height: 10),
                   ],
                 ),
@@ -141,8 +156,7 @@ class ProfileScreenState extends State<ProfileScreen>
               child: FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('goods')
-                    .where('creatorUid',
-                        isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                    .where('creatorUid', isEqualTo: widget.userUid)
                     .get(),
                 builder: (context, snapshot) {
                   //if we have data, get all dic

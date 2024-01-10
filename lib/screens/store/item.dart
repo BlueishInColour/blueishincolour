@@ -1,3 +1,4 @@
+import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/store/more_item_in.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
 import 'package:blueishincolour/utils/steeze_off_button.dart';
@@ -104,71 +105,79 @@ class ItemState extends State<Item> {
         child: Column(
           children: [
             //headder`
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15)),
-                  color: Colors.black),
-              child: Row(
-                children: [
-                  SizedBox(width: 5),
-                  CircleAvatar(
-                      radius: 17,
-                      backgroundImage: CachedNetworkImageProvider(
-                          widget.creatorProfilePicture)),
-                  SizedBox(width: 5),
-                  SizedBox(
-                    width: 120,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.creatorDisplayName,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white70,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        Text(
-                          widget.creatorUserName,
-                          style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 11,
-                              color: Colors.white60),
-                        )
-                      ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    PageRouteBuilder(pageBuilder: (context, _, __) {
+                  return ProfileScreen(userUid: widget.creatorUid);
+                }));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)),
+                    color: Colors.black),
+                child: Row(
+                  children: [
+                    SizedBox(width: 5),
+                    CircleAvatar(
+                        radius: 17,
+                        backgroundImage: CachedNetworkImageProvider(
+                            widget.creatorProfilePicture)),
+                    SizedBox(width: 5),
+                    SizedBox(
+                      width: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.creatorDisplayName,
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white70,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          Text(
+                            widget.creatorUserName,
+                            style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 11,
+                                color: Colors.white60),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(child: SizedBox()),
-                  ChatButton(
-                      profilePicture: widget.creatorProfilePicture,
-                      userName: widget.creatorUserName,
+                    Expanded(child: SizedBox()),
+                    ChatButton(
+                        profilePicture: widget.creatorProfilePicture,
+                        userName: widget.creatorUserName,
+                        postId: widget.postId,
+                        displayName: widget.creatorDisplayName,
+                        uid: widget.creatorUid),
+                    SteezeOffButton(
                       postId: widget.postId,
-                      displayName: widget.creatorDisplayName,
-                      uid: widget.creatorUid),
-                  SteezeOffButton(
-                    postId: widget.postId,
-                    headPostId: widget.headPostId,
-                  ),
-                  Badge(
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.calendar_view_month_rounded,
-                      color: Colors.white60,
-                      size: 20,
+                      headPostId: widget.headPostId,
                     ),
-                    label: Text(widget.pictures.length.toString(),
-                        style: TextStyle(color: Colors.black)),
-                  ),
-                  LikeButton(
-                      idType: 'goodId',
-                      listOfLikers: widget.listOfLikers,
-                      goodId: widget.postId,
-                      collection: 'goods'),
-                  SizedBox(width: 5),
-                ],
+                    Badge(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.calendar_view_month_rounded,
+                        color: Colors.white60,
+                        size: 20,
+                      ),
+                      label: Text(widget.pictures.length.toString(),
+                          style: TextStyle(color: Colors.black)),
+                    ),
+                    LikeButton(
+                        idType: 'goodId',
+                        listOfLikers: widget.listOfLikers,
+                        goodId: widget.postId,
+                        collection: 'goods'),
+                    SizedBox(width: 5),
+                  ],
+                ),
               ),
             ),
             //body and image
