@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hidable/hidable.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
@@ -16,7 +17,9 @@ import '../../utils/blueishincolour_icon.dart';
 import 'item.dart';
 
 class StoreScreen extends StatefulWidget {
-  const StoreScreen({super.key});
+  const StoreScreen({super.key, required this.controller});
+
+  final ScrollController controller;
 
   @override
   State<StoreScreen> createState() => StoreScreenState();
@@ -73,13 +76,17 @@ class StoreScreenState extends State<StoreScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          toolbarHeight: 70,
-          title: BlueishInColourIcon(
-            controller: searchBarController,
-          )),
+      appBar: Hidable(
+          enableOpacityAnimation: true,
+          preferredWidgetSize: Size.fromHeight(90),
+          child: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              toolbarHeight: 70,
+              title: BlueishInColourIcon(
+                controller: searchBarController,
+              )),
+          controller: widget.controller),
       backgroundColor: Colors.white,
       floatingActionButton: kIsWeb
           ? null
@@ -105,6 +112,7 @@ class StoreScreenState extends State<StoreScreen>
           if (snapshot.hasData) {
             return SizedBox(
               child: ListView.builder(
+                  controller: widget.controller,
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: ((context, index) {
                     //get indicidual doc
@@ -112,6 +120,7 @@ class StoreScreenState extends State<StoreScreen>
                         snapshot.data!.docs[index];
 
                     return Item(
+                      swipeBack: false,
                       creatorProfilePicture:
                           documentSnapshot['creatorProfilePicture'],
                       creatorDisplayName:

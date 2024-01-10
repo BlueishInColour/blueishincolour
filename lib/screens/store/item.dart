@@ -1,16 +1,14 @@
 import 'package:blueishincolour/screens/store/more_item_in.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
 import 'package:blueishincolour/utils/steeze_off_button.dart';
-import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/chat_button.dart';
 import '../../utils/comment_button.dart';
 import '../../utils/like_button.dart';
+import '../../main.dart';
 
 class Item extends StatefulWidget {
   const Item(
@@ -25,6 +23,7 @@ class Item extends StatefulWidget {
       required this.showPix,
       this.postId = '',
       this.headPostId = '',
+      required this.swipeBack,
       required this.listOfLikers,
       required this.onTap});
   final int index;
@@ -39,13 +38,15 @@ class Item extends StatefulWidget {
   final List listOfLikers;
   final List<dynamic> pictures;
   final String showPix;
+  final bool swipeBack;
+
   @override
   State<Item> createState() => ItemState();
 }
 
 class ItemState extends State<Item> {
   bool showDetail = false;
-
+  final controller = ScrollController();
   Widget button(context, {required Function() onTap}) {
     return IconButton(
         onPressed: onTap,
@@ -76,14 +77,26 @@ class ItemState extends State<Item> {
       // onScrollRi: () {
       //   Navigator.pop(context);
       // },
-      onHorizontalDragStart: (details) {
-        Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
-          return MoreItemOut(
-            selectedPage: 1,
-            postId: widget.postId,
-            headPostid: widget.headPostId,
+      onPanUpdate: (details) {
+        if (details.delta.dx < 8) {
+          Navigator.push(
+            context,
+            PageRouteBuilder(pageBuilder: (context, _, __) {
+              return SteezeSection(headPostId: widget.headPostId);
+            }),
           );
-        }));
+        } else {
+          switch (widget.swipeBack) {
+            case false:
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('you are at the start')));
+              debugPrint('done');
+
+              break;
+            default:
+              Navigator.pop(context);
+          }
+        }
       },
       child: Container(
         margin: EdgeInsets.all(5),

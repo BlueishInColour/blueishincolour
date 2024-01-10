@@ -11,8 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/goods.dart';
 import 'item.dart';
 
+// final String uid =cc FirebaseAuth.instance.currentUser!.uid;
+
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.userUid});
+  final String userUid;
 
   @override
   State<ProfileScreen> createState() => ProfileScreenState();

@@ -71,3 +71,12 @@ done - find better design for the blog page and remove appbar
 > include my icon
 > create the login screen, this time make signup more fluid with ability to imput profile pix and user and display names
 > 
+
+10th jan, 2024
+> make swipe left and right work
+> research on search
+> make the pages save states
+> research on a payment system
+> make comment section to be on moreitemin as in bottom sheeet that can be pulled up, it will also contain description
+> make user in bar section of storeitems be clickeable and will nav page to their profile section
+> 

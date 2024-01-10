@@ -72,6 +72,7 @@ class CartScreenState extends State<CartScreen>
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
                   return Item(
+                    swipeBack: true,
                     listOfLikers: documentSnapshot['listOfLikers'],
                     showPix: documentSnapshot['images'][0],
                     onTap: () {},

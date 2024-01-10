@@ -115,6 +115,20 @@ class SteezeSectionState extends State<SteezeSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.white,
+      //   automaticallyImplyLeading: true,
+      //   leading: IconButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     icon: Icon(
+      //       Icons.arrow_back_ios_new_outlined,
+      //       color: Colors.black,
+      //     ),
+      //   ),
+      // ),
       floatingActionButton: kIsWeb
           ? null
           : FloatingActionButton(
@@ -145,6 +159,7 @@ class SteezeSectionState extends State<SteezeSection> {
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
                   return Item(
+                    swipeBack: true,
                     onTap: () {},
                     showPix: documentSnapshot['images'][0],
                     listOfLikers: documentSnapshot['listOfLikers'],
@@ -199,45 +214,53 @@ class CommentSectionState extends State<CommentSection> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('comments')
-            .where('postId', isEqualTo: widget.postId)
-            .snapshots(),
-        builder: (context, snapshot) {
-          //if we have data, get all dic
-          if (snapshot.data!.docs.isEmpty) {
-            return (Center(
-              child: Text('be the first to comment on this'),
-            ));
-          }
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: ((context, index) {
-                  //get indicidual doc
-                  DocumentSnapshot documentSnapshot =
-                      snapshot.data!.docs[index];
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+        ),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('comments')
+              .where('postId', isEqualTo: widget.postId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            //if we have data, get all dic
+            if (snapshot.data!.docs.isEmpty) {
+              return (Center(
+                child: Text('be the first to comment on this'),
+              ));
+            }
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: ((context, index) {
+                    //get indicidual doc
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
 
-                  return ListTile(
-                    titleTextStyle:
-                        TextStyle(color: Colors.black, fontSize: 11),
-                    subtitleTextStyle: TextStyle(fontSize: 13),
-                    leading: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                          documentSnapshot['creatorProfilePicture']),
-                    ),
-                    title: Text('${documentSnapshot['creatorDisplayName']}'
-                        '| @'
-                        '${documentSnapshot['creatorUserName']}'),
-                    subtitle: Text(documentSnapshot['text']),
-                  );
-                }));
-          }
+                    return ListTile(
+                      titleTextStyle:
+                          TextStyle(color: Colors.black, fontSize: 11),
+                      subtitleTextStyle: TextStyle(fontSize: 13),
+                      leading: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                            documentSnapshot['creatorProfilePicture']),
+                      ),
+                      title: Text('${documentSnapshot['creatorDisplayName']}'
+                          '| @'
+                          '${documentSnapshot['creatorUserName']}'),
+                      subtitle: Text(documentSnapshot['text']),
+                    );
+                  }));
+            }
 
-          return Center(
-              child: CircularProgressIndicator(color: Colors.blue.shade600));
-        },
+            return Center(
+                child: CircularProgressIndicator(color: Colors.blue.shade600));
+          },
+        ),
       ),
       bottomSheet: SizedBox(
         height: 70,
