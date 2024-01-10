@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:blueishincolour/screens/auth/auth_gate.dart';
+import 'package:blueishincolour/screens/auth/auth_gate_two.dart';
+import 'package:blueishincolour/screens/auth/login_or_signup.dart';
+import 'package:blueishincolour/screens/auth/signup_screen.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
@@ -15,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'screens/auth/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -131,67 +135,73 @@ class IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: [
-          StoreScreen(),
-          // BlogScre
-          CartScreen(),
-          ChatScreen(),
-          ProfileScreen(),
-          // EditProfile()
-        ][currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: (v) {
-              setState(() {
-                currentIndex = v;
-              });
-            },
-            showSelectedLabels: false,
-            items: <BottomNavigationBarItem>[
+      body: [
+        // LoginScreen(),
+        // SignupScreen(),
+        LoginOrSignupScreen(),
+        // AuthGateTwo(),
+        // StoreScreen(),
+        // BlogScre
+        CartScreen(),
+        ChatScreen(),
+        ProfileScreen(),
+        // EditProfile()
+      ][currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (v) {
+            setState(() {
+              currentIndex = v;
+            });
+          },
+          showSelectedLabels: false,
+          items: <BottomNavigationBarItem>[
 //
 // featured
-              BottomNavigationBarItem(
-                  label: 'home',
-                  icon: Icon(Icons.home_filled, color: Colors.black26),
-                  activeIcon: Icon(
-                    Icons.home_filled,
-                    color: Colors.black,
-                  )),
+            BottomNavigationBarItem(
+                label: 'home',
+                icon: Icon(Icons.home_filled, color: Colors.black26),
+                activeIcon: Icon(
+                  Icons.home_filled,
+                  color: Colors.black,
+                )),
 
 // blog
 
-              BottomNavigationBarItem(
-                label: 'saved',
-                icon: Icon(
-                  Icons.favorite_rounded,
-                  color: Colors.black26,
-                ),
-                activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
+            BottomNavigationBarItem(
+              label: 'saved',
+              icon: Icon(
+                Icons.favorite_rounded,
+                color: Colors.black26,
               ),
+              activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
+            ),
 //chat
-              BottomNavigationBarItem(
-                label: 'chat',
-                icon: Icon(
-                  Icons.chat_bubble,
-                  color: Colors.black26,
-                ),
-                activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
+            BottomNavigationBarItem(
+              label: 'chat',
+              icon: Icon(
+                Icons.chat_bubble,
+                color: Colors.black26,
               ),
-              //   BottomNavigationBarItem(
-              //     label: 'profile',
-              //     icon: Icon(
-              //       Icons.person,
-              //       color: Colors.black26,
-              //     ),
-              //     activeIcon: Icon(Icons.person, color: Colors.black),
-              //   ),
-              // ]),
-              BottomNavigationBarItem(
-                label: 'profile',
-                icon: Icon(Icons.person, color: Colors.black26),
-                activeIcon: Icon(Icons.person, color: Colors.black),
-              ), // upload
+              activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
+            ),
+            //   BottomNavigationBarItem(
+            //     label: 'profile',
+            //     icon: Icon(
+            //       Icons.person,
+            //       color: Colors.black26,
+            //     ),
+            //     activeIcon: Icon(Icons.person, color: Colors.black),
+            //   ),
+            // ]),
+            BottomNavigationBarItem(
+              label: 'profile',
+              icon: Icon(Icons.person, color: Colors.black26),
+              activeIcon: Icon(Icons.person, color: Colors.black),
+            ), // upload
 //mine
-            ]));
+          ]),
+      resizeToAvoidBottomInset: false,
+    );
   }
 }
