@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blueishincolour/screens/auth/auth_gate.dart';
+// import 'package:blueishincolour/screens/auth/auth_gate.dart';
 import 'package:blueishincolour/screens/auth/auth_gate_two.dart';
 import 'package:blueishincolour/screens/auth/login_or_signup.dart';
 import 'package:blueishincolour/screens/auth/signup_screen.dart';
@@ -98,7 +98,7 @@ class SplashScreenState extends State<SplashScreen> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const AuthGate(),
+              builder: (context) => const AuthGateTwo(),
             )));
   }
 
@@ -138,9 +138,9 @@ class IndexState extends State<Index> {
       body: [
         // LoginScreen(),
         // SignupScreen(),
-        LoginOrSignupScreen(),
+        // LoginOrSignupScreen(),
         // AuthGateTwo(),
-        // StoreScreen(),
+        StoreScreen(),
         // BlogScre
         CartScreen(),
         ChatScreen(),

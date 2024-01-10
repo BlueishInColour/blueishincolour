@@ -10,7 +10,16 @@ class AuthService {
 
     return details;
   }
-  //signup method
 
+  //signup method
+  Future<UserCredential> signup(String email, String password) async {
+    var details = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return details;
+  }
   //signout method
+
+  logout() async {
+    await _auth.signOut();
+  }
 }

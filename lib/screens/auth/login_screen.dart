@@ -1,4 +1,5 @@
 import 'package:blueishincolour/screens/auth/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,10 +13,15 @@ class LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void Function()? login() {
-    AuthService().login(emailController.text, passwordController.text);
-
-    return null;
+  login() async {
+    try {
+      await AuthService().login(emailController.text, passwordController.text);
+    } catch (e) {
+      return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('wrong email or password'),
+        showCloseIcon: true,
+      ));
+    }
   }
 
   @override

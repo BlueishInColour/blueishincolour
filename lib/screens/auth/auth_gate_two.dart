@@ -19,7 +19,7 @@ class AuthGateTwoState extends State<AuthGateTwo> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return CartScreen();
+              return Index();
             } else {
               return LoginOrSignupScreen();
             }

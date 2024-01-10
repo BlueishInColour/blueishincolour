@@ -99,6 +99,35 @@ Future<String> uploadPixGetUrl(File file) async {
   return '';
 }
 
+Future<String> addSingleImage() async {
+//
+  final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  File file = File(xFile!.path);
+  //
+
+  String url = await ImageKit.io(
+    file.readAsBytesSync(),
+    fileName: 'afilename',
+    //  folder: "folder_name/nested_folder", (Optional)
+    privateKey: privateKey, // (Keep Confidential)
+    onUploadProgress: (progressValue) {
+      if (true) {
+        debugPrint(progressValue.toString());
+      }
+    },
+  ).then((ImagekitResponse data) {
+    /// Get your uploaded Image file link from [ImageKit.io]
+    /// then save it anywhere you want. For Example- [Firebase, MongoDB] etc.
+
+    debugPrint(data.url!); // (you will get all Response data from ImageKit)
+    return data.url!;
+  });
+  debugPrint(url);
+
+  return url;
+}
+
 uploadStories(context, {required Stories stories}) async {
   var url = Uri.parse(
     'https://73ssrmtdna.us-east-1.awsapprunner.com/stories',
@@ -142,6 +171,6 @@ getUserDetails(String uid) async {
     'userName': snap['userName'],
     'displayName': snap['displayName'],
     'uid': snap['uid'],
-    'profilePicture': 'https://source.unsplash.com/random'
+    'profilePicture': snap['profilePicture']
   };
 }

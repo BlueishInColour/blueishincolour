@@ -1,3 +1,4 @@
+import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/profile/edit_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -73,14 +74,19 @@ class ProfileScreenState extends State<ProfileScreen>
           backgroundColor: Colors.transparent,
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.push(context,
-                    PageRouteBuilder(pageBuilder: (context, _, __) {
-                  return EditProfile();
-                }));
-              },
-              child: Text('edit', style: TextStyle(color: Colors.black54)),
-            )
+                onPressed: () {
+                  AuthService().logout();
+                },
+                child: Text('logout')),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.push(context,
+            //         PageRouteBuilder(pageBuilder: (context, _, __) {
+            //       return EditProfile();
+            //     }));
+            //   },
+            //   child: Text('edit', style: TextStyle(color: Colors.black54)),
+            // )
           ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
