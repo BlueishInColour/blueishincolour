@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hidable/hidable.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
@@ -83,14 +84,20 @@ class StoreScreenState extends State<StoreScreen>
               elevation: 0,
               backgroundColor: Colors.transparent,
               toolbarHeight: 70,
-              title: BlueishInColourIcon(
-                controller: searchBarController,
+              title: Text(
+                "fashioniers",
+                style: GoogleFonts.pacifico(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
               )),
           controller: widget.controller),
       backgroundColor: Colors.white,
       floatingActionButton: kIsWeb
           ? null
           : FloatingActionButton(
+              shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               backgroundColor: Colors.black,
               onPressed: () {
                 Navigator.push(context,
@@ -105,7 +112,7 @@ class StoreScreenState extends State<StoreScreen>
       body: StreamBuilder(
         stream: db
             .collection('goods')
-            .orderBy('timestamp', descending: false)
+            .orderBy('timestamp', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
 //if we have data, get all dic
@@ -130,6 +137,7 @@ class StoreScreenState extends State<StoreScreen>
                       showPix: documentSnapshot['images'][0],
                       onTap: () {},
                       listOfLikers: documentSnapshot['listOfLikers'],
+                      // index: index,
                       title: documentSnapshot['title'],
                       pictures: documentSnapshot['images'],
                       postId: documentSnapshot['goodId'],

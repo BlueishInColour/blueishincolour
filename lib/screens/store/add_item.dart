@@ -26,7 +26,12 @@ class AddItemState extends State<AddItem> {
   TextEditingController descriptionsController = TextEditingController();
   TextEditingController discountedPriceController = TextEditingController();
   TextEditingController titleController = TextEditingController();
+
+  TextEditingController tagsController = TextEditingController();
+
   List<String> images = [];
+  List<String> tags = [];
+  List<String> listOfModels = [];
   String image = '';
   var userDetails = {};
 
@@ -184,6 +189,7 @@ class AddItemState extends State<AddItem> {
                       'description': descriptionsController.text,
 
                       'images': images,
+                      'tags': tags,
 
                       //creator
                       'creatorUserName': userDetails['userName'],
@@ -193,6 +199,7 @@ class AddItemState extends State<AddItem> {
 
                       //metadata
                       'listOfLikers': [],
+                      'listOfModels': listOfModels,
 
                       'timestamp': Timestamp.now()
                     };
@@ -241,11 +248,128 @@ class AddItemState extends State<AddItem> {
                     textField(context,
                         hintText: 'descriptions ...',
                         controller: descriptionsController,
-                        height: 300,
+                        height: 100,
                         maxlines: 10),
                     SizedBox(
+                      height: 20,
+                      width: 200,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tags.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.black12),
+                                    child: Center(
+                                      child: Text(
+                                        tags[index],
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        tags.removeAt(index);
+                                      });
+                                    },
+                                    icon: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20.0),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.cancel,
+                                          size: 15,
+                                        ),
+                                      ),
+                                    ))
+                              ],
+                            );
+                          }),
+                    ),
+                    SizedBox(height: 15),
+                    TextField(
+                      controller: tagsController,
+                      decoration: InputDecoration(
+                          hintText: 'add tags',
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  tags.add(tagsController.text);
+                                });
+
+                                tagsController.clear();
+                              },
+                              icon: Icon(Icons.add))),
+                    ),
+
+//for models
+                    SizedBox(
+                      height: 20,
+                      width: 200,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tags.length,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.black12),
+                                    child: Center(
+                                      child: Text(
+                                        listOfModels[index],
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        tags.removeAt(index);
+                                      });
+                                    },
+                                    icon: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20.0),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.cancel,
+                                          size: 15,
+                                        ),
+                                      ),
+                                    ))
+                              ],
+                            );
+                          }),
+                    ),
+                    SizedBox(height: 15),
+                    TextField(
+                      controller: tagsController,
+                      decoration: InputDecoration(
+                          hintText: 'mention models',
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  tags.add(tagsController.text);
+                                });
+
+                                tagsController.clear();
+                              },
+                              icon: Icon(Icons.add))),
+                    ),
+
+                    SizedBox(
                       height: 50,
-                    )
+                    ),
                   ],
                 ),
               ),

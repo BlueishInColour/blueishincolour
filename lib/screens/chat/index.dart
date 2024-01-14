@@ -51,105 +51,102 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            title: SizedBox(
-              height: 40,
-              child: TextField(
-                // onTapOutside: (event) {
-                //   print('event after tapedoutside');
-                // },
-                controller: controller,
-                cursorHeight: 10,
-                showCursor: false,
-                style: TextStyle(fontSize: 10),
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.search, size: 19, color: Colors.black),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide(color: Colors.black, width: 0.5),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide(color: Colors.blue, width: 1),
-                  ),
-                  hintText: 'find designers, dressmakers or friends',
-                  hintStyle: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 12,
-                      color: Colors.black),
-                ),
-              ),
-            )),
+        // appBar: AppBar(
+        //     elevation: 0,
+        //     backgroundColor: Colors.white,
+        //     title: SizedBox(
+        //       height: 40,
+        //       child: TextField(
+        //         // onTapOutside: (event) {
+        //         //   print('event after tapedoutside');
+        //         // },
+        //         controller: controller,
+        //         cursorHeight: 10,
+        //         showCursor: false,
+        //         style: TextStyle(fontSize: 10),
+        //         decoration: InputDecoration(
+        //           suffixIcon: Icon(Icons.search, size: 19, color: Colors.black),
+        //           enabledBorder: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(25),
+        //             borderSide: BorderSide(color: Colors.black, width: 0.5),
+        //           ),
+        //           focusedBorder: OutlineInputBorder(
+        //             borderRadius: BorderRadius.circular(25),
+        //             borderSide: BorderSide(color: Colors.blue, width: 1),
+        //           ),
+        //           hintText: 'find designers, dressmakers or friends',
+        //           hintStyle: TextStyle(
+        //               fontStyle: FontStyle.italic,
+        //               fontSize: 12,
+        //               color: Colors.black),
+        //         ),
+        //       ),
+        //     )),
         body: SafeArea(
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                // .where('listOfLikers', arrayContains: 'blueish')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot documentSnapshot =
-                        snapshot.data!.docs[index];
-                    if (documentSnapshot['uid'] ==
-                        FirebaseAuth.instance.currentUser!.uid) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          backgroundImage: CachedNetworkImageProvider(
-                              documentSnapshot['profilePicture']),
-                        ),
-                        title: Text(
-                          documentSnapshot['displayName'],
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        subtitle: Text('chat myself up',
-                            style: TextStyle(fontSize: 11)),
-                        onTap: () => Navigator.push(context,
-                            PageRouteBuilder(pageBuilder: (context, _, __) {
-                          return Item(
-                              profilePicture:
-                                  documentSnapshot['profilePicture'],
-                              uid: documentSnapshot['uid'],
-                              userName: documentSnapshot['userName'],
-                              displayName: documentSnapshot['displayName']);
-                        })),
-                      );
-                    } else {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.black,
-                        ),
-                        title: Text(
-                          documentSnapshot['displayName'],
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        subtitle: Text(
-                            '@${documentSnapshot['userName']} | ${documentSnapshot['typeOfUser']}',
-                            style: TextStyle(fontSize: 11)),
-                        onTap: () => Navigator.push(context,
-                            PageRouteBuilder(pageBuilder: (context, _, __) {
-                          return Item(
-                              profilePicture:
-                                  documentSnapshot['profilePicture'],
-                              uid: documentSnapshot['uid'],
-                              userName: documentSnapshot['userName'],
-                              displayName: documentSnapshot['displayName']);
-                        })),
-                      );
-                    }
-                  },
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
-        ));
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            // .where('listOfLikers', arrayContains: 'blueish')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
+                if (documentSnapshot['uid'] ==
+                    FirebaseAuth.instance.currentUser!.uid) {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.black,
+                      backgroundImage: CachedNetworkImageProvider(
+                          documentSnapshot['profilePicture']),
+                    ),
+                    title: Text(
+                      documentSnapshot['displayName'],
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    subtitle:
+                        Text('chat myself up', style: TextStyle(fontSize: 11)),
+                    onTap: () => Navigator.push(context,
+                        PageRouteBuilder(pageBuilder: (context, _, __) {
+                      return Item(
+                          profilePicture: documentSnapshot['profilePicture'],
+                          uid: documentSnapshot['uid'],
+                          userName: documentSnapshot['userName'],
+                          displayName: documentSnapshot['displayName']);
+                    })),
+                  );
+                } else {
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.black,
+                    ),
+                    title: Text(
+                      documentSnapshot['displayName'],
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    subtitle: Text(
+                        '@${documentSnapshot['userName']} | ${documentSnapshot['description']}',
+                        style: TextStyle(fontSize: 11)),
+                    onTap: () => Navigator.push(context,
+                        PageRouteBuilder(pageBuilder: (context, _, __) {
+                      return Item(
+                          profilePicture: documentSnapshot['profilePicture'],
+                          uid: documentSnapshot['uid'],
+                          userName: documentSnapshot['userName'],
+                          displayName: documentSnapshot['displayName']);
+                    })),
+                  );
+                }
+              },
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    ));
   }
 }

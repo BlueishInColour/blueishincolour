@@ -15,7 +15,7 @@ class Item extends StatefulWidget {
   const Item(
       {super.key,
       this.title = 'fake title',
-      this.index = 0,
+      this.index = 1,
       this.pictures = const [],
       this.creatorDisplayName = 'sampleDisplayName',
       this.creatorUserName = 'sampleUserName',
@@ -26,7 +26,12 @@ class Item extends StatefulWidget {
       this.headPostId = '',
       required this.swipeBack,
       required this.listOfLikers,
-      required this.onTap});
+      required this.onTap,
+      //
+      this.showCreatorDetails = true,
+      this.showDressUpButton = true,
+      this.showLikeButton = true,
+      this.showMessageButton = true});
   final int index;
   final String title;
   final Function() onTap;
@@ -40,6 +45,12 @@ class Item extends StatefulWidget {
   final List<dynamic> pictures;
   final String showPix;
   final bool swipeBack;
+
+  //
+  final bool showMessageButton;
+  final bool showDressUpButton;
+  final bool showLikeButton;
+  final bool showCreatorDetails;
 
   @override
   State<Item> createState() => ItemState();
@@ -78,27 +89,27 @@ class ItemState extends State<Item> {
       // onScrollRi: () {
       //   Navigator.pop(context);
       // },
-      onPanUpdate: (details) {
-        if (details.delta.dx < 8) {
-          Navigator.push(
-            context,
-            PageRouteBuilder(pageBuilder: (context, _, __) {
-              return SteezeSection(headPostId: widget.headPostId);
-            }),
-          );
-        } else {
-          switch (widget.swipeBack) {
-            case false:
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('you are at the start')));
-              debugPrint('done');
+      // onPanUpdate: (details) {
+      //   if (details.delta.dx < 20) {
+      //     Navigator.push(
+      //       context,
+      //       PageRouteBuilder(pageBuilder: (context, _, __) {
+      //         return SteezeSection(headPostId: widget.headPostId);
+      //       }),
+      //     );
+      //   } else {
+      //     switch (widget.swipeBack) {
+      //       case false:
+      //         ScaffoldMessenger.of(context).showSnackBar(
+      //             SnackBar(content: Text('you are at the start')));
+      //         debugPrint('done');
 
-              break;
-            default:
-              Navigator.pop(context);
-          }
-        }
-      },
+      //         break;
+      //       default:
+      //         Navigator.pop(context);
+      //     }
+      //   }
+      // },
       child: Container(
         margin: EdgeInsets.all(5),
         // height: 300,
@@ -117,8 +128,9 @@ class ItemState extends State<Item> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15)),
-                    color: Colors.black),
+                    color: Colors.blue),
                 child: Row(
+                  textDirection: TextDirection.rtl,
                   children: [
                     SizedBox(width: 5),
                     CircleAvatar(
@@ -127,7 +139,7 @@ class ItemState extends State<Item> {
                             widget.creatorProfilePicture)),
                     SizedBox(width: 5),
                     SizedBox(
-                      width: 120,
+                      width: 150,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +152,7 @@ class ItemState extends State<Item> {
                                 overflow: TextOverflow.ellipsis),
                           ),
                           Text(
-                            widget.creatorUserName,
+                            '@' '${widget.creatorUserName}',
                             style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 11,
@@ -160,16 +172,16 @@ class ItemState extends State<Item> {
                       postId: widget.postId,
                       headPostId: widget.headPostId,
                     ),
-                    Badge(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.calendar_view_month_rounded,
-                        color: Colors.white60,
-                        size: 20,
-                      ),
-                      label: Text(widget.pictures.length.toString(),
-                          style: TextStyle(color: Colors.black)),
-                    ),
+                    // Badge(
+                    //   backgroundColor: Colors.white,
+                    //   child: Icon(
+                    //     Icons.calendar_view_month_rounded,
+                    //     color: Colors.white60,
+                    //     size: 20,
+                    //   ),
+                    //   label: Text(widget.pictures.length.toString(),
+                    //       style: TextStyle(color: Colors.black)),
+                    // ),
                     LikeButton(
                         idType: 'goodId',
                         listOfLikers: widget.listOfLikers,
@@ -181,20 +193,38 @@ class ItemState extends State<Item> {
               ),
             ),
             //body and image
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    bottomRight: Radius.circular(15)),
-                child: CachedNetworkImage(
-                  imageUrl: widget.showPix, fit: BoxFit.fill,
-                  errorWidget: (context, _, __) => Container(color: Colors.red),
-                  placeholder: (context, _) =>
-                      Container(color: Colors.black26, height: 500),
+            Stack(
+              children: [
+                Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15)),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.showPix, fit: BoxFit.fill,
+                      errorWidget: (context, _, __) =>
+                          Container(color: Colors.red),
+                      placeholder: (context, _) =>
+                          Container(color: Colors.black26, height: 500),
 
-                  // images[index],
+                      // images[index],
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                    top: 10,
+                    left: 10,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(15)),
+                      height: 25,
+                      width: 40,
+                      child: Center(
+                          child: Text(
+                              '${widget.index.toString()}/${widget.pictures.length.toString()}')),
+                    ))
+              ],
             ),
             // Positioned(
             //     bottom: 40,

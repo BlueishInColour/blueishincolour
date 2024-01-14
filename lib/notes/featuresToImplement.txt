@@ -80,3 +80,9 @@ done - find better design for the blog page and remove appbar
 > make comment section to be on moreitemin as in bottom sheeet that can be pulled up, it will also contain description
 > make user in bar section of storeitems be clickeable and will nav page to their profile section
 > 
+
+13th jan. 2024
+> uploads should be smoother,
+> set a difference between singles and collection uploads
+> set a difference betweenn singles and collection rendering
+>

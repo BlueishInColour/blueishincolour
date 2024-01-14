@@ -1,4 +1,5 @@
 import 'package:blueishincolour/screens/store/add_item.dart';
+import 'package:blueishincolour/screens/store/more_item_in.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../models/comments.dart';
@@ -24,68 +26,124 @@ class SteezeSectionState extends State<SteezeSection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.white,
-      //   automaticallyImplyLeading: true,
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //     icon: Icon(
-      //       Icons.arrow_back_ios_new_outlined,
-      //       color: Colors.black,
-      //     ),
-      //   ),
-      // ),
-      floatingActionButton: kIsWeb
-          ? null
-          : FloatingActionButton(
-              backgroundColor: Colors.black,
-              onPressed: () {
-                Navigator.push(context,
-                    PageRouteBuilder(pageBuilder: (context, _, __) {
-                  return AddItem(headPostId: widget.headPostId);
-                }));
-              },
-              child: Icon(Icons.add, color: Colors.white60),
-            ),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('goods')
-              .where('headPostId', isEqualTo: widget.headPostId)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: (context, index) {
-                  //get indicidual doc
-                  DocumentSnapshot documentSnapshot =
-                      snapshot.data!.docs[index];
-                  return Item(
-                    swipeBack: true,
-                    onTap: () {},
-                    showPix: documentSnapshot['images'][0],
-                    listOfLikers: documentSnapshot['listOfLikers'],
-                    title: documentSnapshot['title'],
-                    pictures: documentSnapshot['images'],
-                    postId: documentSnapshot['goodId'],
-                    creatorDisplayName: documentSnapshot['creatorDisplayName'],
-                    creatorProfilePicture:
-                        documentSnapshot['creatorProfilePicture'],
-                    creatorUserName: documentSnapshot['creatorUserName'],
-                    creatorUid: documentSnapshot['creatorUid'],
-                  );
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   backgroundColor: Colors.white,
+        //   automaticallyImplyLeading: true,
+        //   leading: IconButton(
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //     icon: Icon(
+        //       Icons.arrow_back_ios_new_outlined,
+        //       color: Colors.black,
+        //     ),
+        //   ),
+        // ),
+        floatingActionButton: kIsWeb
+            ? null
+            : FloatingActionButton(
+                backgroundColor: Colors.black,
+                onPressed: () {
+                  Navigator.push(context,
+                      PageRouteBuilder(pageBuilder: (context, _, __) {
+                    return AddItem(headPostId: widget.headPostId);
+                  }));
                 },
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
-    );
+                child: Icon(Icons.add, color: Colors.white60),
+              ),
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('goods')
+                .where('headPostId', isEqualTo: widget.headPostId)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('an error occured'),
+                );
+              }
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context, index) {
+                    //get indicidual doc
+                    DocumentSnapshot documentSnapshot =
+                        snapshot.data!.docs[index];
+                    return Item(
+                      swipeBack: true,
+                      onTap: () {},
+                      showPix: documentSnapshot['images'][0],
+                      listOfLikers: documentSnapshot['listOfLikers'],
+                      title: documentSnapshot['title'],
+                      pictures: documentSnapshot['images'],
+                      postId: documentSnapshot['goodId'],
+                      creatorDisplayName:
+                          documentSnapshot['creatorDisplayName'],
+                      creatorProfilePicture:
+                          documentSnapshot['creatorProfilePicture'],
+                      creatorUserName: documentSnapshot['creatorUserName'],
+                      creatorUid: documentSnapshot['creatorUid'],
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
+        bottomSheet: FutureBuilder(
+            future: FirebaseFirestore.instance.collection('goods').get(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var data = snapshot.data!.docs[0];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        PageRouteBuilder(pageBuilder: (context, _, __) {
+                      return MoreItemIn(
+                        creatorDisplayName: data['creatorDisplayName'],
+                        creatorProfilePicture: data['creatorProfilePicture'],
+                        creatorUserName: data['creatorUserName'],
+                        creatorUid: data['creatorUid'],
+                        listOfLikers: data['listOfLikers'],
+                        title: data['title'],
+                        goodId: data['goodId'],
+                        listOfPictures: data['images'],
+                      );
+                    }));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15))),
+                    height: 50,
+                    child: ListTile(
+                      leading: BackButton(
+                        color: Colors.white60,
+                      ),
+                      trailing: CircleAvatar(
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          LineIcons.retweet,
+                        ),
+                      ),
+                      title: Text(
+                        'view original post',
+                        style: TextStyle(color: Colors.white60, fontSize: 14),
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }));
   }
 }
 

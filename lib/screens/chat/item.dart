@@ -28,6 +28,7 @@ class ItemState extends State<Item> {
   Widget build(BuildContext context) {
     List chatKey = [
       '${FirebaseAuth.instance.currentUser!.uid}',
+      ' ',
       '${widget.uid}'
     ];
     chatKey.sort();

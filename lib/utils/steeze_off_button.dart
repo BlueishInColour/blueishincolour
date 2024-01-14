@@ -15,23 +15,23 @@ class SteezeOffButton extends StatefulWidget {
 
 class SteezeOffButtonState extends State<SteezeOffButton> {
   int count = 0;
-  int commentCount = 0;
+  // int commentCount = 0;
 
-  getCommentAggregateCount() async {
-    AggregateQuerySnapshot query = await FirebaseFirestore.instance
-        .collection('comments')
-        .where(
-          'postId',
-          isEqualTo: widget.postId,
-        )
-        .count()
-        .get();
+  // getCommentAggregateCount() async {
+  //   AggregateQuerySnapshot query = await FirebaseFirestore.instance
+  //       .collection('comments')
+  //       .where(
+  //         'postId',
+  //         isEqualTo: widget.postId,
+  //       )
+  //       .count()
+  //       .get();
 
-    debugPrint('The number of products: ${query.count}');
-    setState(() {
-      count = query.count!;
-    });
-  }
+  //   debugPrint('The number of products: ${query.count}');
+  //   setState(() {
+  //     count = query.count!;
+  //   });
+  // }
 
   getAggregateCount() async {
     AggregateQuerySnapshot query = await FirebaseFirestore.instance
@@ -56,7 +56,7 @@ class SteezeOffButtonState extends State<SteezeOffButton> {
 
     // getSteezeOffCount();
     getAggregateCount();
-    getCommentAggregateCount();
+    // getCommentAggregateCount();
   }
 
   @override

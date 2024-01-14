@@ -7,6 +7,7 @@ import 'package:blueishincolour/screens/auth/signup_screen.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
+import 'package:blueishincolour/screens/search/index.dart';
 import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -145,9 +146,10 @@ class IndexState extends State<Index> {
         // AuthGateTwo(),
         StoreScreen(controller: controller),
         // BlogScre
+        SearchScreen(),
         CartScreen(),
         ChatScreen(),
-        ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
+        // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
         // EditProfile()
       ][currentIndex],
       bottomNavigationBar: Hidable(
@@ -166,7 +168,11 @@ class IndexState extends State<Index> {
 // featured
               BottomNavigationBarItem(
                   label: 'home',
-                  icon: Icon(Icons.home_filled, color: Colors.black26),
+                  icon: Icon(
+                    Icons.home_outlined,
+                    color: Colors.black26,
+                    size: 26,
+                  ),
                   activeIcon: Icon(
                     Icons.home_filled,
                     color: Colors.black,
@@ -175,9 +181,19 @@ class IndexState extends State<Index> {
 // blog
 
               BottomNavigationBarItem(
+                label: 'search',
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.black26,
+                  weight: 10,
+                ),
+                activeIcon: Icon(Icons.search, color: Colors.black),
+              ),
+
+              BottomNavigationBarItem(
                 label: 'saved',
                 icon: Icon(
-                  Icons.favorite_rounded,
+                  Icons.favorite_border,
                   color: Colors.black26,
                 ),
                 activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
@@ -186,8 +202,9 @@ class IndexState extends State<Index> {
               BottomNavigationBarItem(
                 label: 'chat',
                 icon: Icon(
-                  Icons.chat_bubble,
+                  Icons.chat_bubble_outline,
                   color: Colors.black26,
+                  size: 22,
                 ),
                 activeIcon: Icon(Icons.chat_bubble, color: Colors.black),
               ),
@@ -200,11 +217,11 @@ class IndexState extends State<Index> {
               //     activeIcon: Icon(Icons.person, color: Colors.black),
               //   ),
               // ]),
-              BottomNavigationBarItem(
-                label: 'profile',
-                icon: Icon(Icons.person, color: Colors.black26),
-                activeIcon: Icon(Icons.person, color: Colors.black),
-              ), // upload
+              // BottomNavigationBarItem(
+              //   label: 'profile',
+              //   icon: Icon(Icons.person, color: Colors.black26),
+              //   activeIcon: Icon(Icons.person, color: Colors.black),
+              // ), // upload
 //mine
             ]),
       ),

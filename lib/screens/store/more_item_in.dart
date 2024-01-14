@@ -3,6 +3,7 @@ import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 import '../../main.dart';
 
 import './item.dart';
@@ -97,6 +98,7 @@ class MoreItemInState extends State<MoreItemIn> {
                 //get indicidual doc
 
                 return Item(
+                  index: index + 1,
                   swipeBack: true,
                   creatorDisplayName: widget.creatorDisplayName,
                   creatorProfilePicture: widget.creatorProfilePicture,
@@ -118,26 +120,25 @@ class MoreItemInState extends State<MoreItemIn> {
           onTap: showBottomSheet,
           child: Container(
             decoration: BoxDecoration(
+                color: Colors.black,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15))),
+            height: 50,
+            child: ListTile(
+              leading: BackButton(
+                color: Colors.white60,
+              ),
+              trailing: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: Icon(
+                  LineIcons.comment,
                 ),
-                border: Border.all(color: Colors.black, width: 2),
-                color: Colors.white),
-            height: 70,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'comments',
-                    style: GoogleFonts.montserrat(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800),
-                  ),
-                ),
-              ],
+              ),
+              title: Text(
+                'view comments',
+                style: TextStyle(color: Colors.white60, fontSize: 14),
+              ),
             ),
           )),
     );

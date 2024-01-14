@@ -31,7 +31,7 @@ class BlueishInColourIconState extends State<BlueishInColourIcon> {
           ),
           hintStyle: TextStyle(
               fontStyle: FontStyle.italic, fontSize: 12, color: Colors.black),
-          hintText: 'dress`Up - meet fashion v11:08',
+          hintText: 'find fashion',
         ),
       ),
     );
