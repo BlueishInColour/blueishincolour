@@ -58,7 +58,8 @@ class SignupScreenState extends State<SignupScreen> {
         'displayName': displayNameController.text,
         'email': emailController.text,
         'listOfLikers': [],
-        'listOfLikedPosts': []
+        'listOfLikedPosts': [],
+        'listOfShowlist': ['for later']
       });
     } else {
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(

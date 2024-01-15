@@ -1,3 +1,4 @@
+import 'package:blueishincolour/utils/chat_button.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,29 +38,21 @@ class ItemState extends State<Item> {
         appBar: AppBar(
             backgroundColor: Colors.black,
             automaticallyImplyLeading: true,
-            title: Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage:
-                      CachedNetworkImageProvider(widget.profilePicture),
-                ),
-                SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.displayName,
-                        style: TextStyle(color: Colors.white, fontSize: 14)),
-                    SizedBox(height: 5),
-                    Text(
-                      widget.uid == FirebaseAuth.instance.currentUser!.uid
-                          ? 'messaging myself'
-                          : '@${widget.userName}',
-                      style: TextStyle(color: Colors.white54, fontSize: 11),
-                    )
-                  ],
-                ),
-              ],
+            title: ListTile(
+              leading: CircleAvatar(
+                backgroundImage:
+                    CachedNetworkImageProvider(widget.profilePicture),
+              ),
+              title: Text(
+                widget.displayName,
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                widget.uid == FirebaseAuth.instance.currentUser!.uid
+                    ? 'messaging myself'
+                    : '@${widget.userName}',
+                style: TextStyle(color: Colors.white60),
+              ),
             )),
         body: Column(children: [
           Expanded(

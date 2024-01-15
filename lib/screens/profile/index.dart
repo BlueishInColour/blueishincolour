@@ -1,5 +1,6 @@
 import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/profile/edit_profile.dart';
+import 'package:blueishincolour/utils/chat_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,80 +73,57 @@ class ProfileScreenState extends State<ProfileScreen>
     super.build(context);
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back_ios_new,
-                color: Colors.black,
-              )),
-          elevation: 0,
-          toolbarHeight: 60,
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
+            leading: IconButton(
                 onPressed: () {
-                  AuthService().logout();
+                  Navigator.pop(context);
                 },
                 icon: Icon(
-                  Icons.logout,
+                  Icons.arrow_back_ios_new,
                   color: Colors.black,
                 )),
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.push(context,
-            //         PageRouteBuilder(pageBuilder: (context, _, __) {
-            //       return EditProfile();
-            //     }));
-            //   },
-            //   child: Text('edit', style: TextStyle(color: Colors.black54)),
-            // )
-          ],
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              SizedBox(height: 10),
-              //profile
-              CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(profilePicture)),
-              SizedBox(width: 10),
-              SizedBox(
-                height: 45,
-                width: 170,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Text(displayName,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 15,
-                              overflow: TextOverflow.ellipsis,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black)),
-                    ),
-                    Expanded(
-                      child: Text(userName,
-                          style: TextStyle(
-                              fontSize: 14,
-                              overflow: TextOverflow.ellipsis,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black54)),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SizedBox(),
-              ),
-              // Column(children: [Text('posts'), Text('34')])
+            elevation: 0,
+            toolbarHeight: 60,
+            backgroundColor: Colors.transparent,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    AuthService().logout();
+                  },
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.black,
+                  )),
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.push(context,
+              //         PageRouteBuilder(pageBuilder: (context, _, __) {
+              //       return EditProfile();
+              //     }));
+              //   },
+              //   child: Text('edit', style: TextStyle(color: Colors.black54)),
+              // )
             ],
-          ),
-        )
+            title: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(profilePicture),
+              ),
+              title: Text(
+                displayName,
+                style: TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                uid == FirebaseAuth.instance.currentUser!.uid
+                    ? '@${userName}' ' | ' 'my profile'
+                    : '@${userName}',
+                style: TextStyle(color: Colors.black),
+              ),
+              trailing: ChatButton(
+                  userName: userName,
+                  postId: '',
+                  displayName: displayName,
+                  profilePicture: displayName,
+                  uid: uid),
+            ))
         //wordrope],
         ,
         body: Container(

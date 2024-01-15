@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
@@ -173,4 +174,30 @@ getUserDetails(String uid) async {
     'uid': snap['uid'],
     'profilePicture': snap['profilePicture']
   };
+}
+
+updateFirebaseDocument(context,
+    {String collection = '',
+    String firebaseIdName = '',
+    String id = '',
+    String addKey = '',
+    Object addObject = ''}) async {
+  debugPrint('clicked');
+  QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore.instance
+      .collection(collection)
+      .where(firebaseIdName, isEqualTo: id)
+      .get();
+  print(docs);
+  for (var snapshot in docs.docs) {
+    print('started to find love');
+    print(snapshot.id);
+
+    await FirebaseFirestore.instance
+        .collection(collection)
+        .doc(snapshot.id)
+        .update({addKey: addObject});
+
+    debugPrint('done');
+    Navigator.pop(context);
+  }
 }

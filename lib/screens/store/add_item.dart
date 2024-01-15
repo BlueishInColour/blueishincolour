@@ -179,9 +179,10 @@ class AddItemState extends State<AddItem> {
               actions: [
                 TextButton(
                   onPressed: () async {
+                    String goodId = Uuid().v1();
                     var good = {
                       //id
-                      'goodId': Uuid().v1(),
+                      'goodId': goodId,
                       'headPostId': widget.headPostId,
 
                       //titles and content

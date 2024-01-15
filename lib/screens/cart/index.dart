@@ -1,3 +1,5 @@
+import 'package:blueishincolour/utils/add_showlist_button.dart';
+import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,35 +23,76 @@ class CartScreenState extends State<CartScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+  List listOfShowlist = ['for later', 'bobby', 'cleanme'];
+  String showlistValue = '';
+  bool useShowlistValue = false;
+
+  getListOfShowlist() async {
+    QuerySnapshot res = await FirebaseFirestore.instance
+        .collection('users')
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .first;
+    setState(() {
+      listOfShowlist = res.docs[0]['listOfShowlist'];
+    });
+  }
 
   @override
   initState() {
     super.initState();
+    getListOfShowlist();
   }
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
+    String dropDownValue = listOfShowlist.first;
+
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        title: Text('saved',
-            style: GoogleFonts.montserratAlternates(
-              fontSize: 30,
-              fontWeight: FontWeight.w800,
-              color: Colors.black,
-            )),
-      ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          actions: [AddShowlistButton()],
+          title: DropdownButton(
+              value: useShowlistValue ? showlistValue : dropDownValue,
+              elevation: 0,
+              icon: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: Colors.black,
+              ),
+              items: listOfShowlist
+                  .map(
+                    (e) => DropdownMenuItem(
+                      onTap: () {},
+                      child: Text(
+                        e,
+                        style: GoogleFonts.montserratAlternates(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
+                        ),
+                      ),
+                      value: e,
+                    ),
+                  )
+                  .toList(),
+              onChanged: (v) {
+                setState(() {
+                  showlistValue = v.toString();
+
+                  useShowlistValue = true;
+                });
+              })),
       backgroundColor: Colors.grey[100],
       body: StreamBuilder(
         stream: db
-            .collection('goods')
-            .where('listOfLikers',
-                arrayContains: FirebaseAuth.instance.currentUser!.uid)
+            .collection('showlist')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection(useShowlistValue ? showlistValue : dropDownValue)
             .snapshots(),
         builder: (context, snapshot) {
           //if we have data, get all dic
@@ -57,7 +100,7 @@ class CartScreenState extends State<CartScreen>
           if (snapshot.data?.docs.length == 0) {
             return Center(
               child: Text(
-                "any style you like will appear here",
+                "any style you like with this showlist will appear here",
                 style: TextStyle(color: Colors.black54),
               ),
             );
@@ -73,17 +116,18 @@ class CartScreenState extends State<CartScreen>
                       snapshot.data!.docs[index];
                   return Item(
                     swipeBack: true,
-                    listOfLikers: documentSnapshot['listOfLikers'],
-                    showPix: documentSnapshot['images'][0],
-                    onTap: () {},
-                    title: documentSnapshot['title'],
-                    pictures: documentSnapshot['images'],
-                    postId: documentSnapshot['goodId'],
-                    creatorDisplayName: documentSnapshot['creatorDisplayName'],
-                    creatorUserName: documentSnapshot['creatorUserName'],
-                    creatorProfilePicture:
-                        documentSnapshot['creatorProfilePicture'],
-                    creatorUid: documentSnapshot['creatorUid'],
+
+                    // listOfLikers: documentSnapshot['listOfLikers'],
+                    // showPix: documentSnapshot['images'][0],
+                    // onTap: () {},
+                    // title: documentSnapshot['title'],
+                    // pictures: documentSnapshot['images'],
+                    // postId: documentSnapshot['goodId'],
+                    // creatorDisplayName: documentSnapshot['creatorDisplayName'],
+                    // creatorUserName: documentSnapshot['creatorUserName'],
+                    // creatorProfilePicture:
+                    //     documentSnapshot['creatorProfilePicture'],
+                    // creatorUid: documentSnapshot['creatorUid'],
                   );
                 }));
           }

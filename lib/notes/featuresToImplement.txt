@@ -86,3 +86,6 @@ done - find better design for the blog page and remove appbar
 > set a difference between singles and collection uploads
 > set a difference betweenn singles and collection rendering
 >
+
+15th january ,2024
+> fork on like screen only and like button
