@@ -13,7 +13,7 @@ import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hidable/hidable.dart';
+import 'package:hidable/hidable.dart';h
 // blueishincolour@gmail.com
 // Oluwapelumide631$
 import 'package:google_fonts/google_fonts.dart';

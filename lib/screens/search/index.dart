@@ -40,14 +40,15 @@ class SearchScreenState extends State<SearchScreen>
             elevation: 0,
             title: TabBar(
                 controller: tabsController,
+                isScrollable: true,
                 indicatorColor: Colors.black54,
                 indicatorPadding: EdgeInsets.only(top: 15),
                 indicatorSize: TabBarIndicatorSize.label,
                 tabs: [
-                  Text(
-                    'general',
-                    style: TextStyle(color: Colors.black54),
-                  ),
+                  // Text(
+                  //   'general',
+                  //   style: TextStyle(color: Colors.black54),
+                  // ),
                   Text(
                     'posts',
                     style: TextStyle(color: Colors.black54),
@@ -64,7 +65,7 @@ class SearchScreenState extends State<SearchScreen>
 //
 
         body: TabBarView(controller: tabsController, children: [
-          searchGeneral(),
+          // searchGeneral(),
           searchPosts(searchText: controller.text),
           searchPeople()
         ]));
@@ -133,7 +134,7 @@ class searchPostsState extends State<searchPosts> {
                     fontStyle: FontStyle.italic,
                     fontSize: 12,
                     color: Colors.black),
-                hintText: 'find fashion',
+                hintText: 'find styles and posts',
               ),
             ),
           ),
@@ -406,7 +407,7 @@ class searchPeopleState extends State<searchPeople> {
                     fontStyle: FontStyle.italic,
                     fontSize: 12,
                     color: Colors.black),
-                hintText: 'find fashion',
+                hintText: 'find fashioneers, models, logistics',
               ),
             ),
           ),

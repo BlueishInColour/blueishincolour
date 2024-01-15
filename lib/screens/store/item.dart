@@ -27,6 +27,7 @@ class Item extends StatefulWidget {
       required this.swipeBack,
       required this.listOfLikers,
       required this.onTap,
+      this.typeOfShowlist = 'for later',
       //
       this.showCreatorDetails = true,
       this.showDressUpButton = true,
@@ -51,6 +52,9 @@ class Item extends StatefulWidget {
   final bool showDressUpButton;
   final bool showLikeButton;
   final bool showCreatorDetails;
+
+  //config
+  final String typeOfShowlist;
 
   @override
   State<Item> createState() => ItemState();
@@ -183,6 +187,7 @@ class ItemState extends State<Item> {
                     //       style: TextStyle(color: Colors.black)),
                     // ),
                     LikeButton(
+                        typeOfShowlist: widget.typeOfShowlist,
                         idType: 'goodId',
                         listOfLikers: widget.listOfLikers,
                         goodId: widget.postId,

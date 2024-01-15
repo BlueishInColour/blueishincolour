@@ -1,3 +1,4 @@
+import 'package:blueishincolour/screens/cart/item.dart';
 import 'package:blueishincolour/utils/add_showlist_button.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -59,7 +60,7 @@ class CartScreenState extends State<CartScreen>
           actions: [AddShowlistButton()],
           title: DropdownButton(
               value: useShowlistValue ? showlistValue : dropDownValue,
-              elevation: 0,
+              elevation: 0,padding: EdgeInsets.symmetric(horizontal: 15),borderRadius: BorderRadius.circular(15),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: Colors.black,
@@ -114,21 +115,11 @@ class CartScreenState extends State<CartScreen>
                   //get indicidual doc
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
-                  return Item(
-                    swipeBack: true,
-
-                    // listOfLikers: documentSnapshot['listOfLikers'],
-                    // showPix: documentSnapshot['images'][0],
-                    // onTap: () {},
-                    // title: documentSnapshot['title'],
-                    // pictures: documentSnapshot['images'],
-                    // postId: documentSnapshot['goodId'],
-                    // creatorDisplayName: documentSnapshot['creatorDisplayName'],
-                    // creatorUserName: documentSnapshot['creatorUserName'],
-                    // creatorProfilePicture:
-                    //     documentSnapshot['creatorProfilePicture'],
-                    // creatorUid: documentSnapshot['creatorUid'],
-                  );
+                  return SavedStyle(
+                      postId: documentSnapshot['postId'],
+                      typeOfShowlist:
+                          useShowlistValue ? showlistValue : dropDownValue,
+);
                 }));
           }
 

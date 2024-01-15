@@ -1,3 +1,4 @@
+import 'package:blueishincolour/utils/add_showlist_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,12 @@ class LikeButton extends StatefulWidget {
       {super.key,
       required this.goodId,
       required this.collection,
+      required this.typeOfShowlist,
       required this.idType,
       required this.listOfLikers});
 
   final String collection;
+  final String typeOfShowlist;
   final String goodId;
   final String idType; //canbe goodsid or style id
   final List listOfLikers;
@@ -59,11 +62,18 @@ class LikeButtonState extends State<LikeButton> {
   }
 
   checkLike() async {
-    if (widget.listOfLikers.contains(FirebaseAuth.instance.currentUser!.uid)) {
-      setState(() {
-        haveLiked = true;
-      });
-    }
+    listOfShowlist.map((e) async {
+      var res = await FirebaseFirestore.instance
+          .collection('showlist')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection(e)
+          .get();
+      if (res.docs.isNotEmpty) {
+        setState(() {
+          haveLiked = true;
+        });
+      }
+    });
   }
 
   onTap() async {
@@ -71,30 +81,61 @@ class LikeButtonState extends State<LikeButton> {
         context: context,
         builder: ((context) {
           String dropDownValue = listOfShowlist.first;
-          return Container(
-            child: ListView.builder(
-                itemCount: listOfShowlist.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: () async {
-                      like;
-                      await FirebaseFirestore.instance
-                          .collection('showlist')
-                          .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .collection(listOfShowlist[index])
-                          .add({
-                        'postId': widget.goodId,
-                        'timestamp': Timestamp.now(),
-                      }).whenComplete(() => setState(() {
-                                haveLiked = true;
-                              }));
-                      Navigator.pop(context);
-                    },
-                    title: Text(listOfShowlist[index]),
-                  );
-                }),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                    itemCount: listOfShowlist.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () async {
+                          if (!haveLiked) {
+                            like;
+                            await FirebaseFirestore.instance
+                                .collection('showlist')
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection(listOfShowlist[index])
+                                .add({
+                              'postId': widget.goodId,
+                              'timestamp': Timestamp.now(),
+                            }).whenComplete(() => setState(() {
+                                      haveLiked = true;
+                                    }));
+                            Navigator.pop(context);
+                          } else {
+                            await dislike(widget.typeOfShowlist);
+                          }
+                        },
+                        title: Text(listOfShowlist[index]),
+                        trailing: haveLiked
+                            ? Icon(
+                                Icons.favorite_border_outlined,
+                                color: Colors.black,
+                              )
+                            : Icon(Icons.favorite, color: Colors.red),
+                      );
+                    }),
+              ),
+              Row(
+                children: [AddShowlistButton()],
+              )
+            ],
           );
         }));
+  }
+
+  onLongPress() async {
+    like;
+    await FirebaseFirestore.instance
+        .collection('showlist')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('for later')
+        .add({
+      'postId': widget.goodId,
+      'timestamp': Timestamp.now(),
+    }).whenComplete(() => setState(() {
+              haveLiked = true;
+            }));
   }
 
   like() async {
@@ -112,48 +153,83 @@ class LikeButtonState extends State<LikeButton> {
         await FirebaseFirestore.instance
             .collection(widget.collection)
             .doc(snapshot.id)
-            .update({
-          'listOfLikers':
-              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-        }).whenComplete(() => setState(() {
-                  haveLiked = true;
-                }));
+            .update({'noOfLikes': FieldValue.increment(1)}).whenComplete(
+                () => setState(() {
+                      haveLiked = true;
+                    }));
 
         debugPrint('done');
-      } else {
-        await FirebaseFirestore.instance
-            .collection(widget.collection)
-            .doc(snapshot.id)
-            .update({
-          'listOfLikers':
-              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
-        }).whenComplete(() => setState(() {
-                  haveLiked = false;
-                }));
-      }
+      } else {}
+    }
+  }
+
+  dislike(String typeOfShowlist) async {
+    debugPrint('clicked');
+    QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore.instance
+        .collection(widget.collection)
+        .where(widget.idType, isEqualTo: widget.goodId)
+        .get();
+    print(docs);
+    for (var snapshot in docs.docs) {
+      print('started to find love');
+      print(snapshot.id);
+
+      await FirebaseFirestore.instance
+          .collection(widget.collection)
+          .doc(snapshot.id)
+          .update({'noOfLikes': FieldValue.increment(-1)}).whenComplete(
+              () => setState(() {
+                    haveLiked = false;
+                  }));
+
+      //db
+      var res = await FirebaseFirestore.instance
+          .collection('showlist')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection(typeOfShowlist)
+          .where('postId', isEqualTo: widget.goodId)
+          .get();
+
+      String id = res.docs.first.id;
+
+      await FirebaseFirestore.instance
+          .collection('collection')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection(typeOfShowlist)
+          .doc(id)
+          .delete();
     }
   }
 
   @override
   initState() {
     super.initState();
-    checkLike();
+
     getListOfShowlist();
+
+    checkLike();
   }
 
   @override
   Widget build(BuildContext context) {
-    String dropDownValue = listOfShowlist.first;
-
     return GestureDetector(
       onTap: onTap,
-      // onLongPress: onLongTap,
+      onLongPress: onLongPress,
       child: Badge(
         backgroundColor: Colors.white,
-        label: Text(
-          widget.listOfLikers.length.toString(),
-          style: TextStyle(color: Colors.black),
-        ),
+        label: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('goods')
+                .doc(widget.goodId)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var counts = snapshot.data!['noOfLikes'];
+                return Text(counts, style: TextStyle(color: Colors.black));
+              } else {
+                return Text('0');
+              }
+            }),
         child: haveLiked
             ? Icon(
                 Icons.favorite,

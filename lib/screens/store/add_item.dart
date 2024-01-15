@@ -33,6 +33,7 @@ class AddItemState extends State<AddItem> {
   List<String> tags = [];
   List<String> listOfModels = [];
   String image = '';
+
   var userDetails = {};
 
   getThoseUserDetails() async {
@@ -199,7 +200,7 @@ class AddItemState extends State<AddItem> {
                       'creatorProfilePicture': userDetails['profilePicture'],
 
                       //metadata
-                      'listOfLikers': [],
+                      'noOfLikes': 0,
                       'listOfModels': listOfModels,
 
                       'timestamp': Timestamp.now()

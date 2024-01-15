@@ -15,6 +15,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class SignupScreenState extends State<SignupScreen> {
+  Icon usernameSuffixICon = Icon(Icons.edit);
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final secondPasswordController = TextEditingController();
@@ -23,7 +24,7 @@ class SignupScreenState extends State<SignupScreen> {
   final displayNameController = TextEditingController();
   final userNameController = TextEditingController();
   final descriptionController = TextEditingController();
-  String profilePicture = '';
+  String profilePicture = 'https://source.unsplash.com/random';
   bool setProfile = false;
   changeSetProfilebool() {
     setState(() {
@@ -85,24 +86,18 @@ class SignupScreenState extends State<SignupScreen> {
         builder: (context, snapshot) {
           if (userNameController.text.length > 3) {
             if (snapshot.data!.docs.isNotEmpty) {
-              return Icon(Icons.error, color: Colors.red);
+              setState(() {
+                usernameSuffixICon = Icon(Icons.error, color: Colors.red);
+              });
             } else if (snapshot.data!.docs.isEmpty) {
-              return Icon(Icons.check, color: Colors.green);
-            } else {
-              return SizedBox(
-                height: 5,
-                width: 5,
-                child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 0.2,
-                    child: CircularProgressIndicator(
-                      // value: 0.,
-                      strokeWidth: 2,
-                    )),
-              );
+              setState(() {
+                usernameSuffixICon = Icon(Icons.check, color: Colors.green);
+              });
             }
+
+            return usernameSuffixICon;
           } else {
-            return Icon(Icons.edit);
+            return usernameSuffixICon;
           }
         });
   }
