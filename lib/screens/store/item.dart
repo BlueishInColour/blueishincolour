@@ -25,7 +25,6 @@ class Item extends StatefulWidget {
       this.postId = '',
       this.headPostId = '',
       required this.swipeBack,
-      required this.listOfLikers,
       required this.onTap,
       this.typeOfShowlist = 'for later',
       //
@@ -42,7 +41,6 @@ class Item extends StatefulWidget {
   final String creatorDisplayName;
   final String creatorUid;
   final String creatorProfilePicture;
-  final List listOfLikers;
   final List<dynamic> pictures;
   final String showPix;
   final bool swipeBack;
@@ -83,7 +81,6 @@ class ItemState extends State<Item> {
             creatorProfilePicture: widget.creatorProfilePicture,
             creatorUserName: widget.creatorUserName,
             creatorUid: widget.creatorUid,
-            listOfLikers: widget.listOfLikers,
             title: widget.title,
             goodId: widget.postId,
             listOfPictures: widget.pictures,
@@ -166,12 +163,7 @@ class ItemState extends State<Item> {
                       ),
                     ),
                     Expanded(child: SizedBox()),
-                    ChatButton(
-                        profilePicture: widget.creatorProfilePicture,
-                        userName: widget.creatorUserName,
-                        postId: widget.postId,
-                        displayName: widget.creatorDisplayName,
-                        uid: widget.creatorUid),
+
                     SteezeOffButton(
                       postId: widget.postId,
                       headPostId: widget.headPostId,
@@ -189,7 +181,6 @@ class ItemState extends State<Item> {
                     LikeButton(
                         typeOfShowlist: widget.typeOfShowlist,
                         idType: 'goodId',
-                        listOfLikers: widget.listOfLikers,
                         goodId: widget.postId,
                         collection: 'goods'),
                     SizedBox(width: 5),

@@ -136,8 +136,8 @@ class StoreScreenState extends State<StoreScreen>
                       creatorUid: documentSnapshot['creatorUid'],
                       showPix: documentSnapshot['images'][0],
                       onTap: () {},
-                      listOfLikers: documentSnapshot['listOfLikers'],
                       // index: index,
+
                       title: documentSnapshot['title'],
                       pictures: documentSnapshot['images'],
                       postId: documentSnapshot['goodId'],

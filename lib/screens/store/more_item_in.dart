@@ -13,7 +13,6 @@ class MoreItemIn extends StatefulWidget {
   const MoreItemIn({
     super.key,
     required this.goodId,
-    required this.listOfLikers,
     required this.title,
     required this.listOfPictures,
     this.creatorDisplayName = 'sampleDisplayName',
@@ -23,7 +22,6 @@ class MoreItemIn extends StatefulWidget {
   });
   final String goodId;
   final List listOfPictures;
-  final List listOfLikers;
   final String title;
   final String creatorUserName;
   final String creatorDisplayName;
@@ -106,7 +104,6 @@ class MoreItemInState extends State<MoreItemIn> {
                   creatorUid: widget.creatorUid,
                   onTap: () {},
                   showPix: widget.listOfPictures[index],
-                  listOfLikers: widget.listOfLikers,
                   title: widget.title,
                   pictures: widget.listOfPictures,
                   postId: widget.goodId,

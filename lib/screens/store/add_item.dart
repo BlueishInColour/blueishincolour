@@ -5,6 +5,7 @@ import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
@@ -121,11 +122,33 @@ class AddItemState extends State<AddItem> {
     debugPrint('images');
   }
 
+  uploadPic() async {
+    FirebaseStorage _storage = FirebaseStorage.instance;
+
+    //Get the file from the image picker and store it
+    XFile? imagei = await ImagePicker.platform
+        .getImageFromSource(source: ImageSource.gallery);
+
+    //Create a reference to the location you want to upload to in firebase
+    var reference = _storage.ref().child("images/");
+
+    //Upload the file to firebase
+    reference.putFile(File(imagei!.path));
+
+    // Waits till the file is uploaded then stores the download url
+    String url = await _storage.ref().getDownloadURL();
+    debugPrint(url);
+    //returns the download url
+    setState(() {
+      image = url;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    addImage();
+    uploadPic();
     getThoseUserDetails();
   }
 
@@ -162,7 +185,7 @@ class AddItemState extends State<AddItem> {
       );
     }
 
-    return images.isNotEmpty
+    return image.isNotEmpty
         ? Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

@@ -84,10 +84,7 @@ class ChatScreenState extends State<ChatScreen> {
         //     )),
         body: SafeArea(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            // .where('listOfLikers', arrayContains: 'blueish')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -121,6 +118,8 @@ class ChatScreenState extends State<ChatScreen> {
                   return ListTile(
                     leading: CircleAvatar(
                       backgroundColor: Colors.black,
+                      backgroundImage: CachedNetworkImageProvider(
+                          documentSnapshot['profilePicture']),
                     ),
                     title: Text(
                       documentSnapshot['displayName'],

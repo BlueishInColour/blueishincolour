@@ -28,6 +28,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  await FirebaseAppCheck.instance.activate(
+    // androidProvider: AndroidProvider.playIntegrity,
+    webProvider:
+        ReCaptchaV3Provider('6LfPKFIpAAAAAGPzlYpoSWP6keZI1ikn8aSLXj0H'),
+  );
+
+  // olami@gmail.com
+
   await SharedPrefs().init();
 
   runApp(

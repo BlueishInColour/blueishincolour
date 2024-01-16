@@ -36,6 +36,7 @@ class ItemState extends State<Item> {
     String key = chatKey.join();
     return Scaffold(
         appBar: AppBar(
+            leadingWidth: 30,
             backgroundColor: Colors.black,
             automaticallyImplyLeading: true,
             title: ListTile(
@@ -121,17 +122,17 @@ class ItemState extends State<Item> {
             },
             sendButtonColor: Colors.black,
             actions: [
-              Padding(
-                padding: EdgeInsets.only(left: 8, right: 8),
-                child: InkWell(
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Colors.black,
-                    size: 24,
-                  ),
-                  onTap: () {},
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 8, right: 8),
+              //   child: InkWell(
+              //     child: Icon(
+              //       Icons.camera_alt,
+              //       color: Colors.black,
+              //       size: 24,
+              //     ),
+              //     onTap: () {},
+              //   ),
+              // ),
             ],
           ),
         ]));

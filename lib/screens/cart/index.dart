@@ -60,7 +60,9 @@ class CartScreenState extends State<CartScreen>
           actions: [AddShowlistButton()],
           title: DropdownButton(
               value: useShowlistValue ? showlistValue : dropDownValue,
-              elevation: 0,padding: EdgeInsets.symmetric(horizontal: 15),borderRadius: BorderRadius.circular(15),
+              elevation: 0,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              borderRadius: BorderRadius.circular(15),
               icon: Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: Colors.black,
@@ -116,10 +118,10 @@ class CartScreenState extends State<CartScreen>
                   DocumentSnapshot documentSnapshot =
                       snapshot.data!.docs[index];
                   return SavedStyle(
-                      postId: documentSnapshot['postId'],
-                      typeOfShowlist:
-                          useShowlistValue ? showlistValue : dropDownValue,
-);
+                    postId: documentSnapshot['postId'],
+                    typeOfShowlist:
+                        useShowlistValue ? showlistValue : dropDownValue,
+                  );
                 }));
           }
 
@@ -259,7 +261,6 @@ class CartScreenState extends State<CartScreen>
 //       body: StreamBuilder(
 //         stream: FirebaseFirestore.instance
 //             .collection('stories')
-//             .where('listOfLikers',
 //                 arrayContains: FirebaseAuth.instance.currentUser!.uid)
 //             .snapshots(),
 //         builder: (context, snapshot) {

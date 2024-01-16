@@ -28,6 +28,9 @@ class SavedStyleState extends State<SavedStyle> {
             .where('goodId', isEqualTo: widget.postId)
             .snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Container(color: Colors.black, height: 200);
+          }
           if (snapshot.hasData) {
             DocumentSnapshot documentSnapshot = snapshot.data!.docs[0];
 
@@ -40,7 +43,6 @@ class SavedStyleState extends State<SavedStyle> {
               creatorUid: documentSnapshot['creatorUid'],
               showPix: documentSnapshot['images'][0],
               onTap: () {},
-              listOfLikers: documentSnapshot['listOfLikers'],
               // index: index,
               title: documentSnapshot['title'],
               pictures: documentSnapshot['images'],

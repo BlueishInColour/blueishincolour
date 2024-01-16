@@ -7,19 +7,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 
 class LikeButton extends StatefulWidget {
-  const LikeButton(
-      {super.key,
-      required this.goodId,
-      required this.collection,
-      required this.typeOfShowlist,
-      required this.idType,
-      required this.listOfLikers});
+  const LikeButton({
+    super.key,
+    required this.goodId,
+    required this.collection,
+    required this.typeOfShowlist,
+    required this.idType,
+  });
 
   final String collection;
   final String typeOfShowlist;
   final String goodId;
   final String idType; //canbe goodsid or style id
-  final List listOfLikers;
 
   @override
   State<LikeButton> createState() => LikeButtonState();
@@ -107,7 +106,7 @@ class LikeButtonState extends State<LikeButton> {
                           }
                         },
                         title: Text(listOfShowlist[index]),
-                        trailing: haveLiked
+                        trailing: !haveLiked
                             ? Icon(
                                 Icons.favorite_border_outlined,
                                 color: Colors.black,
@@ -220,11 +219,11 @@ class LikeButtonState extends State<LikeButton> {
         label: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('goods')
-                .doc(widget.goodId)
+                .where('goodId', isEqualTo: widget.goodId)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var counts = snapshot.data!['noOfLikes'];
+                var counts = snapshot.data!.docs[0]['noOfLikes'].toString();
                 return Text(counts, style: TextStyle(color: Colors.black));
               } else {
                 return Text('0');

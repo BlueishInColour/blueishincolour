@@ -25,7 +25,7 @@ class SearchScreenState extends State<SearchScreen>
     // TODO: implement initState
     super.initState();
 
-    tabsController = TabController(length: 3, vsync: this);
+    tabsController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -160,7 +160,6 @@ class searchPostsState extends State<searchPosts> {
                         creatorUid: documentSnapshot['creatorUid'],
                         showPix: documentSnapshot['images'][0],
                         onTap: () {},
-                        listOfLikers: documentSnapshot['listOfLikers'],
                         // index: index,
                         title: documentSnapshot['title'],
                         pictures: documentSnapshot['images'],

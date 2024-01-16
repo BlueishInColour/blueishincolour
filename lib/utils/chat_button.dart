@@ -5,15 +5,15 @@ import '../screens/chat/item.dart';
 class ChatButton extends StatefulWidget {
   const ChatButton(
       {super.key,
+      this.color = Colors.black,
       required this.userName,
-      required this.postId,
       required this.displayName,
       required this.profilePicture,
       required this.uid});
   final String userName;
   final String displayName;
-  final String postId;
   final String profilePicture;
+  final Color color;
   final String uid;
   @override
   State<ChatButton> createState() => ChatButtonState();
@@ -36,7 +36,7 @@ class ChatButtonState extends State<ChatButton> {
         },
         icon: Icon(
           LineIcons.alternateComment,
-          color: Colors.white60,
+          color: widget.color,
           size: 20,
           weight: 1,
         ));

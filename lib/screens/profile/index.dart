@@ -82,17 +82,18 @@ class ProfileScreenState extends State<ProfileScreen>
                   color: Colors.black,
                 )),
             elevation: 0,
+            leadingWidth: 30,
             toolbarHeight: 60,
             backgroundColor: Colors.transparent,
             actions: [
-              IconButton(
-                  onPressed: () {
-                    AuthService().logout();
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                    color: Colors.black,
-                  )),
+              // IconButton(
+              //     onPressed: () {
+              //       AuthService().logout();
+              //     },
+              //     icon: Icon(
+              //       Icons.logout,
+              //       color: Colors.black,
+              //     )),
               // TextButton(
               //   onPressed: () {
               //     Navigator.push(context,
@@ -119,7 +120,6 @@ class ProfileScreenState extends State<ProfileScreen>
               ),
               trailing: ChatButton(
                   userName: userName,
-                  postId: '',
                   displayName: displayName,
                   profilePicture: displayName,
                   uid: uid),
