@@ -38,6 +38,8 @@ class LikeButtonState extends State<LikeButton> {
     setState(() {
       listOfShowlist = res.docs[0]['listOfShowlist'];
     });
+
+    await checkLike();
   }
 
   bool haveLiked = false;
@@ -62,14 +64,20 @@ class LikeButtonState extends State<LikeButton> {
 
   checkLike() async {
     listOfShowlist.map((e) async {
-      var res = await FirebaseFirestore.instance
+      var res = FirebaseFirestore.instance
           .collection('showlist')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection(e)
-          .get();
-      if (res.docs.isNotEmpty) {
+          .snapshots();
+
+      bool re = await res.isEmpty;
+      if (re) {
         setState(() {
           haveLiked = true;
+        });
+      } else {
+        setState(() {
+          haveLiked = false;
         });
       }
     });
@@ -205,8 +213,6 @@ class LikeButtonState extends State<LikeButton> {
     super.initState();
 
     getListOfShowlist();
-
-    checkLike();
   }
 
   @override

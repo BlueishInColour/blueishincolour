@@ -50,7 +50,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          appBarTheme: AppBarTheme(backgroundColor: Colors.black),
+          appBarTheme:
+              AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: ButtonStyle(
             shape: MaterialStatePropertyAll(

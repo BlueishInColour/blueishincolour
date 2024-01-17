@@ -58,37 +58,56 @@ class CartScreenState extends State<CartScreen>
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           actions: [AddShowlistButton()],
-          title: DropdownButton(
-              value: useShowlistValue ? showlistValue : dropDownValue,
-              elevation: 0,
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              borderRadius: BorderRadius.circular(15),
-              icon: Icon(
-                Icons.keyboard_arrow_down_rounded,
-                color: Colors.black,
-              ),
-              items: listOfShowlist
-                  .map(
-                    (e) => DropdownMenuItem(
-                      onTap: () {},
-                      child: Text(
-                        e,
-                        style: GoogleFonts.montserratAlternates(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
-                        ),
+          title: StreamBuilder(
+              // initialData: ['for later'],
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .where('uid',
+                      isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                QueryDocumentSnapshot<Map<String, dynamic>> data =
+                    snapshot.data!.docs.first;
+                final List listOfShowlist = data['listOfShowlist'];
+                if (snapshot.hasData) {
+                  return DropdownButton(
+                      value: useShowlistValue ? showlistValue : dropDownValue,
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      borderRadius: BorderRadius.circular(15),
+                      icon: Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Colors.black,
                       ),
-                      value: e,
-                    ),
-                  )
-                  .toList(),
-              onChanged: (v) {
-                setState(() {
-                  showlistValue = v.toString();
+                      items: listOfShowlist
+                          .map(
+                            (e) => DropdownMenuItem(
+                              onTap: () {},
+                              child: Text(
+                                e,
+                                style: GoogleFonts.montserratAlternates(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              value: e,
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (v) {
+                        setState(() {
+                          showlistValue = v.toString();
 
-                  useShowlistValue = true;
-                });
+                          useShowlistValue = true;
+                        });
+                      });
+                } else {
+                  return CircleAvatar(
+                      radius: 10,
+                      backgroundColor: const Color.fromARGB(0, 112, 112, 112),
+                      child: CircularProgressIndicator());
+                }
               })),
       backgroundColor: Colors.grey[100],
       body: StreamBuilder(
@@ -103,7 +122,7 @@ class CartScreenState extends State<CartScreen>
           if (snapshot.data?.docs.length == 0) {
             return Center(
               child: Text(
-                "any style you like with this showlist will appear here",
+                "any style you like will appear here",
                 style: TextStyle(color: Colors.black54),
               ),
             );

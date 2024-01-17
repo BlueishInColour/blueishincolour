@@ -77,6 +77,7 @@ class SteezeSectionState extends State<SteezeSection> {
                       title: documentSnapshot['title'],
                       pictures: documentSnapshot['images'],
                       postId: documentSnapshot['goodId'],
+                      headPostId: documentSnapshot['headPostId'],
                       creatorDisplayName:
                           documentSnapshot['creatorDisplayName'],
                       creatorProfilePicture:
@@ -102,6 +103,7 @@ class SteezeSectionState extends State<SteezeSection> {
                     Navigator.push(context,
                         PageRouteBuilder(pageBuilder: (context, _, __) {
                       return MoreItemIn(
+                        headPostId: data['headPostId'],
                         creatorDisplayName: data['creatorDisplayName'],
                         creatorProfilePicture: data['creatorProfilePicture'],
                         creatorUserName: data['creatorUserName'],

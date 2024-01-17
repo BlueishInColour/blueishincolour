@@ -1,7 +1,7 @@
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/store/more_item_in.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
-import 'package:blueishincolour/utils/steeze_off_button.dart';
+import 'package:blueishincolour/utils/repost_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,6 +83,7 @@ class ItemState extends State<Item> {
             creatorUid: widget.creatorUid,
             title: widget.title,
             goodId: widget.postId,
+            headPostId: widget.headPostId,
             listOfPictures: widget.pictures,
           );
         }));
@@ -163,21 +164,10 @@ class ItemState extends State<Item> {
                       ),
                     ),
                     Expanded(child: SizedBox()),
-
-                    SteezeOffButton(
+                    RepostButton(
                       postId: widget.postId,
                       headPostId: widget.headPostId,
                     ),
-                    // Badge(
-                    //   backgroundColor: Colors.white,
-                    //   child: Icon(
-                    //     Icons.calendar_view_month_rounded,
-                    //     color: Colors.white60,
-                    //     size: 20,
-                    //   ),
-                    //   label: Text(widget.pictures.length.toString(),
-                    //       style: TextStyle(color: Colors.black)),
-                    // ),
                     LikeButton(
                         typeOfShowlist: widget.typeOfShowlist,
                         idType: 'goodId',

@@ -34,7 +34,7 @@ class SearchScreenState extends State<SearchScreen>
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          toolbarHeight: 70,
+          // toolbarHeight: 70,
           title: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,

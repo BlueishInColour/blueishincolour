@@ -13,6 +13,7 @@ class MoreItemIn extends StatefulWidget {
   const MoreItemIn({
     super.key,
     required this.goodId,
+    required this.headPostId,
     required this.title,
     required this.listOfPictures,
     this.creatorDisplayName = 'sampleDisplayName',
@@ -21,6 +22,7 @@ class MoreItemIn extends StatefulWidget {
     this.creatorProfilePicture = 'https://source.unsplash.com/random',
   });
   final String goodId;
+  final String headPostId;
   final List listOfPictures;
   final String title;
   final String creatorUserName;
