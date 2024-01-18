@@ -159,8 +159,8 @@ class ProfileScreenState extends State<ProfileScreen>
                       color: Colors.white60,
                       userName: userName,
                       displayName: displayName,
-                      profilePicture: displayName,
-                      uid: uid),
+                      profilePicture: profilePicture,
+                      uid: widget.userUid),
                 ),
               ))),
     );

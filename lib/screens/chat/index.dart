@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,62 +86,25 @@ class ChatScreenState extends State<ChatScreen> {
         //     )),
         body: SafeArea(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('chatroom')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('messages')
+            .orderBy('timestamp')
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            DocumentSnapshot snap = snapshot.data!.docs.first;
+            List na = snap[0];
+            Set set = na.toSet();
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-                if (documentSnapshot['uid'] ==
-                    FirebaseAuth.instance.currentUser!.uid) {
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: ((context, index) {
                   return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      backgroundImage: CachedNetworkImageProvider(
-                          documentSnapshot['profilePicture']),
-                    ),
-                    title: Text(
-                      documentSnapshot['displayName'],
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    subtitle:
-                        Text('chat myself up', style: TextStyle(fontSize: 11)),
-                    onTap: () => Navigator.push(context,
-                        PageRouteBuilder(pageBuilder: (context, _, __) {
-                      return Item(
-                          profilePicture: documentSnapshot['profilePicture'],
-                          uid: documentSnapshot['uid'],
-                          userName: documentSnapshot['userName'],
-                          displayName: documentSnapshot['displayName']);
-                    })),
+                    leading: Text(index.toString()),
+                    title: Text(snap['recieverId']),
                   );
-                } else {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      backgroundImage: CachedNetworkImageProvider(
-                          documentSnapshot['profilePicture']),
-                    ),
-                    title: Text(
-                      documentSnapshot['displayName'],
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    subtitle: Text(
-                        '@${documentSnapshot['userName']} | ${documentSnapshot['description']}',
-                        style: TextStyle(fontSize: 11)),
-                    onTap: () => Navigator.push(context,
-                        PageRouteBuilder(pageBuilder: (context, _, __) {
-                      return Item(
-                          profilePicture: documentSnapshot['profilePicture'],
-                          uid: documentSnapshot['uid'],
-                          userName: documentSnapshot['userName'],
-                          displayName: documentSnapshot['displayName']);
-                    })),
-                  );
-                }
-              },
-            );
+                }));
           }
           return Center(
             child: CircularProgressIndicator(),
