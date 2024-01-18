@@ -1,6 +1,7 @@
 import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/profile/edit_profile.dart';
 import 'package:blueishincolour/utils/chat_button.dart';
+import 'package:blueishincolour/utils/follow-button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -155,12 +156,20 @@ class ProfileScreenState extends State<ProfileScreen>
                         : '@${userName}',
                     style: TextStyle(color: Colors.white60),
                   ),
-                  trailing: ChatButton(
-                      color: Colors.white60,
-                      userName: userName,
-                      displayName: displayName,
-                      profilePicture: profilePicture,
-                      uid: widget.userUid),
+                  trailing: SizedBox(
+                    width: 100,
+                    child: Row(
+                      children: [
+                        FollowButton(),
+                        ChatButton(
+                            color: Colors.white60,
+                            userName: userName,
+                            displayName: displayName,
+                            profilePicture: profilePicture,
+                            uid: widget.userUid),
+                      ],
+                    ),
+                  ),
                 ),
               ))),
     );
