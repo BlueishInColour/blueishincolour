@@ -160,7 +160,7 @@ class ProfileScreenState extends State<ProfileScreen>
                     width: 100,
                     child: Row(
                       children: [
-                        FollowButton(),
+                        FollowButton(uid: widget.userUid),
                         ChatButton(
                             color: Colors.white60,
                             userName: userName,
