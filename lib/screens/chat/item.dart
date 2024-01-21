@@ -29,6 +29,8 @@ class ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     List chatRoom = [FirebaseAuth.instance.currentUser!.uid, widget.uid];
+    chatRoom.sort();
+    String chatKey = chatRoom.join();
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +65,7 @@ class ItemState extends State<Item> {
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('chatroom')
-                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .doc(chatKey)
                 .collection('messages')
                 // .where('listOfChatters', isEqualTo: chatRoom)
                 .orderBy('timestamp', descending: false)
@@ -123,25 +125,25 @@ class ItemState extends State<Item> {
               messageBarColor: Colors.transparent,
               onSend: (text) async {
                 debugPrint('about to send message');
-                for (var i = 0; i < chatRoom.length; i++) {
-                  debugPrint(i.toString());
-                  await FirebaseFirestore.instance
-                      .collection('chatroom')
-                      .doc(chatRoom[i])
-                      .collection('messages')
-                      .add({
-                    'senderId': FirebaseAuth.instance.currentUser!.uid,
-                    'reciever': 'tinuke',
-                    'recieverId': widget.uid,
-                    'text': text,
-                    'picture': '',
-                    'voiceNote': '',
-                    'timestamp': Timestamp.now(),
-                    'status': 'seen',
-                    'listOfChatters': chatRoom,
-                  });
-                  // chatRoom.map((e) async =>);
-                }
+                // for (var i = 0; i < chatRoom.length; i++) {
+                // debugPrint(i.toString());
+                await FirebaseFirestore.instance
+                    .collection('chatroom')
+                    .doc(chatKey)
+                    .collection('messages')
+                    .add({
+                  'senderId': FirebaseAuth.instance.currentUser!.uid,
+                  'reciever': 'tinuke',
+                  'recieverId': widget.uid,
+                  'text': text,
+                  'picture': '',
+                  'voiceNote': '',
+                  'timestamp': Timestamp.now(),
+                  'status': 'seen',
+                  'listOfChatters': chatRoom,
+                });
+                // chatRoom.map((e) async =>);
+                // }
 
                 debugPrint('message sent');
               },
