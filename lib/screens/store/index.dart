@@ -13,6 +13,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:loadmore_listview/loadmore_listview.dart';
 import 'package:refresh_loadmore/refresh_loadmore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/goods.dart';
 import '../../utils/blueishincolour_icon.dart';
 import 'item.dart';
@@ -81,16 +82,47 @@ class StoreScreenState extends State<StoreScreen>
           enableOpacityAnimation: true,
           preferredWidgetSize: Size.fromHeight(90),
           child: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              toolbarHeight: 70,
-              title: Text(
-                "fashioniers",
-                style: GoogleFonts.pacifico(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              )),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            toolbarHeight: 70,
+            title: Text(
+              "dress`r",
+              style: GoogleFonts.pacifico(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            bottom: kIsWeb
+                ? AppBar(
+                    toolbarHeight: 15,
+                    backgroundColor: Colors.black,
+                    title: Row(children: [
+                      Text(
+                        'do more on dress`r, install for android ',
+                        style: TextStyle(fontSize: 10),
+                      ),
+                      Expanded(child: SizedBox()),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              fixedSize: MaterialStatePropertyAll(Size(30, 7)),
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.blue),
+                              foregroundColor:
+                                  MaterialStatePropertyAll(Colors.white)),
+                          onPressed: () async {
+                            debugPrint('installit');
+                            // http.get(Uri.parse(widget.installLink));
+                            await launchUrl(Uri.parse('http://www.twitter.com'),
+                                mode: LaunchMode.inAppBrowserView,
+                                webOnlyWindowName: 'download dressr');
+                          },
+                          child: Text(
+                            'install',
+                            style: TextStyle(fontSize: 10),
+                          )),
+                    ]))
+                : null,
+          ),
           controller: widget.controller),
       backgroundColor: Colors.white,
       floatingActionButton: kIsWeb
