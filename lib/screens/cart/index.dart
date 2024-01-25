@@ -18,7 +18,11 @@ class LikeScreenState extends State<LikeScreen> {
       width: 500,
       child: Scaffold(
           body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('likes').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('likes')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('posts')
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
