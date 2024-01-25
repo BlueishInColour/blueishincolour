@@ -162,7 +162,9 @@ class IndexState extends State<Index> {
           // BlogScre
           SearchScreen(),
           LikeScreen(),
-          kIsWeb ? showInstallBottomSheet(context) : AddItem(headPostId: ''),
+          // kIsWeb ? showInstallBottomSheet(context) :
+
+          AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()
         ][currentIndex],

@@ -18,15 +18,21 @@ class LikeScreenState extends State<LikeScreen> {
       width: 500,
       child: Scaffold(
           body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('likes')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('posts')
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('likes').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            DocumentSnapshot snap = snapshot.data!.docs.first;
-            return SavedStyle(postId: snap['postId'], typeOfShowlist: '');
+            return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot snap = snapshot.data!.docs[index];
+
+                  if (snapshot.hasData) {
+                    return SavedStyle(
+                        postId: snap['postId'], typeOfShowlist: '');
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                });
           }
 
           return Center(

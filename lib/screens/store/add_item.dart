@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/models/posts.dart';
+import 'package:blueishincolour/utils/install_app_function.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imagekit_io/imagekit_io.dart';
@@ -152,7 +154,7 @@ class AddItemState extends State<AddItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    addImage();
+    kIsWeb ? showInstallBottomSheet(context) : addImage();
     getThoseUserDetails();
   }
 
@@ -189,6 +191,11 @@ class AddItemState extends State<AddItem> {
       );
     }
 
+    if (kIsWeb) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+      );
+    }
     return images.isNotEmpty
         ? Middle(
             width: 500,

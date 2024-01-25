@@ -3,7 +3,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 showInstallBottomSheet(context) {
-  return showBottomSheet(
+  showModalBottomSheet(
       context: context,
       builder: (context) {
         return Container(
