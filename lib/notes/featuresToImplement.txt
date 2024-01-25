@@ -77,7 +77,7 @@ done - find better design for the blog page and remove appbar
 > research on search
 > make the pages save states
 > research on a payment system
-> make comment section to be on moreitemin as in bottom sheeet that can be pulled up, it will also contain description
+> make comment section to be on moreitemin as in bottom sheeet that can be pulled up, it will also contain caption
 > make user in bar section of storeitems be clickeable and will nav page to their profile section
 > 
 

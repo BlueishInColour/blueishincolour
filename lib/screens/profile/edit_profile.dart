@@ -43,7 +43,7 @@ class EditProfilState extends State<EditProfil> {
           ),
           TextField(
             controller: typeOfUserController,
-            decoration: InputDecoration(hintText: 'short description'),
+            decoration: InputDecoration(hintText: 'short caption'),
           ),
           SizedBox(height: 20),
           TextButton(
@@ -112,7 +112,7 @@ class EditProfileState extends State<EditProfile> {
               ),
               TextField(
                 controller: typeOfUserController,
-                decoration: InputDecoration(hintText: 'short description'),
+                decoration: InputDecoration(hintText: 'short caption'),
               ),
               SizedBox(height: 20),
               TextButton(

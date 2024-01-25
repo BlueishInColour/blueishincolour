@@ -7,7 +7,7 @@ class Post {
   Post(
       {this.albumId = 0,
       this.postId = '',
-      this.description = '',
+      this.caption = '',
       this.discountPercentage = 0,
       this.price = 0,
       this.rating = 0,
@@ -29,7 +29,7 @@ class Post {
   String postId; //
   String thumbnail;
   String title; //
-  String description; //
+  String caption; //
   double discountPercentage;
   double stock;
   double price;

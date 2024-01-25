@@ -22,9 +22,11 @@ class SignupScreenState extends State<SignupScreen> {
   final secondPasswordController = TextEditingController();
 
   //
+  final List<String> userTags = [];
   final displayNameController = TextEditingController();
   final userNameController = TextEditingController();
-  final descriptionController = TextEditingController();
+  final captionController = TextEditingController();
+  // final userTagsController = TextEditingController();
   String profilePicture = 'https://source.unsplash.com/random';
   bool setProfile = false;
   changeSetProfilebool() {
@@ -37,7 +39,7 @@ class SignupScreenState extends State<SignupScreen> {
     if (userNameController.text.isNotEmpty &&
         displayNameController.text.isNotEmpty &&
         profilePicture.isNotEmpty &&
-        descriptionController.text.isNotEmpty) {
+        captionController.text.isNotEmpty) {
       if (passwordController.text != secondPasswordController.text) {
         return ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('both passwords don`t match')));
@@ -52,11 +54,18 @@ class SignupScreenState extends State<SignupScreen> {
           ));
         }
       }
+
+      //create tags for user
+      userTags.addAll(userNameController.text.split(' '));
+      userTags.add(displayNameController.text);
+      userTags.addAll(captionController.text.split(' '));
+      //
+      //
       await FirebaseFirestore.instance.collection('users').add({
         'uid': FirebaseAuth.instance.currentUser!.uid,
         'profilePicture': profilePicture,
         'userName': userNameController.text,
-        'description': descriptionController.text,
+        'caption': captionController.text,
         'displayName': displayNameController.text,
         'email': emailController.text,
         'listOfLikers': [],
@@ -215,9 +224,10 @@ class SignupScreenState extends State<SignupScreen> {
                             child: TextField(
                               minLines: 3,
                               maxLines: 10,
-                              controller: descriptionController,
+                              controller: captionController,
                               decoration: InputDecoration(
-                                  hintText: 'describe yourself in 100 letters'),
+                                  hintText:
+                                      'describe yourself in 100 letters, helps in searches'),
                             ),
                           ),
 

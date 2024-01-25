@@ -9,7 +9,7 @@ part of 'posts.dart';
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
       albumId: (json['albumId'] as num?)?.toDouble() ?? 0,
       postId: json['postId'] as String? ?? '',
-      description: json['description'] as String? ?? '',
+      caption: json['caption'] as String? ?? '',
       discountPercentage: (json['discountPercentage'] as num?)?.toDouble() ?? 0,
       price: (json['price'] as num?)?.toDouble() ?? 0,
       rating: (json['rating'] as num?)?.toDouble() ?? 0,
@@ -38,7 +38,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'postId': instance.postId,
       'thumbnail': instance.thumbnail,
       'title': instance.title,
-      'description': instance.description,
+      'caption': instance.caption,
       'discountPercentage': instance.discountPercentage,
       'stock': instance.stock,
       'price': instance.price,

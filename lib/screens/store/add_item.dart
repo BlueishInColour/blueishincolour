@@ -27,7 +27,7 @@ class AddItemState extends State<AddItem> {
   TextEditingController brandController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController descriptionsController = TextEditingController();
+  TextEditingController captionsController = TextEditingController();
   TextEditingController discountedPriceController = TextEditingController();
   TextEditingController titleController = TextEditingController();
 
@@ -217,14 +217,17 @@ class AddItemState extends State<AddItem> {
                   TextButton(
                     onPressed: () async {
                       String postId = Uuid().v1();
+
+                      tags.addAll(captionsController.text.split(' '));
+
                       var post = {
                         //id
                         'postId': postId,
                         'headPostId': widget.headPostId,
 
                         //titles and content
-                        'title': titleController.text,
-                        'description': descriptionsController.text,
+                        'title': ' ',
+                        'caption': captionsController.text,
 
                         'images': images,
                         'tags': tags,
@@ -250,11 +253,12 @@ class AddItemState extends State<AddItem> {
                                 .collection('posts')
                                 .doc(postId);
                         await postCollection.set(post);
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
+                        images.clear();
                       }
                     },
                     child: Text(
-                      'add to dressApp',
+                      'add to dress`r',
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.blue,
@@ -287,8 +291,8 @@ class AddItemState extends State<AddItem> {
                       textField(context,
                           hintText: 'title ...', controller: titleController),
                       textField(context,
-                          hintText: 'descriptions ...',
-                          controller: descriptionsController,
+                          hintText: 'captions ...',
+                          controller: captionsController,
                           height: 100,
                           maxlines: 10),
                       SizedBox(
