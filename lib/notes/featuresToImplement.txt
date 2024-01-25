@@ -93,3 +93,9 @@ done - find better design for the blog page and remove appbar
 25th jan, 2024
 > make the search screen work again
 > test the like button count when theres data
+
+
+17th jan, 2024
+> make the re post and add in more in button work with corrolation with post id, headPostId, and ancenstorId
+> make the search screen work no fail
+>look for a better way to design add screen

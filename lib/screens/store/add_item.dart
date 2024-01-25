@@ -193,7 +193,7 @@ class AddItemState extends State<AddItem> {
 
     if (kIsWeb) {
       return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       );
     }
     return images.isEmpty
