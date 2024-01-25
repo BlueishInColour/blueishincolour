@@ -40,21 +40,10 @@ class SteezeSectionState extends State<SteezeSection> {
         //     ),
         //   ),
         // ),
-        floatingActionButton: kIsWeb
-            ? null
-            : FloatingActionButton(
-                backgroundColor: Colors.black,
-                onPressed: () {
-                  Navigator.push(context,
-                      PageRouteBuilder(pageBuilder: (context, _, __) {
-                    return AddItem(headPostId: widget.headPostId);
-                  }));
-                },
-                child: Icon(Icons.add, color: Colors.white60),
-              ),
+
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection('goods')
+                .collection('posts')
                 .where('headPostId', isEqualTo: widget.headPostId)
                 .snapshots(),
             builder: (context, snapshot) {
@@ -76,7 +65,7 @@ class SteezeSectionState extends State<SteezeSection> {
                       showPix: documentSnapshot['images'][0],
                       title: documentSnapshot['title'],
                       pictures: documentSnapshot['images'],
-                      postId: documentSnapshot['goodId'],
+                      postId: documentSnapshot['postId'],
                       headPostId: documentSnapshot['headPostId'],
                       creatorDisplayName:
                           documentSnapshot['creatorDisplayName'],
@@ -94,7 +83,7 @@ class SteezeSectionState extends State<SteezeSection> {
               }
             }),
         bottomSheet: FutureBuilder(
-            future: FirebaseFirestore.instance.collection('goods').get(),
+            future: FirebaseFirestore.instance.collection('posts').get(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var data = snapshot.data!.docs[0];
@@ -109,7 +98,7 @@ class SteezeSectionState extends State<SteezeSection> {
                         creatorUserName: data['creatorUserName'],
                         creatorUid: data['creatorUid'],
                         title: data['title'],
-                        goodId: data['goodId'],
+                        postId: data['postId'],
                         listOfPictures: data['images'],
                       );
                     }));
@@ -126,11 +115,17 @@ class SteezeSectionState extends State<SteezeSection> {
                         color: Colors.white60,
                       ),
                       trailing: CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        child: Icon(
-                          LineIcons.retweet,
-                        ),
-                      ),
+                          backgroundColor: Colors.blue,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(context, PageRouteBuilder(
+                                  pageBuilder: (context, _, __) {
+                                return AddItem(headPostId: widget.headPostId);
+                              }));
+                            },
+                            icon:
+                                Icon(LineIcons.retweet, color: Colors.white60),
+                          )),
                       title: Text(
                         'view original post',
                         style: TextStyle(color: Colors.white60, fontSize: 14),

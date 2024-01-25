@@ -1,4 +1,5 @@
 import 'package:blueishincolour/screens/profile/index.dart';
+import 'package:blueishincolour/screens/store/item_header.dart';
 import 'package:blueishincolour/screens/store/more_item_in.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
 import 'package:blueishincolour/utils/repost_button.dart';
@@ -82,7 +83,7 @@ class ItemState extends State<Item> {
             creatorUserName: widget.creatorUserName,
             creatorUid: widget.creatorUid,
             title: widget.title,
-            goodId: widget.postId,
+            postId: widget.postId,
             headPostId: widget.headPostId,
             listOfPictures: widget.pictures,
           );
@@ -118,66 +119,11 @@ class ItemState extends State<Item> {
         child: Column(
           children: [
             //headder`
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    PageRouteBuilder(pageBuilder: (context, _, __) {
-                  return ProfileScreen(userUid: widget.creatorUid);
-                }));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15)),
-                    color: Colors.blue),
-                child: Row(
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                        radius: 17,
-                        backgroundImage: CachedNetworkImageProvider(
-                            widget.creatorProfilePicture)),
-                    SizedBox(width: 5),
-                    SizedBox(
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.creatorDisplayName,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white70,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                          Text(
-                            '@' '${widget.creatorUserName}',
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 11,
-                                color: Colors.white60),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(child: SizedBox()),
-                    RepostButton(
-                      postId: widget.postId,
-                      headPostId: widget.headPostId,
-                    ),
-                    LikeButton(
-                        typeOfShowlist: widget.typeOfShowlist,
-                        idType: 'goodId',
-                        goodId: widget.postId,
-                        collection: 'goods'),
-                    SizedBox(width: 5),
-                  ],
-                ),
-              ),
-            ),
+            ItemHeader(
+                creatorUid: widget.creatorUid,
+                headPostId: widget.headPostId,
+                postId: widget.postId),
+
             //body and image
             Stack(
               children: [
@@ -212,19 +158,6 @@ class ItemState extends State<Item> {
                     ))
               ],
             ),
-            // Positioned(
-            //     bottom: 40,
-            //     child: Container(
-            //       margin: EdgeInsets.all(10),
-            //       child: Text(
-            //         widget.title,
-            //         maxLines: 3,
-            //         style: GoogleFonts.pacifico(
-            //             color: Colors.white,
-            //             fontWeight: FontWeight.w800,
-            //             fontSize: 27),
-            //       ),
-            //     )),
           ],
         ),
       ),

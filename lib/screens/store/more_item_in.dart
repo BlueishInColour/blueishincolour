@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class MoreItemIn extends StatefulWidget {
   const MoreItemIn({
     super.key,
-    required this.goodId,
+    required this.postId,
     required this.headPostId,
     required this.title,
     required this.listOfPictures,
@@ -21,7 +21,7 @@ class MoreItemIn extends StatefulWidget {
     this.creatorUid = 'sampleUid',
     this.creatorProfilePicture = 'https://source.unsplash.com/random',
   });
-  final String goodId;
+  final String postId;
   final String headPostId;
   final List listOfPictures;
   final String title;
@@ -47,7 +47,7 @@ class MoreItemInState extends State<MoreItemIn> {
         showDragHandle: true,
         context: context,
         builder: ((context) {
-          return CommentSection(postId: widget.goodId);
+          return CommentSection(postId: widget.postId);
         }));
   }
 
@@ -77,20 +77,7 @@ class MoreItemInState extends State<MoreItemIn> {
       //         ))
       //   ],
       // ),
-      floatingActionButton: kIsWeb
-          ? null
-          : FloatingActionButton(
-              backgroundColor: Colors.black,
-              onPressed: () {
-                Navigator.push(context,
-                    PageRouteBuilder(pageBuilder: (context, _, __) {
-                  return AddItem(
-                    headPostId: '',
-                  );
-                }));
-              },
-              child: Icon(Icons.add, color: Colors.white60),
-            ),
+
       body: widget.listOfPictures.isNotEmpty
           ? ListView.builder(
               itemCount: widget.listOfPictures.length,
@@ -108,7 +95,7 @@ class MoreItemInState extends State<MoreItemIn> {
                   showPix: widget.listOfPictures[index],
                   title: widget.title,
                   pictures: widget.listOfPictures,
-                  postId: widget.goodId,
+                  postId: widget.postId,
                 );
               },
             )
@@ -129,11 +116,18 @@ class MoreItemInState extends State<MoreItemIn> {
                 color: Colors.white60,
               ),
               trailing: CircleAvatar(
-                backgroundColor: Colors.blue,
-                child: Icon(
-                  LineIcons.comment,
-                ),
-              ),
+                  backgroundColor: Colors.blue,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          PageRouteBuilder(pageBuilder: (context, _, __) {
+                        return AddItem(
+                          headPostId: '',
+                        );
+                      }));
+                    },
+                    icon: Icon(Icons.add, color: Colors.white60),
+                  )),
               title: Text(
                 'view comments',
                 style: TextStyle(color: Colors.white60, fontSize: 14),

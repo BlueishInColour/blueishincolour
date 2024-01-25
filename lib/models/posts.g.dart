@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'goods.dart';
+part of 'posts.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Good _$GoodFromJson(Map<String, dynamic> json) => Good(
+Post _$PostFromJson(Map<String, dynamic> json) => Post(
       albumId: (json['albumId'] as num?)?.toDouble() ?? 0,
-      goodId: json['goodId'] as String? ?? '',
+      postId: json['postId'] as String? ?? '',
       description: json['description'] as String? ?? '',
       discountPercentage: (json['discountPercentage'] as num?)?.toDouble() ?? 0,
       price: (json['price'] as num?)?.toDouble() ?? 0,
@@ -32,10 +32,10 @@ Good _$GoodFromJson(Map<String, dynamic> json) => Good(
           const [],
     );
 
-Map<String, dynamic> _$GoodToJson(Good instance) => <String, dynamic>{
+Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'listOfLikers': instance.listOfLikers,
       'albumId': instance.albumId,
-      'goodId': instance.goodId,
+      'postId': instance.postId,
       'thumbnail': instance.thumbnail,
       'title': instance.title,
       'description': instance.description,
@@ -54,7 +54,7 @@ Map<String, dynamic> _$GoodToJson(Good instance) => <String, dynamic>{
 
 Every _$EveryFromJson(Map<String, dynamic> json) => Every(
       products: (json['products'] as List<dynamic>)
-          .map((e) => Good.fromJson(e as Map<String, dynamic>))
+          .map((e) => Post.fromJson(e as Map<String, dynamic>))
           .toList(),
       limit: (json['limit'] as num?)?.toDouble() ?? 0,
       skip: (json['skip'] as num?)?.toDouble() ?? 0,

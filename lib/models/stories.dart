@@ -38,7 +38,7 @@ class Stories {
   String picture;
   List<String> tags;
   int reactions;
-  String postType; //blog or goods
+  String postType; //blog or posts
   List<String> listOfLikers;
   String body;
 

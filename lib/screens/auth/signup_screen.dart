@@ -1,3 +1,4 @@
+import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -105,128 +106,133 @@ class SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return !setProfile
-        ? Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Center(
-                  child: ListView(
-                children: [
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.key, size: 100, color: Colors.black),
-                        Text('register with us and explore fashion'),
-                        SizedBox(height: 15),
-                        TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(hintText: 'email'),
-                        ),
-                        SizedBox(height: 15),
-                        TextField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(hintText: 'password'),
-                        ),
-                        SizedBox(height: 15),
-                        TextField(
-                          controller: secondPasswordController,
-                          obscureText: true,
-                          decoration:
-                              InputDecoration(hintText: 'confirm password'),
-                        ),
-                        SizedBox(height: 15),
-                        ElevatedButton(
-                            onPressed: changeSetProfilebool,
-                            child: Text('next'),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.black))),
-                        SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Text('you have an account?'),
-                            TextButton(
-                                onPressed: widget.onPressed,
-                                child: Text('login now'))
-                          ],
-                        ),
-                      ]),
-                ],
-              )),
+        ? Middle(
+            child: Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Center(
+                    child: ListView(
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.key, size: 100, color: Colors.black),
+                          Text('register with us and explore fashion'),
+                          SizedBox(height: 15),
+                          TextField(
+                            controller: emailController,
+                            decoration: InputDecoration(hintText: 'email'),
+                          ),
+                          SizedBox(height: 15),
+                          TextField(
+                            controller: passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(hintText: 'password'),
+                          ),
+                          SizedBox(height: 15),
+                          TextField(
+                            controller: secondPasswordController,
+                            obscureText: true,
+                            decoration:
+                                InputDecoration(hintText: 'confirm password'),
+                          ),
+                          SizedBox(height: 15),
+                          ElevatedButton(
+                              onPressed: changeSetProfilebool,
+                              child: Text('next'),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(Colors.black))),
+                          SizedBox(height: 15),
+                          Row(
+                            children: [
+                              Text('you have an account?'),
+                              TextButton(
+                                  onPressed: widget.onPressed,
+                                  child: Text('login now'))
+                            ],
+                          ),
+                        ]),
+                  ],
+                )),
+              ),
             ),
           )
         :
         //setProfile
-        Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Center(
-                child: ListView(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            onPressed: changeSetProfilebool,
-                            child: Icon(Icons.arrow_back),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.black))),
+        Middle(
+            child: Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Center(
+                  child: ListView(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              onPressed: changeSetProfilebool,
+                              child: Icon(Icons.arrow_back),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(Colors.black))),
 
-                        SizedBox(height: 15),
+                          SizedBox(height: 15),
 
-                        //profile picture
-                        CircleAvatar(
-                          radius: 70,
-                          backgroundImage:
-                              CachedNetworkImageProvider(profilePicture),
-                        ),
-                        TextButton(
-                            onPressed: setProfilePicture,
-                            child: Text('set profile picture')),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        //set desplay name
-                        TextField(
-                          controller: displayNameController,
-                          decoration: InputDecoration(hintText: 'name'),
-                        ),
-                        SizedBox(height: 15),
-                        //set profile picture
-                        TextField(
-                          controller: userNameController,
-                          decoration: InputDecoration(
-                              hintText: 'unique username',
-                              prefixIcon: Icon(Icons.alternate_email_outlined),
-                              suffixIcon: userNameSuffixIcon(context)),
-                        ),
-
-                        SizedBox(height: 15),
-                        SizedBox(
-                          height: 100,
-                          child: TextField(
-                            minLines: 3,
-                            maxLines: 10,
-                            controller: descriptionController,
-                            decoration: InputDecoration(
-                                hintText: 'describe yourself in 100 letters'),
+                          //profile picture
+                          CircleAvatar(
+                            radius: 70,
+                            backgroundImage:
+                                CachedNetworkImageProvider(profilePicture),
                           ),
-                        ),
+                          TextButton(
+                              onPressed: setProfilePicture,
+                              child: Text('set profile picture')),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          //set desplay name
+                          TextField(
+                            controller: displayNameController,
+                            decoration: InputDecoration(hintText: 'name'),
+                          ),
+                          SizedBox(height: 15),
+                          //set profile picture
+                          TextField(
+                            controller: userNameController,
+                            decoration: InputDecoration(
+                                hintText: 'unique username',
+                                prefixIcon:
+                                    Icon(Icons.alternate_email_outlined),
+                                suffixIcon: userNameSuffixIcon(context)),
+                          ),
 
-                        SizedBox(height: 15),
+                          SizedBox(height: 15),
+                          SizedBox(
+                            height: 100,
+                            child: TextField(
+                              minLines: 3,
+                              maxLines: 10,
+                              controller: descriptionController,
+                              decoration: InputDecoration(
+                                  hintText: 'describe yourself in 100 letters'),
+                            ),
+                          ),
 
-                        ElevatedButton(
-                            onPressed: signup,
-                            child: Text('finish sign up'),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.black))),
+                          SizedBox(height: 15),
 
-                        //back
-                      ],
-                    ),
-                  ],
+                          ElevatedButton(
+                              onPressed: signup,
+                              child: Text('finish sign up'),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(Colors.black))),
+
+                          //back
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

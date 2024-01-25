@@ -24,8 +24,8 @@ class SavedStyleState extends State<SavedStyle> {
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('goods')
-            .where('goodId', isEqualTo: widget.postId)
+            .collection('posts')
+            .where('postId', isEqualTo: widget.postId)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -46,7 +46,7 @@ class SavedStyleState extends State<SavedStyle> {
               // index: index,
               title: documentSnapshot['title'],
               pictures: documentSnapshot['images'],
-              postId: documentSnapshot['goodId'],
+              postId: documentSnapshot['postId'],
               headPostId: documentSnapshot['headPostId'],
             );
           } else {

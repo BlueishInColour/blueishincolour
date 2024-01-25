@@ -1,3 +1,4 @@
+import 'package:blueishincolour/middle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/material.dart';
@@ -84,65 +85,68 @@ class EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: true),
-      body: SizedBox(
-        height: 400,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: usernameController,
-              decoration: InputDecoration(hintText: 'new diplay name'),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: displaynameController,
-              decoration: InputDecoration(hintText: 'new username'),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            TextField(
-              controller: typeOfUserController,
-              decoration: InputDecoration(hintText: 'short description'),
-            ),
-            SizedBox(height: 20),
-            TextButton(
-                onPressed: () async {
-                  Map userDetails =
-                      getUserDetails(FirebaseAuth.instance.currentUser!.uid);
-                  if (userDetails.isEmpty) {
-                    await FirebaseFirestore.instance.collection('users').add({
-                      'uid': FirebaseAuth.instance.currentUser!.uid,
-                      'profilePiture': 'https://source.unsplash.com/random',
-                      'userName': usernameController.text,
-                      'typeOfUser': typeOfUserController.text,
-                      'displayName': displaynameController.text,
-                      'listOfLikers': [],
-                      'listOfLikedPosts': []
-                    });
-                    debugPrint('done');
+    return Middle(
+      child: Scaffold(
+        appBar: AppBar(automaticallyImplyLeading: true),
+        body: SizedBox(
+          height: 400,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: usernameController,
+                decoration: InputDecoration(hintText: 'new diplay name'),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: displaynameController,
+                decoration: InputDecoration(hintText: 'new username'),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              TextField(
+                controller: typeOfUserController,
+                decoration: InputDecoration(hintText: 'short description'),
+              ),
+              SizedBox(height: 20),
+              TextButton(
+                  onPressed: () async {
+                    Map userDetails =
+                        getUserDetails(FirebaseAuth.instance.currentUser!.uid);
+                    if (userDetails.isEmpty) {
+                      await FirebaseFirestore.instance.collection('users').add({
+                        'uid': FirebaseAuth.instance.currentUser!.uid,
+                        'profilePiture': 'https://source.unsplash.com/random',
+                        'userName': usernameController.text,
+                        'typeOfUser': typeOfUserController.text,
+                        'displayName': displaynameController.text,
+                        'listOfLikers': [],
+                        'listOfLikedPosts': []
+                      });
+                      debugPrint('done');
 
-                    Navigator.pop(context);
-                  } else {
-                    Scaffold.of(context).showBottomSheet((context) => SnackBar(
-                        content:
-                            Text('you cannot change this details but once')));
+                      Navigator.pop(context);
+                    } else {
+                      Scaffold.of(context).showBottomSheet((context) =>
+                          SnackBar(
+                              content: Text(
+                                  'you cannot change this details but once')));
 
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text('save')),
-            SizedBox(
-              height: 100,
-            ),
-            Text('do this before signing up')
-          ],
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('save')),
+              SizedBox(
+                height: 100,
+              ),
+              Text('do this before signing up')
+            ],
+          ),
         ),
       ),
     );

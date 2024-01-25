@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:blueishincolour/models/goods.dart';
+import 'package:blueishincolour/middle.dart';
+import 'package:blueishincolour/models/posts.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -148,7 +149,7 @@ class AddItemState extends State<AddItem> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    uploadPic();
+    addImage();
     getThoseUserDetails();
   }
 
@@ -186,241 +187,253 @@ class AddItemState extends State<AddItem> {
     }
 
     return image.isNotEmpty
-        ? Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              automaticallyImplyLeading: true,
-              leading: IconButton.outlined(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    String goodId = Uuid().v1();
-                    var good = {
-                      //id
-                      'goodId': goodId,
-                      'headPostId': widget.headPostId,
-
-                      //titles and content
-                      'title': titleController.text,
-                      'description': descriptionsController.text,
-
-                      'images': images,
-                      'tags': tags,
-
-                      //creator
-                      'creatorUserName': userDetails['userName'],
-                      'creatorDisplayName': userDetails['displayName'],
-                      'creatorUid': FirebaseAuth.instance.currentUser!.uid,
-                      'creatorProfilePicture': userDetails['profilePicture'],
-
-                      //metadata
-                      'noOfLikes': 0,
-                      'listOfModels': listOfModels,
-
-                      'timestamp': Timestamp.now()
-                    };
-
-                    if (good['title'].isEmpty && good['images'].isEmpty) {
-                      debugPrint('title is empty , add to it');
-                    } else {
-                      final CollectionReference goodCollection =
-                          FirebaseFirestore.instance.collection('goods');
-                      await goodCollection.add(good);
-                      Navigator.pop(context);
-                    }
+        ? Middle(
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                automaticallyImplyLeading: true,
+                leading: IconButton.outlined(
+                  onPressed: () {
+                    Navigator.pop(context);
                   },
-                  child: Text(
-                    'add to dressApp',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w800),
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
                   ),
                 ),
-              ],
-            ),
-            body: Center(
-              child: Container(
-                margin: EdgeInsets.all(10),
-                width: 500,
-                child: ListView(
-                  children: [
-                    //images
-                    SizedBox(
-                      height: 400,
-                      child: PageView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            return CachedNetworkImage(imageUrl: images[index]);
-                          }),
-                    ),
+                actions: [
+                  TextButton(
+                    onPressed: () async {
+                      String postId = Uuid().v1();
+                      var post = {
+                        //id
+                        'postId': postId,
+                        'headPostId': widget.headPostId,
 
-                    //
-                    Text(
-                        '${images.length.toString()} images - scroll sideways'),
-                    textField(context,
-                        hintText: 'title ...', controller: titleController),
-                    textField(context,
-                        hintText: 'descriptions ...',
-                        controller: descriptionsController,
-                        height: 100,
-                        maxlines: 10),
-                    SizedBox(
-                      height: 20,
-                      width: 200,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: tags.length,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 5),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.black12),
-                                    child: Center(
-                                      child: Text(
-                                        tags[index],
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    )),
-                                IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        tags.removeAt(index);
-                                      });
-                                    },
-                                    icon: Padding(
+                        //titles and content
+                        'title': titleController.text,
+                        'description': descriptionsController.text,
+
+                        'images': images,
+                        'tags': tags,
+
+                        //creator
+                        'creatorUserName': userDetails['userName'],
+                        'creatorDisplayName': userDetails['displayName'],
+                        'creatorUid': FirebaseAuth.instance.currentUser!.uid,
+                        'creatorProfilePicture': userDetails['profilePicture'],
+
+                        //metadata
+                        'noOfLikes': 0,
+                        'listOfModels': listOfModels,
+
+                        'timestamp': Timestamp.now()
+                      };
+
+                      if (post['title'].isEmpty && post['images'].isEmpty) {
+                        debugPrint('title is empty , add to it');
+                      } else {
+                        final DocumentReference postCollection =
+                            FirebaseFirestore.instance
+                                .collection('posts')
+                                .doc(postId);
+                        await postCollection.set(post);
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Text(
+                      'add to dressApp',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ],
+              ),
+              body: Center(
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  width: 500,
+                  child: ListView(
+                    children: [
+                      //images
+                      SizedBox(
+                        height: 400,
+                        child: PageView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: images.length,
+                            itemBuilder: (context, index) {
+                              return CachedNetworkImage(
+                                  imageUrl: images[index]);
+                            }),
+                      ),
+
+                      //
+                      Text(
+                          '${images.length.toString()} images - scroll sideways'),
+                      textField(context,
+                          hintText: 'title ...', controller: titleController),
+                      textField(context,
+                          hintText: 'descriptions ...',
+                          controller: descriptionsController,
+                          height: 100,
+                          maxlines: 10),
+                      SizedBox(
+                        height: 20,
+                        width: 200,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: tags.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                children: [
+                                  Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 5),
                                       padding:
-                                          const EdgeInsets.only(bottom: 20.0),
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.black12),
                                       child: Center(
-                                        child: Icon(
-                                          Icons.cancel,
-                                          size: 15,
+                                        child: Text(
+                                          tags[index],
+                                          style: TextStyle(color: Colors.black),
                                         ),
-                                      ),
-                                    ))
-                              ],
-                            );
-                          }),
-                    ),
-                    SizedBox(height: 15),
-                    TextField(
-                      controller: tagsController,
-                      decoration: InputDecoration(
-                          hintText: 'add tags',
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  tags.add(tagsController.text);
-                                });
+                                      )),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          tags.removeAt(index);
+                                        });
+                                      },
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20.0),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.cancel,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              );
+                            }),
+                      ),
+                      SizedBox(height: 15),
+                      TextField(
+                        controller: tagsController,
+                        decoration: InputDecoration(
+                            hintText: 'add tags',
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    tags.add(tagsController.text);
+                                  });
 
-                                tagsController.clear();
-                              },
-                              icon: Icon(Icons.add))),
-                    ),
+                                  tagsController.clear();
+                                },
+                                icon: Icon(Icons.add))),
+                      ),
 
-//for models
-                    SizedBox(
-                      height: 20,
-                      width: 200,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: tags.length,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 5),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.black12),
-                                    child: Center(
-                                      child: Text(
-                                        listOfModels[index],
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    )),
-                                IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        tags.removeAt(index);
-                                      });
-                                    },
-                                    icon: Padding(
+                      //for models
+                      SizedBox(
+                        height: 20,
+                        width: 200,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: tags.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                children: [
+                                  Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 5),
                                       padding:
-                                          const EdgeInsets.only(bottom: 20.0),
+                                          EdgeInsets.symmetric(horizontal: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.black12),
                                       child: Center(
-                                        child: Icon(
-                                          Icons.cancel,
-                                          size: 15,
+                                        child: Text(
+                                          listOfModels[index],
+                                          style: TextStyle(color: Colors.black),
                                         ),
-                                      ),
-                                    ))
-                              ],
-                            );
-                          }),
-                    ),
-                    SizedBox(height: 15),
-                    TextField(
-                      controller: tagsController,
-                      decoration: InputDecoration(
-                          hintText: 'mention models',
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  tags.add(tagsController.text);
-                                });
+                                      )),
+                                  IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          tags.removeAt(index);
+                                        });
+                                      },
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20.0),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.cancel,
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              );
+                            }),
+                      ),
+                      SizedBox(height: 15),
+                      TextField(
+                        controller: tagsController,
+                        decoration: InputDecoration(
+                            hintText: 'mention models',
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    tags.add(tagsController.text);
+                                  });
 
-                                tagsController.clear();
-                              },
-                              icon: Icon(Icons.add))),
-                    ),
+                                  tagsController.clear();
+                                },
+                                icon: Icon(Icons.add))),
+                      ),
 
-                    SizedBox(
-                      height: 50,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              resizeToAvoidBottomInset: true,
             ),
-            resizeToAvoidBottomInset: true,
           )
-        : Scaffold(
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-              automaticallyImplyLeading: true,
+        : Middle(
+            child: Scaffold(
               backgroundColor: Colors.black,
-            ),
-            body: Center(
-              child: Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.grey.shade200, width: 6)),
-                height: 50,
-                child: Center(
-                    child: TextButton(
-                  onPressed: () async {
-                    await addImage();
-                  },
-                  child: Text('+  click to add image  +'),
-                )),
+              appBar: AppBar(
+                automaticallyImplyLeading: true,
+                backgroundColor: Colors.black,
+              ),
+              body: Center(
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border:
+                          Border.all(color: Colors.grey.shade200, width: 6)),
+                  height: 50,
+                  child: Center(
+                      child: TextButton(
+                    onPressed: () async {
+                      await addImage();
+                    },
+                    child: Text('+  click to add image  +'),
+                  )),
+                ),
               ),
             ),
           );

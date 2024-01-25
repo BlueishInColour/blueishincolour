@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
-part 'goods.g.dart';
+part 'posts.g.dart';
 
 @JsonSerializable()
-class Good {
-  Good(
+class Post {
+  Post(
       {this.albumId = 0,
-      this.goodId = '',
+      this.postId = '',
       this.description = '',
       this.discountPercentage = 0,
       this.price = 0,
@@ -26,7 +26,7 @@ class Good {
   List<String> listOfLikers; //
 
   double albumId;
-  String goodId; //
+  String postId; //
   String thumbnail;
   String title; //
   String description; //
@@ -45,9 +45,9 @@ class Good {
   String creatorUserName; //
   String creatorProfilePicture; //
 
-  factory Good.fromJson(Map<String, dynamic> json) => _$GoodFromJson(json);
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GoodToJson(this);
+  Map<String, dynamic> toJson() => _$PostToJson(this);
 }
 
 @JsonSerializable()
@@ -55,7 +55,7 @@ class Every {
   Every(
       {required this.products, this.limit = 0, this.skip = 0, this.total = 0});
 
-  List<Good> products;
+  List<Post> products;
   double total;
   double skip;
   double limit;

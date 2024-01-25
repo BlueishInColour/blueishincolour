@@ -1,5 +1,6 @@
 // import 'dart:html';
 
+import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -76,20 +77,22 @@ class ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: ((context, index) {
-                  if (listOfLikers.isEmpty) {
-                    return CircularProgressIndicator(
-                      color: Colors.black,
+    return Middle(
+      child: Scaffold(
+          body: SafeArea(
+              child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: ((context, index) {
+                    if (listOfLikers.isEmpty) {
+                      return CircularProgressIndicator(
+                        color: Colors.black,
+                      );
+                    }
+                    return ListTile(
+                      leading: Text(listOfLikersUid[index]),
+                      // subtitle: Text(listOfLikers[index].lastMessage),
                     );
-                  }
-                  return ListTile(
-                    leading: Text(listOfLikersUid[index]),
-                    // subtitle: Text(listOfLikers[index].lastMessage),
-                  );
-                }))));
+                  })))),
+    );
   }
 }

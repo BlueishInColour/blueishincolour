@@ -27,7 +27,7 @@ class RepostButtonState extends State<RepostButton> {
           backgroundColor: Colors.white,
           label: StreamBuilder(
               stream: FirebaseFirestore.instance
-                  .collection('goods')
+                  .collection('posts')
                   .where(
                     'headPostId',
                     isEqualTo: widget.headPostId,

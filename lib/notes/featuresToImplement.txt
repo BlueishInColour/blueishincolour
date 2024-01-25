@@ -14,7 +14,7 @@ profile renders documents where creator is the username
 
 > make the home screen display with pictures any how you can
 > ability to switch with masonery view with a button
-done  -  make like button work so username are added to the good or stories list of likers and can be fetched dynamically by the page
+done  -  make like button work so username are added to the post or stories list of likers and can be fetched dynamically by the page
 done - find better design for the blog page and remove appbar
 
 14 dec, 2023
@@ -62,7 +62,7 @@ done - find better design for the blog page and remove appbar
 > ensure that the   profile screen is more efficirent
 > chat screen should arrainge chatby latest timestamp
 > searches should start working
-> add tags to goods  items so that they are easily searched
+> add tags to posts  items so that they are easily searched
 > comment button should be replace by chat button so when clicked, it will be dirrected to the creator chat screen
 > 
 
@@ -89,3 +89,7 @@ done - find better design for the blog page and remove appbar
 
 15th january ,2024
 > fork on like screen only and like button
+
+25th jan, 2024
+> make the search screen work again
+> test the like button count when theres data

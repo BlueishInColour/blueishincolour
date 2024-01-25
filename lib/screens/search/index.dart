@@ -1,3 +1,4 @@
+import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/store/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,6 +29,19 @@ class SearchScreenState extends State<SearchScreen>
     tabsController = TabController(length: 2, vsync: this);
   }
 
+  var searchResult = [];
+  String searchText = '';
+
+  getPostSearchResult() async {
+    var res = await FirebaseFirestore.instance
+        .collection('posts')
+        .where('tags', arrayContainsAny: searchText.split(' '))
+        .get();
+    setState(() {
+      searchResult = res.docs;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +49,41 @@ class SearchScreenState extends State<SearchScreen>
           elevation: 0,
           backgroundColor: Colors.transparent,
           toolbarHeight: 40,
-          title: AppBar(
+          title: SizedBox(
+            height: 40,
+            child: TextField(
+              onChanged: (v) {
+                setState(() {
+                  searchText = v;
+                });
+              },
+              cursorHeight: 10,
+              showCursor: false,
+              style: TextStyle(fontSize: 10),
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () async {
+                    await getPostSearchResult();
+                  },
+                  icon: Icon(Icons.search, size: 19, color: Colors.black),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide(color: Colors.black, width: 0.5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide(color: Colors.blue, width: 1),
+                ),
+                hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 12,
+                    color: Colors.black),
+                hintText: 'find styles and posts',
+              ),
+            ),
+          ),
+          bottom: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: TabBar(
@@ -88,7 +136,7 @@ class searchPostsState extends State<searchPosts> {
 
   getPostSearchResult() async {
     var res = await FirebaseFirestore.instance
-        .collection('goods')
+        .collection('posts')
         .where('tags', arrayContainsAny: searchText.split(' '))
         .get();
     setState(() {
@@ -101,44 +149,6 @@ class searchPostsState extends State<searchPosts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: SizedBox(
-            height: 40,
-            child: TextField(
-              onChanged: (v) {
-                setState(() {
-                  searchText = v;
-                });
-              },
-              cursorHeight: 10,
-              showCursor: false,
-              style: TextStyle(fontSize: 10),
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () async {
-                    await getPostSearchResult();
-                  },
-                  icon: Icon(Icons.search, size: 19, color: Colors.black),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black, width: 0.5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.blue, width: 1),
-                ),
-                hintStyle: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 12,
-                    color: Colors.black),
-                hintText: 'find styles and posts',
-              ),
-            ),
-          ),
-        ),
         body: searchText.isEmpty
             ? Center(child: Text('search for any post'))
             : searchResult.isEmpty
@@ -163,7 +173,7 @@ class searchPostsState extends State<searchPosts> {
                         // index: index,
                         title: documentSnapshot['title'],
                         pictures: documentSnapshot['images'],
-                        postId: documentSnapshot['goodId'],
+                        postId: documentSnapshot['postId'],
                         headPostId: documentSnapshot['headPostId'],
                       );
                     },
@@ -198,7 +208,7 @@ class searchGeneralState extends State<searchGeneral> {
           //     ),
           //   ),
           // SliverToBoxAdapter(child: StreamBuilder(stream: FirebaseFirestore.instance
-          // .collection('goods').orderBy(field), builder: builder),),
+          // .collection('posts').orderBy(field), builder: builder),),
           //   SliverToBoxAdapter(
           //     child: SizedBox(height: 20),
           //   ),
@@ -372,74 +382,38 @@ class searchPeopleState extends State<searchPeople> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          title: SizedBox(
-            height: 40,
-            child: TextField(
-              onChanged: (v) {
-                setState(() {
-                  searchText = v;
-                });
-              },
-              cursorHeight: 10,
-              showCursor: false,
-              style: TextStyle(fontSize: 10),
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  onPressed: () async {
-                    await getPeopleSearchResult();
-                  },
-                  icon: Icon(Icons.search, size: 19, color: Colors.black),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.black, width: 0.5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide(color: Colors.blue, width: 1),
-                ),
-                hintStyle: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 12,
-                    color: Colors.black),
-                hintText: 'find fashioneers, models, logistics',
-              ),
-            ),
-          ),
-        ),
-        body: searchText.isEmpty
-            ? Center(child: Text('search for anybody'))
-            : searchResult.isEmpty
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ListView.builder(
-                    itemCount: searchResult.length,
-                    itemBuilder: (context, index) {
-                      var data = searchResult[index];
+    return Middle(
+      child: Scaffold(
+          body: searchText.isEmpty
+              ? Center(child: Text('search for anybody'))
+              : searchResult.isEmpty
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      itemCount: searchResult.length,
+                      itemBuilder: (context, index) {
+                        var data = searchResult[index];
 
-                      return ListTile(
-                        onTap: () {
-                          Navigator.push(context,
-                              PageRouteBuilder(pageBuilder: (context, _, __) {
-                            return ProfileScreen(
-                              userUid: data['uid'],
-                            );
-                          }));
-                        },
-                        leading: CircleAvatar(
-                          backgroundImage: CachedNetworkImageProvider(
-                            data['profilePicture'],
+                        return ListTile(
+                          onTap: () {
+                            Navigator.push(context,
+                                PageRouteBuilder(pageBuilder: (context, _, __) {
+                              return ProfileScreen(
+                                userUid: data['uid'],
+                              );
+                            }));
+                          },
+                          leading: CircleAvatar(
+                            backgroundImage: CachedNetworkImageProvider(
+                              data['profilePicture'],
+                            ),
                           ),
-                        ),
-                        title: Text(data['displayName']),
-                        subtitle: Text('@' '${data['userName']}'),
-                      );
-                    },
-                  ));
+                          title: Text(data['displayName']),
+                          subtitle: Text('@' '${data['userName']}'),
+                        );
+                      },
+                    )),
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/profile/edit_profile.dart';
 import 'package:blueishincolour/utils/chat_button.dart';
@@ -11,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/goods.dart';
+// import '../../models/posts.g..dart';
 import 'item.dart';
 
 // final String uid =cc FirebaseAuth.instance.currentUser!.uid;
@@ -73,105 +74,108 @@ class ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      //wordrope],
+    return Middle(
+      child: Scaffold(
+        //wordrope],
 
-      body: Container(
-        padding: EdgeInsets.all(5),
-        child: ListView(children: [
-          Container(
-            height: 500,
-            child: FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('goods')
-                  .where('creatorUid', isEqualTo: widget.userUid)
-                  .get(),
-              builder: (context, snapshot) {
-                //if we have data, get all dic
+        body: Container(
+          padding: EdgeInsets.all(5),
+          child: ListView(children: [
+            Container(
+              height: 500,
+              child: FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('posts')
+                    .where('creatorUid', isEqualTo: widget.userUid)
+                    .get(),
+                builder: (context, snapshot) {
+                  //if we have data, get all dic
 
-                if (snapshot.hasData) {
-                  if (userName.isEmpty) {
-                    return Scaffold(
-                        body: Center(child: CircularProgressIndicator()));
+                  if (snapshot.hasData) {
+                    if (userName.isEmpty) {
+                      return Scaffold(
+                          body: Center(child: CircularProgressIndicator()));
+                    }
+                    if (snapshot.data!.docs.isEmpty) {
+                      return Center(
+                        child: Text(' no content yet'),
+                      );
+                    }
+                    return MasonryView(
+                        itemPadding: 3,
+                        listOfItem: snapshot.data!.docs,
+                        numberOfColumn: 4,
+                        itemBuilder: (item) {
+                          return Item(
+                            picture: item['images'][0],
+                          );
+                        });
                   }
-                  if (snapshot.data!.docs.isEmpty) {
-                    return Center(
-                      child: Text(' no content yet'),
-                    );
-                  }
-                  return MasonryView(
-                      itemPadding: 3,
-                      listOfItem: snapshot.data!.docs,
-                      numberOfColumn: 4,
-                      itemBuilder: (item) {
-                        return Item(
-                          picture: item['images'][0],
-                        );
-                      });
-                }
 
-                return GridView.count(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 2,
-                  mainAxisSpacing: 2,
-                  children: [
-                    Container(color: Colors.black26),
-                    Container(color: Colors.black26),
-                    Container(color: Colors.black26),
-                    Container(color: Colors.black26),
-                  ],
-                );
-              },
-            ),
-          )
-        ]),
-      ),
-      bottomSheet: GestureDetector(
-          // onTap: showBottomSheet,
-          child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
-              height: 70,
-              child: ListTile(
-                leading: BackButton(
-                  color: Colors.white60,
-                ),
-                horizontalTitleGap: 0,
-                contentPadding: EdgeInsets.all(0),
-                minLeadingWidth: 0,
-                title: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(profilePicture),
+                  return GridView.count(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                    children: [
+                      Container(color: Colors.black26),
+                      Container(color: Colors.black26),
+                      Container(color: Colors.black26),
+                      Container(color: Colors.black26),
+                    ],
+                  );
+                },
+              ),
+            )
+          ]),
+        ),
+        bottomSheet: GestureDetector(
+            // onTap: showBottomSheet,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15))),
+                height: 70,
+                child: ListTile(
+                  leading: BackButton(
+                    color: Colors.white60,
                   ),
-                  title: Text(
-                    displayName,
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  subtitle: Text(
-                    uid == FirebaseAuth.instance.currentUser!.uid
-                        ? '@${userName}' ' | ' 'my profile'
-                        : '@${userName}',
-                    style: TextStyle(color: Colors.white60),
-                  ),
-                  trailing: SizedBox(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        FollowButton(uid: widget.userUid),
-                        ChatButton(
-                            color: Colors.white60,
-                            userName: userName,
-                            displayName: displayName,
-                            profilePicture: profilePicture,
-                            uid: widget.userUid),
-                      ],
+                  horizontalTitleGap: 0,
+                  contentPadding: EdgeInsets.all(0),
+                  minLeadingWidth: 0,
+                  title: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage:
+                          CachedNetworkImageProvider(profilePicture),
+                    ),
+                    title: Text(
+                      displayName,
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    subtitle: Text(
+                      uid == FirebaseAuth.instance.currentUser!.uid
+                          ? '@${userName}' ' | ' 'my profile'
+                          : '@${userName}',
+                      style: TextStyle(color: Colors.white60),
+                    ),
+                    trailing: SizedBox(
+                      width: 100,
+                      child: Row(
+                        children: [
+                          FollowButton(uid: widget.userUid),
+                          ChatButton(
+                              color: Colors.white60,
+                              userName: userName,
+                              displayName: displayName,
+                              profilePicture: profilePicture,
+                              uid: widget.userUid),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ))),
+                ))),
+      ),
     );
   }
 }
