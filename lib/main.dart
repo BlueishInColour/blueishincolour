@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           appBarTheme:
-              AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: ButtonStyle(
             shape: MaterialStatePropertyAll(

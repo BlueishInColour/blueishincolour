@@ -86,7 +86,7 @@ class StoreScreenState extends State<StoreScreen>
             child: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              toolbarHeight: 70,
+              toolbarHeight: 40,
               title: Text(
                 "dress`r",
                 style: GoogleFonts.pacifico(
@@ -116,7 +116,7 @@ class StoreScreenState extends State<StoreScreen>
                               debugPrint('installit');
                               // http.get(Uri.parse(widget.installLink));
                               await launchUrl(
-                                  Uri.parse('http://www.twitter.com'),
+                                  Uri.parse('https://files.fm/u/7emgbkauvd'),
                                   mode: LaunchMode.inAppBrowserView,
                                   webOnlyWindowName: 'download dressr');
                             },

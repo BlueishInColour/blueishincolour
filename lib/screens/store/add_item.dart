@@ -47,6 +47,7 @@ class AddItemState extends State<AddItem> {
 
   String privateKey = 'private_A9tBBPhf/8CSEYPp+CR986xpRzE=';
 
+//single imagekit image
   Future<String> addSingleImage() async {
 //
     final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -79,6 +80,7 @@ class AddItemState extends State<AddItem> {
     return url;
   }
 
+// for many imagekit images
   addImage() async {
 //
     final xFile = await ImagePicker().pickMultiImage();
@@ -123,6 +125,7 @@ class AddItemState extends State<AddItem> {
     debugPrint('images');
   }
 
+//for firebase
   uploadPic() async {
     FirebaseStorage _storage = FirebaseStorage.instance;
 
@@ -186,7 +189,7 @@ class AddItemState extends State<AddItem> {
       );
     }
 
-    return image.isNotEmpty
+    return images.isNotEmpty
         ? Middle(
             child: Scaffold(
               appBar: AppBar(
