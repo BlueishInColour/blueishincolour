@@ -55,11 +55,13 @@ class SignupScreenState extends State<SignupScreen> {
         }
       }
 
-      //create tags for user
-      userTags.addAll(userNameController.text.split(' '));
-      userTags.add(displayNameController.text);
-      userTags.addAll(captionController.text.split(' '));
-      //
+      setState(() {
+        //create tags for user
+        userTags.addAll(userNameController.text.split(' '));
+        userTags.add(displayNameController.text);
+        userTags.addAll(captionController.text.split(' '));
+        //
+      });
       //
       await FirebaseFirestore.instance.collection('users').add({
         'uid': FirebaseAuth.instance.currentUser!.uid,

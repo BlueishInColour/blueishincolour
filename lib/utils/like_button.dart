@@ -25,29 +25,13 @@ class LikeButton extends StatefulWidget {
 }
 
 class LikeButtonState extends State<LikeButton> {
-  bool haveLiked = false;
-  checkLike() async {
-    var res = FirebaseFirestore.instance
-        .collection('likes')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('posts')
-        .where('postId', isEqualTo: widget.postId)
-        .snapshots();
-    if (await res.isEmpty) {
-      setState(() {
-        haveLiked = false;
-      });
-    } else {
-      haveLiked = true;
-    }
-  }
-
   like() async {
     await FirebaseFirestore.instance
         .collection('likes')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('posts')
-        .add({
+        .doc(widget.postId)
+        .set({
       //likedById
       'likedBy': FirebaseAuth.instance.currentUser!.uid,
       //post id
@@ -55,79 +39,67 @@ class LikeButtonState extends State<LikeButton> {
       //timeStamp
       'timestamp': Timestamp.now()
       //
-    }).whenComplete(() => setState(() {
-              haveLiked = true;
-            }));
+    });
   }
 
   dislike() async {
-    var res = await FirebaseFirestore.instance
-        .collection('likes')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('posts')
-        .where('postId', isEqualTo: widget.postId)
-        .get();
-    String id = res.docs.first.id;
     await FirebaseFirestore.instance
         .collection('likes')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('posts')
-        .doc(id)
-        .delete()
-        .whenComplete(() => setState(() {
-              haveLiked = false;
-            }));
+        .doc(widget.postId)
+        .delete();
 
     debugPrint('deleted');
   }
 
-  action() {
-    !haveLiked ? dislike() : like();
+  action() async {
+    var res = await FirebaseFirestore.instance
+        .collection('likes')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('posts')
+        .doc(widget.postId)
+        .get();
+    res.exists ? dislike() : like();
   }
 
   @override
   initState() {
     super.initState();
-
-    checkLike();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Badge(
-      backgroundColor: Colors.white,
-      label: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('likes')
-              // .doc()
-              // .collection('posts')
-              .where('postId', isEqualTo: widget.postId)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              var counts = snapshot.data!.docs.length.toString();
-              return Text(counts, style: TextStyle(color: Colors.black));
-            } else {
-              return Text('0');
-            }
-          }),
-      child: haveLiked
-          ? IconButton(
-              onPressed: action,
-              icon: Icon(
-                Icons.favorite,
-                color: const Color.fromARGB(255, 255, 17, 0),
-                size: 20,
-              ),
-            )
-          : IconButton(
-              onPressed: action,
-              icon: Icon(
-                LineIcons.heart,
-                color: Colors.white60,
-                size: 20,
-              ),
-            ),
-    );
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('likes')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('posts')
+            .doc(widget.postId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          bool haveLiked = snapshot.data!.exists;
+
+          return Badge(
+            backgroundColor: Colors.white,
+            child: haveLiked
+                ? IconButton(
+                    onPressed: action,
+                    icon: Icon(
+                      Icons.favorite,
+                      color: const Color.fromARGB(255, 255, 17, 0),
+                      size: 20,
+                    ),
+                  )
+                : IconButton(
+                    onPressed: action,
+                    icon: Icon(
+                      LineIcons.heart,
+                      color: Colors.white60,
+                      size: 20,
+                    ),
+                  ),
+          );
+        });
   }
 }

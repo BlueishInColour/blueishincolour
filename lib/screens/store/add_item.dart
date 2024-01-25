@@ -196,8 +196,35 @@ class AddItemState extends State<AddItem> {
         backgroundColor: Colors.black,
       );
     }
-    return images.isNotEmpty
+    return images.isEmpty
         ? Middle(
+            width: 500,
+            child: Scaffold(
+              backgroundColor: Colors.black,
+              appBar: AppBar(
+                automaticallyImplyLeading: true,
+                backgroundColor: Colors.black,
+              ),
+              body: Center(
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border:
+                          Border.all(color: Colors.grey.shade200, width: 6)),
+                  height: 50,
+                  child: Center(
+                      child: TextButton(
+                    onPressed: () async {
+                      await addImage();
+                    },
+                    child: Text('+  click to add image  +'),
+                  )),
+                ),
+              ),
+            ),
+          )
+        : Middle(
             width: 500,
             child: Scaffold(
               appBar: AppBar(
@@ -218,8 +245,9 @@ class AddItemState extends State<AddItem> {
                     onPressed: () async {
                       String postId = Uuid().v1();
 
-                      tags.addAll(captionsController.text.split(' '));
-
+                      setState(() {
+                        tags.addAll(captionsController.text.split(' '));
+                      });
                       var post = {
                         //id
                         'postId': postId,
@@ -254,7 +282,9 @@ class AddItemState extends State<AddItem> {
                                 .doc(postId);
                         await postCollection.set(post);
                         // Navigator.pop(context);
-                        images.clear();
+                        setState(() {
+                          images.clear();
+                        });
                       }
                     },
                     child: Text(
@@ -424,33 +454,6 @@ class AddItemState extends State<AddItem> {
                 ),
               ),
               resizeToAvoidBottomInset: true,
-            ),
-          )
-        : Middle(
-            width: 500,
-            child: Scaffold(
-              backgroundColor: Colors.black,
-              appBar: AppBar(
-                automaticallyImplyLeading: true,
-                backgroundColor: Colors.black,
-              ),
-              body: Center(
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border:
-                          Border.all(color: Colors.grey.shade200, width: 6)),
-                  height: 50,
-                  child: Center(
-                      child: TextButton(
-                    onPressed: () async {
-                      await addImage();
-                    },
-                    child: Text('+  click to add image  +'),
-                  )),
-                ),
-              ),
             ),
           );
   }
