@@ -28,6 +28,7 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Middle(
+      width: 500,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),

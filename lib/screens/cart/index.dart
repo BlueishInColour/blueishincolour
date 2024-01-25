@@ -15,6 +15,7 @@ class LikeScreenState extends State<LikeScreen> {
   @override
   Widget build(BuildContext context) {
     return Middle(
+      width: 500,
       child: Scaffold(
           body: StreamBuilder(
         stream: FirebaseFirestore.instance

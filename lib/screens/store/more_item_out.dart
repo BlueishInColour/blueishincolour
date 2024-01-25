@@ -1,5 +1,6 @@
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/more_item_in.dart';
+import 'package:blueishincolour/utils/install_app_function.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
@@ -118,10 +119,13 @@ class SteezeSectionState extends State<SteezeSection> {
                           backgroundColor: Colors.blue,
                           child: IconButton(
                             onPressed: () {
-                              Navigator.push(context, PageRouteBuilder(
-                                  pageBuilder: (context, _, __) {
-                                return AddItem(headPostId: widget.headPostId);
-                              }));
+                              kIsWeb
+                                  ? showInstallBottomSheet(context)
+                                  : Navigator.push(context, PageRouteBuilder(
+                                      pageBuilder: (context, _, __) {
+                                      return AddItem(
+                                          headPostId: widget.headPostId);
+                                    }));
                             },
                             icon:
                                 Icon(LineIcons.retweet, color: Colors.white60),

@@ -86,6 +86,7 @@ class EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Middle(
+      width: 500,
       child: Scaffold(
         appBar: AppBar(automaticallyImplyLeading: true),
         body: SizedBox(

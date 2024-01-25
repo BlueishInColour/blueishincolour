@@ -79,6 +79,7 @@ class StoreScreenState extends State<StoreScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Middle(
+      width: 500,
       child: Scaffold(
         appBar: Hidable(
             enableOpacityAnimation: true,
@@ -86,7 +87,6 @@ class StoreScreenState extends State<StoreScreen>
             child: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              toolbarHeight: 40,
               title: Text(
                 "dress`r",
                 style: GoogleFonts.pacifico(
@@ -94,38 +94,6 @@ class StoreScreenState extends State<StoreScreen>
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              bottom: kIsWeb
-                  ? AppBar(
-                      toolbarHeight: 15,
-                      backgroundColor: Colors.black,
-                      title: Row(children: [
-                        Text(
-                          'do more on dress`r, install for android ',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        Expanded(child: SizedBox()),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                fixedSize:
-                                    MaterialStatePropertyAll(Size(30, 7)),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.blue),
-                                foregroundColor:
-                                    MaterialStatePropertyAll(Colors.white)),
-                            onPressed: () async {
-                              debugPrint('installit');
-                              // http.get(Uri.parse(widget.installLink));
-                              await launchUrl(
-                                  Uri.parse('https://files.fm/u/7emgbkauvd'),
-                                  mode: LaunchMode.inAppBrowserView,
-                                  webOnlyWindowName: 'download dressr');
-                            },
-                            child: Text(
-                              'install',
-                              style: TextStyle(fontSize: 10),
-                            )),
-                      ]))
-                  : null,
             ),
             controller: widget.controller),
         backgroundColor: Colors.white,

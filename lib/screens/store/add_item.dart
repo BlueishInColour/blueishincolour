@@ -191,6 +191,7 @@ class AddItemState extends State<AddItem> {
 
     return images.isNotEmpty
         ? Middle(
+            width: 500,
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.transparent,
@@ -415,6 +416,7 @@ class AddItemState extends State<AddItem> {
             ),
           )
         : Middle(
+            width: 500,
             child: Scaffold(
               backgroundColor: Colors.black,
               appBar: AppBar(

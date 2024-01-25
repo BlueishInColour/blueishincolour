@@ -75,6 +75,7 @@ class ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Middle(
+      width: 500,
       child: Scaffold(
         //wordrope],
 

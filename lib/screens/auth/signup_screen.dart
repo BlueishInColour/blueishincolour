@@ -107,6 +107,7 @@ class SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return !setProfile
         ? Middle(
+            width: 500,
             child: Scaffold(
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -161,6 +162,7 @@ class SignupScreenState extends State<SignupScreen> {
         :
         //setProfile
         Middle(
+            width: 500,
             child: Scaffold(
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),

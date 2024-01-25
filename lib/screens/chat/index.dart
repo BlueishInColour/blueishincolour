@@ -78,6 +78,7 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Middle(
+      width: 500,
       child: Scaffold(
           body: SafeArea(
               child: ListView.builder(

@@ -383,6 +383,7 @@ class searchPeopleState extends State<searchPeople> {
   @override
   Widget build(BuildContext context) {
     return Middle(
+      width: 500,
       child: Scaffold(
           body: searchText.isEmpty
               ? Center(child: Text('search for anybody'))

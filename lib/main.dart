@@ -11,9 +11,11 @@ import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/search/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/index.dart';
+import 'package:blueishincolour/utils/install_app_function.dart';
 import 'package:blueishincolour/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hidable/hidable.dart';
 // blueishincolour@gmail.com
@@ -52,6 +54,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           appBarTheme:
+              AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: ButtonStyle(
             shape: MaterialStatePropertyAll(
@@ -148,6 +151,7 @@ class IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return Middle(
+      width: 500,
       child: Scaffold(
         body: [
           // LoginScreen(),
@@ -158,7 +162,7 @@ class IndexState extends State<Index> {
           // BlogScre
           SearchScreen(),
           LikeScreen(),
-          AddItem(headPostId: ''),
+          kIsWeb ? showInstallBottomSheet(context) : AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()
         ][currentIndex],

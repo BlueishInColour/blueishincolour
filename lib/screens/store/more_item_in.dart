@@ -1,6 +1,7 @@
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
+import 'package:blueishincolour/utils/install_app_function.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -119,12 +120,14 @@ class MoreItemInState extends State<MoreItemIn> {
                   backgroundColor: Colors.blue,
                   child: IconButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          PageRouteBuilder(pageBuilder: (context, _, __) {
-                        return AddItem(
-                          headPostId: '',
-                        );
-                      }));
+                      kIsWeb
+                          ? showInstallBottomSheet(context)
+                          : Navigator.push(context,
+                              PageRouteBuilder(pageBuilder: (context, _, __) {
+                              return AddItem(
+                                headPostId: '',
+                              );
+                            }));
                     },
                     icon: Icon(Icons.add, color: Colors.white60),
                   )),
