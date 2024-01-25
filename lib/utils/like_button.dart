@@ -25,7 +25,7 @@ class LikeButton extends StatefulWidget {
 }
 
 class LikeButtonState extends State<LikeButton> {
-  bool haveLiked = true;
+  bool haveLiked = false;
   checkLike() async {
     var res = FirebaseFirestore.instance
         .collection('likes')
@@ -82,7 +82,7 @@ class LikeButtonState extends State<LikeButton> {
   }
 
   action() {
-    haveLiked ? dislike() : like();
+    !haveLiked ? dislike() : like();
   }
 
   @override

@@ -29,6 +29,7 @@ class LikeScreenState extends State<LikeScreen> {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot snap = snapshot.data!.docs[index];
+                  debugPrint(snapshot.data!.docs.length.toString());
 
                   if (snapshot.hasData) {
                     return SavedStyle(
