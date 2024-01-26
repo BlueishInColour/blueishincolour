@@ -15,6 +15,7 @@ class MoreItemIn extends StatefulWidget {
     super.key,
     required this.postId,
     required this.headPostId,
+    required this.ancestorId,
     required this.title,
     required this.listOfPictures,
     this.creatorDisplayName = 'sampleDisplayName',
@@ -24,6 +25,7 @@ class MoreItemIn extends StatefulWidget {
   });
   final String postId;
   final String headPostId;
+  final String ancestorId;
   final List listOfPictures;
   final String title;
   final String creatorUserName;
@@ -97,6 +99,8 @@ class MoreItemInState extends State<MoreItemIn> {
                   title: widget.title,
                   pictures: widget.listOfPictures,
                   postId: widget.postId,
+                  headPostId: widget.headPostId,
+                  ancestorId: widget.ancestorId,
                 );
               },
             )

@@ -146,6 +146,7 @@ class StoreScreenState extends State<StoreScreen>
                         pictures: documentSnapshot['images'],
                         postId: documentSnapshot['postId'],
                         headPostId: documentSnapshot['headPostId'],
+                        ancestorId: documentSnapshot['ancestorId'],
                       );
                     })),
               );

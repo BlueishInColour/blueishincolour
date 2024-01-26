@@ -50,6 +50,7 @@ class PostSearchState extends State<PostSearch> {
                       pictures: documentSnapshot['images'],
                       postId: documentSnapshot['postId'],
                       headPostId: documentSnapshot['headPostId'],
+                      ancestorId: documentSnapshot['ancestorId'],
                     );
                   },
                 );

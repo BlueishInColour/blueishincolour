@@ -6,9 +6,13 @@ import 'package:line_icons/line_icons.dart';
 
 class RepostButton extends StatefulWidget {
   const RepostButton(
-      {super.key, required this.postId, required this.headPostId});
+      {super.key,
+      required this.postId,
+      required this.ancestorId,
+      required this.headPostId});
   final String headPostId;
   final String postId;
+  final String ancestorId;
   @override
   State<RepostButton> createState() => RepostButtonState();
 }
@@ -20,7 +24,10 @@ class RepostButtonState extends State<RepostButton> {
         onPressed: () {
           Navigator.push(context,
               PageRouteBuilder(pageBuilder: (context, _, __) {
-            return SteezeSection(headPostId: widget.headPostId);
+            return SteezeSection(
+              ancestorId: widget.ancestorId,
+              headPostId: widget.headPostId,
+            );
           }));
         },
         icon: Badge(

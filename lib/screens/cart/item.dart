@@ -48,6 +48,7 @@ class SavedStyleState extends State<SavedStyle> {
               pictures: documentSnapshot['images'],
               postId: documentSnapshot['postId'],
               headPostId: documentSnapshot['headPostId'],
+              ancestorId: documentSnapshot['ancestorId'],
             );
           } else {
             return Padding(

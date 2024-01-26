@@ -16,8 +16,10 @@ import '../../models/comments.dart';
 import './item.dart';
 
 class SteezeSection extends StatefulWidget {
-  const SteezeSection({super.key, required this.headPostId});
+  const SteezeSection(
+      {super.key, required this.ancestorId, required this.headPostId});
   final String headPostId;
+  final String ancestorId;
 
   @override
   State<SteezeSection> createState() => SteezeSectionState();
@@ -66,8 +68,13 @@ class SteezeSectionState extends State<SteezeSection> {
                       showPix: documentSnapshot['images'][0],
                       title: documentSnapshot['title'],
                       pictures: documentSnapshot['images'],
+                      //
+
                       postId: documentSnapshot['postId'],
                       headPostId: documentSnapshot['headPostId'],
+                      ancestorId: documentSnapshot['ancestorId'],
+
+                      //
                       creatorDisplayName:
                           documentSnapshot['creatorDisplayName'],
                       creatorProfilePicture:
@@ -93,13 +100,14 @@ class SteezeSectionState extends State<SteezeSection> {
                     Navigator.push(context,
                         PageRouteBuilder(pageBuilder: (context, _, __) {
                       return MoreItemIn(
-                        headPostId: data['headPostId'],
                         creatorDisplayName: data['creatorDisplayName'],
                         creatorProfilePicture: data['creatorProfilePicture'],
                         creatorUserName: data['creatorUserName'],
                         creatorUid: data['creatorUid'],
                         title: data['title'],
                         postId: data['postId'],
+                        headPostId: data['headPostId'],
+                        ancestorId: data['ancestorId'],
                         listOfPictures: data['images'],
                       );
                     }));
@@ -124,7 +132,8 @@ class SteezeSectionState extends State<SteezeSection> {
                                   : Navigator.push(context, PageRouteBuilder(
                                       pageBuilder: (context, _, __) {
                                       return AddItem(
-                                          headPostId: widget.headPostId);
+                                          ancestorId: data['ancestorId'],
+                                          headPostId: data['headPostId']);
                                     }));
                             },
                             icon:
