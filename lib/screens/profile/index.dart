@@ -79,55 +79,47 @@ class ProfileScreenState extends State<ProfileScreen>
       child: Scaffold(
         //wordrope],
 
-        body: Container(
-          padding: EdgeInsets.all(5),
-          child: ListView(children: [
-            Container(
-              height: 500,
-              child: FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection('posts')
-                    .where('creatorUid', isEqualTo: widget.userUid)
-                    .get(),
-                builder: (context, snapshot) {
-                  //if we have data, get all dic
+        body: FutureBuilder(
+          future: FirebaseFirestore.instance
+              .collection('posts')
+              .where('creatorUid', isEqualTo: widget.userUid)
+              .get(),
+          builder: (context, snapshot) {
+            //if we have data, get all dic
 
-                  if (snapshot.hasData) {
-                    if (userName.isEmpty) {
-                      return Scaffold(
-                          body: Center(child: CircularProgressIndicator()));
-                    }
-                    if (snapshot.data!.docs.isEmpty) {
-                      return Center(
-                        child: Text(' no content yet'),
-                      );
-                    }
-                    return MasonryView(
-                        itemPadding: 3,
-                        listOfItem: snapshot.data!.docs,
-                        numberOfColumn: 4,
-                        itemBuilder: (item) {
-                          return Item(
-                            picture: item['images'][0],
-                          );
-                        });
-                  }
+            if (snapshot.hasData) {
+              if (userName.isEmpty) {
+                return Scaffold(
+                    body: Center(child: CircularProgressIndicator()));
+              }
+              if (snapshot.data!.docs.isEmpty) {
+                return Center(
+                  child: Text(' no content yet'),
+                );
+              }
+              return MasonryView(
+                  itemPadding: 3,
+                  listOfItem: snapshot.data!.docs,
+                  numberOfColumn: 4,
+                  itemBuilder: (item) {
+                    return Item(
+                      picture: item['images'][0],
+                    );
+                  });
+            }
 
-                  return GridView.count(
-                    crossAxisCount: 4,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    children: [
-                      Container(color: Colors.black26),
-                      Container(color: Colors.black26),
-                      Container(color: Colors.black26),
-                      Container(color: Colors.black26),
-                    ],
-                  );
-                },
-              ),
-            )
-          ]),
+            return GridView.count(
+              crossAxisCount: 4,
+              crossAxisSpacing: 2,
+              mainAxisSpacing: 2,
+              children: [
+                Container(color: Colors.black26),
+                Container(color: Colors.black26),
+                Container(color: Colors.black26),
+                Container(color: Colors.black26),
+              ],
+            );
+          },
         ),
         bottomSheet: GestureDetector(
             // onTap: showBottomSheet,

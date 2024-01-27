@@ -7,6 +7,7 @@ import 'package:blueishincolour/screens/auth/login_or_signup.dart';
 import 'package:blueishincolour/screens/auth/signup_screen.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
+import 'package:blueishincolour/screens/create_post/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/search/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
@@ -163,8 +164,8 @@ class IndexState extends State<Index> {
           SearchScreen(),
           LikeScreen(),
           // kIsWeb ? showInstallBottomSheet(context) :
-
-          AddItem(headPostId: ''),
+          CreateScreen()
+          // AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()
         ][currentIndex],
