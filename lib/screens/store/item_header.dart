@@ -9,11 +9,13 @@ class ItemHeader extends StatefulWidget {
   const ItemHeader(
       {super.key,
       required this.creatorUid,
+      required this.ancestorId,
       required this.headPostId,
       required this.postId});
   final String creatorUid;
   final String postId;
   final String headPostId;
+  final String ancestorId;
   @override
   State<ItemHeader> createState() => ItemHeaderState();
 }
@@ -81,6 +83,7 @@ class ItemHeaderState extends State<ItemHeader> {
                   ),
                   Expanded(child: SizedBox()),
                   RepostButton(
+                    ancestorId: widget.ancestorId,
                     postId: widget.postId,
                     headPostId: widget.headPostId,
                   ),

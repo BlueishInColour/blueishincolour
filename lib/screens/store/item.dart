@@ -25,6 +25,7 @@ class Item extends StatefulWidget {
       required this.showPix,
       this.postId = '',
       this.headPostId = '',
+      required this.ancestorId,
       required this.swipeBack,
       required this.onTap,
       this.typeOfShowlist = 'for later',
@@ -38,6 +39,7 @@ class Item extends StatefulWidget {
   final Function() onTap;
   final String postId;
   final String headPostId;
+  final String ancestorId;
   final String creatorUserName;
   final String creatorDisplayName;
   final String creatorUid;
@@ -85,6 +87,7 @@ class ItemState extends State<Item> {
             title: widget.title,
             postId: widget.postId,
             headPostId: widget.headPostId,
+            ancestorId: widget.ancestorId,
             listOfPictures: widget.pictures,
           );
         }));
@@ -121,6 +124,7 @@ class ItemState extends State<Item> {
             //headder`
             ItemHeader(
                 creatorUid: widget.creatorUid,
+                ancestorId: widget.ancestorId,
                 headPostId: widget.headPostId,
                 postId: widget.postId),
 

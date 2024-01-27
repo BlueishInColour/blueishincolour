@@ -16,8 +16,13 @@ import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({super.key, required this.headPostId});
+  const AddItem({
+    super.key,
+    this.headPostId = '',
+    this.ancestorId = '',
+  });
   final String headPostId;
+  final String ancestorId;
 
   @override
   State<AddItem> createState() => AddItemState();
@@ -37,6 +42,10 @@ class AddItemState extends State<AddItem> {
   List<String> tags = [];
   List<String> listOfModels = [];
   String image = '';
+
+  String postId = Uuid().v1();
+  String headPost = Uuid().v1();
+  String ancestor = Uuid().v1();
 
   var userDetails = {};
 
@@ -243,8 +252,6 @@ class AddItemState extends State<AddItem> {
                 actions: [
                   TextButton(
                     onPressed: () async {
-                      String postId = Uuid().v1();
-
                       setState(() {
                         tags.addAll(captionsController.text.split(' '));
                       });
@@ -252,6 +259,7 @@ class AddItemState extends State<AddItem> {
                         //id
                         'postId': postId,
                         'headPostId': widget.headPostId,
+                        'ancestorId': widget.ancestorId,
 
                         //titles and content
                         'title': ' ',
