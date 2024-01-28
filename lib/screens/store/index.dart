@@ -132,11 +132,6 @@ class StoreScreenState extends State<StoreScreen>
 
                       return Item(
                         swipeBack: false,
-                        creatorProfilePicture:
-                            documentSnapshot['creatorProfilePicture'],
-                        creatorDisplayName:
-                            documentSnapshot['creatorDisplayName'],
-                        creatorUserName: documentSnapshot['creatorUserName'],
                         creatorUid: documentSnapshot['creatorUid'],
                         showPix: documentSnapshot['images'][0],
                         onTap: () {},

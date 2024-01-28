@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../store/item.dart';
+
 class CreateScreen extends StatefulWidget {
   const CreateScreen({super.key});
 
@@ -8,9 +10,30 @@ class CreateScreen extends StatefulWidget {
 }
 
 class CreateScreenState extends State<CreateScreen> {
+  List listOfCreatingPost = [];
+  Map<String, dynamic> onePost = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: ListView.builder(
+        itemCount: listOfCreatingPost.length,
+        itemBuilder: (context, index) {
+          var post = listOfCreatingPost[index];
+          return Item(
+            // typeOfShowlist: '',
+            swipeBack: false, creatorUid: post['creatorUid'],
+            showPix: post['images'][0],
+            onTap: () {},
+            title: post['title'],
+            pictures: post['images'],
+
+            //
+            postId: post['postId'],
+            headPostId: post['headPostId'],
+            ancestorId: post['ancestorId'],
+          );
+        },
+      ),
       bottomSheet: Container(
         decoration: BoxDecoration(
             color: Colors.black,

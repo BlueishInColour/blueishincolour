@@ -33,7 +33,7 @@ class LikeScreenState extends State<LikeScreen> {
 
                   if (snapshot.hasData) {
                     return SavedStyle(
-                        postId: snap['postId'], typeOfShowlist: '');
+                        postId: snap['postId'],);
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }

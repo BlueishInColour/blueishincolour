@@ -18,10 +18,7 @@ class Item extends StatefulWidget {
       this.title = 'fake title',
       this.index = 1,
       this.pictures = const [],
-      this.creatorDisplayName = 'sampleDisplayName',
-      this.creatorUserName = 'sampleUserName',
       this.creatorUid = 'sampleUid',
-      this.creatorProfilePicture = 'https://sample',
       required this.showPix,
       this.postId = '',
       this.headPostId = '',
@@ -40,10 +37,7 @@ class Item extends StatefulWidget {
   final String postId;
   final String headPostId;
   final String ancestorId;
-  final String creatorUserName;
-  final String creatorDisplayName;
   final String creatorUid;
-  final String creatorProfilePicture;
   final List<dynamic> pictures;
   final String showPix;
   final bool swipeBack;
@@ -80,9 +74,6 @@ class ItemState extends State<Item> {
       onTap: () {
         Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
           return MoreItemIn(
-            creatorDisplayName: widget.creatorDisplayName,
-            creatorProfilePicture: widget.creatorProfilePicture,
-            creatorUserName: widget.creatorUserName,
             creatorUid: widget.creatorUid,
             title: widget.title,
             postId: widget.postId,

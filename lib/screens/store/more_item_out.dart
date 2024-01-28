@@ -75,11 +75,7 @@ class SteezeSectionState extends State<SteezeSection> {
                       ancestorId: documentSnapshot['ancestorId'],
 
                       //
-                      creatorDisplayName:
-                          documentSnapshot['creatorDisplayName'],
-                      creatorProfilePicture:
-                          documentSnapshot['creatorProfilePicture'],
-                      creatorUserName: documentSnapshot['creatorUserName'],
+
                       creatorUid: documentSnapshot['creatorUid'],
                     );
                   },

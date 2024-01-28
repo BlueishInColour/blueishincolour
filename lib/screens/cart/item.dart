@@ -6,13 +6,13 @@ class SavedStyle extends StatefulWidget {
   const SavedStyle({
     super.key,
     required this.postId,
-    required this.typeOfShowlist,
+    // required this.typeOfShowlist,
     // required this.timesamp
   });
 
   // final Timestamp timesamp;
   final String postId;
-  final String typeOfShowlist;
+  // final String typeOfShowlist;
 
   getPost(String postId) async {}
   @override
@@ -35,12 +35,8 @@ class SavedStyleState extends State<SavedStyle> {
             DocumentSnapshot documentSnapshot = snapshot.data!.docs[0];
 
             return Item(
-              typeOfShowlist: widget.typeOfShowlist,
-              swipeBack: false,
-              creatorProfilePicture: documentSnapshot['creatorProfilePicture'],
-              creatorDisplayName: documentSnapshot['creatorDisplayName'],
-              creatorUserName: documentSnapshot['creatorUserName'],
-              creatorUid: documentSnapshot['creatorUid'],
+              // typeOfShowlist: '',
+              swipeBack: false, creatorUid: documentSnapshot['creatorUid'],
               showPix: documentSnapshot['images'][0],
               onTap: () {},
               // index: index,

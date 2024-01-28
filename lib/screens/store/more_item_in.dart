@@ -90,9 +90,6 @@ class MoreItemInState extends State<MoreItemIn> {
                 return Item(
                   index: index + 1,
                   swipeBack: true,
-                  creatorDisplayName: widget.creatorDisplayName,
-                  creatorProfilePicture: widget.creatorProfilePicture,
-                  creatorUserName: widget.creatorUserName,
                   creatorUid: widget.creatorUid,
                   onTap: () {},
                   showPix: widget.listOfPictures[index],
