@@ -39,7 +39,7 @@ class ItemPictureState extends State<ItemPicture> {
         ));
   }
 
-  int currentIndex = 0;
+  int currentMainIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,7 +57,7 @@ class ItemPictureState extends State<ItemPicture> {
                 errorWidget: (context, _, __) => Container(color: Colors.red),
                 placeholder: (context, _) =>
                     Container(color: Colors.black26, height: 500),
-    
+
                 // images[index],
               ),
             ),

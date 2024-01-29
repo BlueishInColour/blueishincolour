@@ -104,7 +104,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  int currentIndex = 3;
+  int currentMainIndex = 3;
   @override
   void initState() {
     super.initState();
@@ -138,15 +138,15 @@ class SplashScreenState extends State<SplashScreen> {
 
 // import 'package:flutter/material.dart';
 //
-class Index extends StatefulWidget {
-  const Index({super.key});
+class MainIndex extends StatefulWidget {
+  const MainIndex({super.key});
 
   @override
-  State<Index> createState() => IndexState();
+  State<MainIndex> createState() => MainIndexState();
 }
 
-class IndexState extends State<Index> {
-  int currentIndex = 3;
+class MainIndexState extends State<MainIndex> {
+  int currentMainIndex = 3;
 
   final controller = ScrollController();
   @override
@@ -168,15 +168,15 @@ class IndexState extends State<Index> {
           // AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()
-        ][currentIndex],
+        ][currentMainIndex],
         bottomNavigationBar: Hidable(
           controller: controller,
           enableOpacityAnimation: true,
           child: BottomNavigationBar(
-              currentIndex: currentIndex,
+              currentIndex: currentMainIndex,
               onTap: (v) {
                 setState(() {
-                  currentIndex = v;
+                  currentMainIndex = v;
                 });
               },
               showSelectedLabels: false,

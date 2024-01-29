@@ -11,7 +11,7 @@ class OfflineItem extends StatefulWidget {
       required this.caption,
       required this.picture,
       required this.onTap,
-      this.borderActiveColor = Colors.black});
+      this.borderActiveColor = Colors.transparent});
   final String caption;
   final String picture;
   final Color borderActiveColor;
@@ -25,18 +25,42 @@ class OfflineItemState extends State<OfflineItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(margin: EdgeInsets.all(10),padding: EdgeInsets.all(10),
+      child: Container(
+        margin: EdgeInsets.all(10),
+        // padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            border: Border.all(color: widget.borderActiveColor, width: 2),
-            borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        children: [
-          Text(widget.caption),
-          Divider(),
-        CachedNetworkImage(imageUrl: widget.picture,placeholder: (context,string){return Container();},errorWidget: (context,_,__){return Container();}),
-        ],
-      ),
-      
+          color: Colors.blue,
+          border: Border.all(color: widget.borderActiveColor, width: 0),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.caption,
+                  style: TextStyle(color: Colors.black54),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            // Divider(),
+            Container(
+              child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: widget.picture,
+                  placeholder: (context, string) {
+                    return Container();
+                  },
+                  errorWidget: (context, _, __) {
+                    return Container();
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
