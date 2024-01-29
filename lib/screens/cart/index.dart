@@ -1,5 +1,5 @@
 import 'package:blueishincolour/middle.dart';
-import 'package:blueishincolour/screens/cart/item.dart';
+import 'package:blueishincolour/screens/store/item/item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +32,9 @@ class LikeScreenState extends State<LikeScreen> {
                   debugPrint(snapshot.data!.docs.length.toString());
 
                   if (snapshot.hasData) {
-                    return SavedStyle(
-                        postId: snap['postId'],);
+                    return Item(
+                      postId: snap['postId'],
+                    );
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }

@@ -13,12 +13,13 @@ import 'package:line_icons/line_icons.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../models/comments.dart';
-import './item.dart';
+import 'item/item.dart';
 
 class SteezeSection extends StatefulWidget {
-  const SteezeSection(
-      {super.key, required this.ancestorId, required this.headPostId});
-  final String headPostId;
+  const SteezeSection({
+    super.key,
+    required this.ancestorId,
+  });
   final String ancestorId;
 
   @override
@@ -47,7 +48,7 @@ class SteezeSectionState extends State<SteezeSection> {
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('posts')
-                .where('headPostId', isEqualTo: widget.headPostId)
+                .where('ancestorId', isEqualTo: widget.ancestorId)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -63,20 +64,7 @@ class SteezeSectionState extends State<SteezeSection> {
                     DocumentSnapshot documentSnapshot =
                         snapshot.data!.docs[index];
                     return Item(
-                      swipeBack: true,
-                      onTap: () {},
-                      showPix: documentSnapshot['images'][0],
-                      title: documentSnapshot['title'],
-                      pictures: documentSnapshot['images'],
-                      //
-
                       postId: documentSnapshot['postId'],
-                      headPostId: documentSnapshot['headPostId'],
-                      ancestorId: documentSnapshot['ancestorId'],
-
-                      //
-
-                      creatorUid: documentSnapshot['creatorUid'],
                     );
                   },
                 );
@@ -96,15 +84,9 @@ class SteezeSectionState extends State<SteezeSection> {
                     Navigator.push(context,
                         PageRouteBuilder(pageBuilder: (context, _, __) {
                       return MoreItemIn(
-                        creatorDisplayName: data['creatorDisplayName'],
-                        creatorProfilePicture: data['creatorProfilePicture'],
-                        creatorUserName: data['creatorUserName'],
                         creatorUid: data['creatorUid'],
-                        title: data['title'],
                         postId: data['postId'],
-                        headPostId: data['headPostId'],
                         ancestorId: data['ancestorId'],
-                        listOfPictures: data['images'],
                       );
                     }));
                   },

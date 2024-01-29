@@ -82,7 +82,8 @@ class ProfileScreenState extends State<ProfileScreen>
         body: FutureBuilder(
           future: FirebaseFirestore.instance
               .collection('posts')
-              .where('creatorUid', isEqualTo: widget.userUid)
+              .doc(widget.userUid)
+              .collection('posts')
               .get(),
           builder: (context, snapshot) {
             //if we have data, get all dic
@@ -104,21 +105,14 @@ class ProfileScreenState extends State<ProfileScreen>
                   itemBuilder: (item) {
                     return Item(
                       picture: item['images'][0],
+                      ancestorId: item['ancestorId'],
+                      postId: item['postId'],
+                      creatorUid: item['creatorUid'],
                     );
                   });
             }
 
-            return GridView.count(
-              crossAxisCount: 4,
-              crossAxisSpacing: 2,
-              mainAxisSpacing: 2,
-              children: [
-                Container(color: Colors.black26),
-                Container(color: Colors.black26),
-                Container(color: Colors.black26),
-                Container(color: Colors.black26),
-              ],
-            );
+            return Center(child: CircularProgressIndicator());
           },
         ),
         bottomSheet: GestureDetector(

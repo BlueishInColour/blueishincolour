@@ -2,7 +2,7 @@ import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/search/post_search.dart';
 import 'package:blueishincolour/screens/search/user_search.dart';
-import 'package:blueishincolour/screens/store/item.dart';
+import 'package:blueishincolour/screens/store/item/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

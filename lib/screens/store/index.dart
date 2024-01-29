@@ -17,7 +17,7 @@ import 'package:refresh_loadmore/refresh_loadmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/posts.dart';
 import '../../utils/blueishincolour_icon.dart';
-import 'item.dart';
+import 'item/item.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({super.key, required this.controller});
@@ -131,17 +131,7 @@ class StoreScreenState extends State<StoreScreen>
                           snapshot.data!.docs[index];
 
                       return Item(
-                        swipeBack: false,
-                        creatorUid: documentSnapshot['creatorUid'],
-                        showPix: documentSnapshot['images'][0],
-                        onTap: () {},
-                        // index: index,
-
-                        title: documentSnapshot['title'],
-                        pictures: documentSnapshot['images'],
                         postId: documentSnapshot['postId'],
-                        headPostId: documentSnapshot['headPostId'],
-                        ancestorId: documentSnapshot['ancestorId'],
                       );
                     })),
               );

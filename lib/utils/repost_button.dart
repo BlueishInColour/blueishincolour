@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class RepostButton extends StatefulWidget {
-  const RepostButton(
-      {super.key,
-      required this.postId,
-      required this.ancestorId,
-      required this.headPostId});
-  final String headPostId;
+  const RepostButton({
+    super.key,
+    required this.postId,
+    required this.ancestorId,
+  });
   final String postId;
   final String ancestorId;
   @override
@@ -26,7 +25,6 @@ class RepostButtonState extends State<RepostButton> {
               PageRouteBuilder(pageBuilder: (context, _, __) {
             return SteezeSection(
               ancestorId: widget.ancestorId,
-              headPostId: widget.headPostId,
             );
           }));
         },
@@ -36,8 +34,8 @@ class RepostButtonState extends State<RepostButton> {
               stream: FirebaseFirestore.instance
                   .collection('posts')
                   .where(
-                    'headPostId',
-                    isEqualTo: widget.headPostId,
+                    'ancestorId',
+                    isEqualTo: widget.ancestorId,
                   )
                   .snapshots(),
               builder: (context, snapshot) {
