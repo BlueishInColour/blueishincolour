@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../utils/utils_functions.dart';
 
@@ -83,7 +84,7 @@ class SignupScreenState extends State<SignupScreen> {
   }
 
   setProfilePicture() async {
-    String url = await addSingleImage();
+    String url = await addSingleImage(ImageSource.gallery);
     setState(() {
       profilePicture = url;
     });

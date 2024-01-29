@@ -30,13 +30,14 @@ class OfflineItemState extends State<OfflineItem> {
             borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [
-            //header with
-            // ItemHeader(
-            //     creatorUid: FirebaseAuth.instance.currentUser!.uid,
-            //     ancestorId: '',
-            //     postId: ''),
+            // header with
+            ItemHeader(
+                creatorUid: FirebaseAuth.instance.currentUser!.uid,
+                ancestorId: '',
+                postId: '',
+                showButtons: false),
 
-            //caption
+            // caption
             ItemCaption(caption: widget.caption, backgroundColor: Colors.blue),
             //pictures
             ItemPicture(

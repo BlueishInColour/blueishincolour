@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:blueishincolour/middle.dart';
+import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -94,9 +95,17 @@ class StoreScreenState extends State<StoreScreen>
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              actions: [
+                IconButton(
+                    onPressed: () async {
+                      await AuthService().logout();
+                    },
+                    icon: Icon(Icons.logout, color: Colors.black54))
+              ],
             ),
             controller: widget.controller),
         backgroundColor: Colors.white,
+        // botaiga@gmail.com
         // floatingActionButton: kIsWeb
         //     ? null
         //     : FloatingActionButton(

@@ -11,10 +11,12 @@ class ItemHeader extends StatefulWidget {
       {super.key,
       required this.creatorUid,
       required this.ancestorId,
+      this.showButtons = true,
       required this.postId});
   final String creatorUid;
   final String postId;
   final String ancestorId;
+  final bool showButtons;
   @override
   State<ItemHeader> createState() => ItemHeaderState();
 }
@@ -84,21 +86,24 @@ class ItemHeaderState extends State<ItemHeader> {
                       ),
                     ),
                     Expanded(child: SizedBox()),
-                    RepostButton(
-                      ancestorId: widget.ancestorId,
-                      postId: widget.postId,
-                    ),
-                    LikeButton(
-                        typeOfShowlist: '',
-                        idType: 'postId',
-                        postId: widget.postId,
-                        collection: 'posts'),
-                    SizedBox(width: 5),
+                    widget.showButtons
+                        ? Row(
+                            children: [
+                              RepostButton(
+                                ancestorId: widget.ancestorId,
+                                postId: widget.postId,
+                              ),
+                              LikeButton(
+                                  typeOfShowlist: '',
+                                  idType: 'postId',
+                                  postId: widget.postId,
+                                  collection: 'posts'),
+                              SizedBox(width: 5),
+                            ],
+                          )
+                        : SizedBox(),
                   ],
                 ),
-                ItemCaption(
-                  caption: snap['caption'],
-                )
               ],
             ),
           ),
