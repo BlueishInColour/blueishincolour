@@ -100,9 +100,9 @@ Future<String> uploadPixGetUrl(File file) async {
   return '';
 }
 
-Future<String> addSingleImage() async {
+Future<String> addSingleImage(ImageSource source) async {
 //
-  final xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+  final xFile = await ImagePicker().pickImage(source: source);
 
   File file = File(xFile!.path);
   //
