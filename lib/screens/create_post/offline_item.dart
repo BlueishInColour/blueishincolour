@@ -1,6 +1,7 @@
 import 'package:blueishincolour/screens/store/item/item_caption.dart';
 import 'package:blueishincolour/screens/store/item/item_header.dart';
 import 'package:blueishincolour/screens/store/item/item_picture.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class OfflineItem extends StatefulWidget {
       required this.caption,
       required this.picture,
       required this.onTap,
-      this.borderActiveColor = Colors.transparent});
+      this.borderActiveColor = Colors.black});
   final String caption;
   final String picture;
   final Color borderActiveColor;
@@ -24,27 +25,18 @@ class OfflineItemState extends State<OfflineItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(
+      child: Container(margin: EdgeInsets.all(10),padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             border: Border.all(color: widget.borderActiveColor, width: 2),
             borderRadius: BorderRadius.circular(15)),
-        child: Column(
-          children: [
-            // header with
-            ItemHeader(
-                creatorUid: FirebaseAuth.instance.currentUser!.uid,
-                ancestorId: '',
-                postId: '',
-                showButtons: false),
-
-            // caption
-            ItemCaption(caption: widget.caption, backgroundColor: Colors.blue),
-            //pictures
-            ItemPicture(
-              picture: widget.picture,
-            )
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(widget.caption),
+          Divider(),
+        CachedNetworkImage(imageUrl: widget.picture,placeholder: (context,string){return Container();},errorWidget: (context,_,__){return Container();}),
+        ],
+      ),
+      
       ),
     );
   }

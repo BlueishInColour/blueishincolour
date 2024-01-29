@@ -104,7 +104,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  int currentIndex = 0;
+  int currentIndex = 3;
   @override
   void initState() {
     super.initState();
@@ -146,7 +146,7 @@ class Index extends StatefulWidget {
 }
 
 class IndexState extends State<Index> {
-  int currentIndex = 0;
+  int currentIndex = 3;
 
   final controller = ScrollController();
   @override

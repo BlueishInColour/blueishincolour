@@ -50,118 +50,119 @@ class CreateScreenState extends State<CreateScreen> {
     }
 
     return Scaffold(
-        body: Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: listOfCreatingPost.length,
-            itemBuilder: (context, index) {
-              var post = listOfCreatingPost[index];
-              if (currentEditingItem == index) {
-                return OfflineItem(
-                  onTap: () {
-                    setState(() {
-                      currentEditingItem = index;
-                    });
-                  },
-                  borderActiveColor: Colors.blue,
-                  picture: post['picture'],
-                  caption: post['caption'],
-                );
-              } else {
-                return OfflineItem(
-                  onTap: () {
-                    setState(() {
-                      currentEditingItem = index;
-                    });
-                  },
-                  picture: post['picture'],
-                  caption: post['caption'],
-                );
-              }
-            },
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
-            children: [
-              ListTile(
-                  leading: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          listOfCreatingPost.add(onePost);
-                        });
-                      },
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.white60,
-                      )),
-                  title: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          child: IconButton(
+                children: [
+          Expanded(
+            child:listOfCreatingPost.isEmpty?Center(child: Text('click add to start editing'),): ListView.builder(
+              itemCount: listOfCreatingPost.length,
+              itemBuilder: (context, index) {
+                var post = listOfCreatingPost[index];
+                if (currentEditingItem == index) {
+                  return OfflineItem(
+                    onTap: () {
+                      setState(() {
+                        currentEditingItem = index;
+                      });
+                    },
+                    borderActiveColor: Colors.blue,
+                    picture: post['picture'],
+                    caption: post['caption'],
+                  );
+                } else {
+                  return OfflineItem(
+                    onTap: () {
+                      setState(() {
+                        currentEditingItem = index;
+                      });
+                    },
+                    picture: post['picture'],
+                    caption: post['caption'],
+                  );
+                }
+              },
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+            child: Column(
+              children: [
+                ListTile(
+                    leading: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            listOfCreatingPost.add(onePost);
+                          });
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white60,
+                        )),
+                    title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
                               onPressed: () {
                                 setState(() {
                                   currentActiveButton = 0;
                                 });
                               },
-                              icon: Icon(Icons.abc)),
-                        ),
-                        SizedBox(width: 10),
-                        CircleAvatar(
-                          child: IconButton(
+                              icon: Icon(Icons.abc,color:Colors.white60)),
+                          SizedBox(width: 10),
+                          IconButton(
                               onPressed: () {
                                 setState(() {
                                   currentActiveButton = 1;
                                 });
                               },
-                              icon: Icon(Icons.camera_alt)),
-                        ),
-                      ]),
-                  trailing: CircleAvatar(
-                    child: IconButton(onPressed: () {}, icon: Icon(Icons.send)),
-                  )),
-            ],
-          ),
-        ),
-        [
-          SizedBox(
-            child: MessageBar(
-              messageBarColor: Colors.black,
-              onTextChanged: (text) {
-                setState(() {
-                  listOfCreatingPost[currentEditingItem]['caption'] = text;
-                });
-              },
+                              icon: Icon(Icons.camera_alt,color:Colors.white60)),
+                        ]),
+                    trailing: CircleAvatar(
+                      child: IconButton(onPressed: () {}, icon: Icon(Icons.send)),
+                    )),
+              ],
             ),
           ),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () async {
-                    String url = await addSingleImage(ImageSource.camera);
+          [
+            Container(color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal:10.0),
+                child: TextField(onChanged:  (text) {
                     setState(() {
-                      listOfCreatingPost[currentEditingItem]['picture'] = url;
+                      listOfCreatingPost[currentEditingItem]['caption'] = text;
                     });
-                  },
-                  icon: Icon(Icons.camera_alt)),
-              IconButton(
-                  onPressed: () async {
-                    String url = await addSingleImage(ImageSource.gallery);
-                    setState(() {
-                      listOfCreatingPost[currentEditingItem]['picture'] = url;
-                    });
-                  },
-                  icon: Icon(Icons.file_copy))
-            ],
-          )
-        ][currentActiveButton]
-      ],
-    ));
+                  },cursorColor: Colors.white60,style: TextStyle(color:Colors.white60),decoration: InputDecoration(fillColor: Colors.white60,focusColor: Colors.white)),
+              )
+            ),
+            Container(color:Colors.black,
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () async {
+                        String url = await addSingleImage(ImageSource.camera);
+                        setState(() {
+                          listOfCreatingPost[currentEditingItem]['picture'] = url;
+                        });
+                      },
+                      icon: Icon(Icons.camera,color: Colors.white60,)),SizedBox(width: 10,)
+                  ,IconButton(
+                      onPressed: () async {
+                        String url = await addSingleImage(ImageSource.gallery);
+                        setState(() {
+                          listOfCreatingPost[currentEditingItem]['picture'] = url;
+                        });
+                      },
+                      icon: Icon(Icons.file_copy,color: Colors.white60))
+                ],
+              ),
+            )
+          ][currentActiveButton]
+                ],
+              ),
+        ));
   }
 }
