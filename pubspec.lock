@@ -617,6 +617,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.6+16"
+  firebase_pagination:
+    dependency: "direct main"
+    description:
+      name: firebase_pagination
+      sha256: "46fad486feb9656d2b5198a30384d787efd602cef20d2fb33d9fb405f3e641de"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.1.0"
   firebase_storage:
     dependency: "direct main"
     description:

@@ -103,3 +103,8 @@ done - find better design for the blog page and remove appbar
     headPostId holds all the posts more in of
     ancenstorId holds all post of more out of 
 
+30th january 2024
+> profile should render post in masonary with firebase pagenated
+> work on the chat section
+> user should follow someone by liking
+> logo picute should be desplayed in here

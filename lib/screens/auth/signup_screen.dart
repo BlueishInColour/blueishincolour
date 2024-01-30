@@ -64,7 +64,10 @@ class SignupScreenState extends State<SignupScreen> {
         //
       });
       //
-      await FirebaseFirestore.instance.collection('users').add({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
         'uid': FirebaseAuth.instance.currentUser!.uid,
         'profilePicture': profilePicture,
         'userName': userNameController.text,

@@ -4,6 +4,7 @@ import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import '../../main.dart';
@@ -61,11 +62,19 @@ class CreateScreenState extends State<CreateScreen> {
       });
     }
 
-    uploadPost() async {
-    
+    createTags() {
+      listOfCreatingPost.forEach((element) {
+        List tagss = element['tags'];
+        setState(() {
+          tagss.addAll(element['caption'].split(' '));
+        });
+      });
+    }
 
+    uploadPost() async {
       listOfCreatingPost.forEach((element) async {
         String postId = Uuid().v1();
+        createTags();
         setState(() {
           element['postId'] = postId;
         });
@@ -84,16 +93,16 @@ class CreateScreenState extends State<CreateScreen> {
     }
 
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Expanded(
-            child: listOfCreatingPost.isEmpty
-                ? Center(
-                    child: Text('click add to start editing'),
-                  )
-                : ListView.builder(
+        body: Column(
+      children: [
+        Expanded(
+          child: listOfCreatingPost.isEmpty
+              ? Center(
+                  child: Text('click   +   to start editing'),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
                     itemCount: listOfCreatingPost.length,
                     itemBuilder: (context, index) {
                       var post = listOfCreatingPost[index];
@@ -133,106 +142,108 @@ class CreateScreenState extends State<CreateScreen> {
                       }
                     },
                   ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15))),
-            child: Column(
-              children: [
-                ListTile(
-                    leading: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            listOfCreatingPost.add(onePost);
-                          });
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white60,
-                        )),
-                    title: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  currentActiveButton = 0;
-                                });
-                              },
-                              icon: Icon(Icons.abc, color: Colors.white60)),
-                          SizedBox(width: 10),
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  currentActiveButton = 1;
-                                });
-                              },
-                              icon: Icon(Icons.camera_alt,
-                                  color: Colors.white60)),
-                        ]),
-                    trailing: CircleAvatar(
-                      child: IconButton(
-                          onPressed: uploadPost, icon: Icon(Icons.send)),
-                    )),
-              ],
-            ),
-          ),
-          [
-            Container(
-                color: Colors.black,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: TextField(autofocus: true,
-                      controller: textController,
-                      onChanged: (text) {
-                        setState(() {
-                          listOfCreatingPost[currentEditingItem]['caption'] =
-                              text;
-                        });
-                      },
-                      cursorColor: Colors.white60,
-                      style: TextStyle(color: Colors.white60),
-                      decoration: InputDecoration(
-                          fillColor: Colors.white60, focusColor: Colors.white)),
-                )),
-            Container(
+                ),
+        ),
+        Container(
+          decoration: BoxDecoration(
               color: Colors.black,
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () async {
-                        String url = await addSingleImage(ImageSource.camera);
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+          child: Column(
+            children: [
+              ListTile(
+                  leading: IconButton(
+                      onPressed: () {
                         setState(() {
-                          listOfCreatingPost[currentEditingItem]['picture'] =
-                              url;
+                          listOfCreatingPost.add(onePost);
                         });
                       },
                       icon: Icon(
-                        Icons.camera,
+                        Icons.add,
                         color: Colors.white60,
                       )),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  IconButton(
-                      onPressed: () async {
-                        String url = await addSingleImage(ImageSource.gallery);
-                        setState(() {
-                          listOfCreatingPost[currentEditingItem]['picture'] =
-                              url;
-                        });
-                      },
-                      icon: Icon(Icons.file_copy, color: Colors.white60))
-                ],
-              ),
-            )
-          ][currentActiveButton]
-        ],
-      ),
+                  title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                currentActiveButton = 0;
+                              });
+                            },
+                            icon: Icon(Icons.abc, color: Colors.white60)),
+                        SizedBox(width: 10),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                currentActiveButton = 1;
+                              });
+                            },
+                            icon: Icon(Icons.camera_alt_outlined,
+                                color: Colors.white60)),
+                      ]),
+                  trailing: CircleAvatar(
+                    child: IconButton(
+                        onPressed: uploadPost,
+                        icon: Icon(Icons.file_upload_outlined)),
+                  )),
+            ],
+          ),
+        ),
+        [
+          Container(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextField(
+                    autofocus: true,
+                    controller: textController,
+                    onChanged: (text) {
+                      setState(() {
+                        listOfCreatingPost[currentEditingItem]['caption'] =
+                            text;
+                      });
+                    },
+                    cursorColor: Colors.white60,
+                    style: TextStyle(color: Colors.white60),
+                    decoration: InputDecoration(
+                        hintText: 'write caption',
+                        hintStyle: TextStyle(color: Colors.white60),
+                        fillColor: Colors.white60,
+                        focusColor: Colors.white)),
+              )),
+          Container(
+            color: Colors.black,
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      String url = await addSingleImage(ImageSource.camera);
+                      setState(() {
+                        listOfCreatingPost[currentEditingItem]['picture'] = url;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.camera,
+                      color: Colors.white60,
+                    )),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    onPressed: () async {
+                      String url = await addSingleImage(ImageSource.gallery);
+                      setState(() {
+                        listOfCreatingPost[currentEditingItem]['picture'] = url;
+                      });
+                    },
+                    icon: Icon(Icons.file_copy, color: Colors.white60))
+              ],
+            ),
+          )
+        ][currentActiveButton]
+      ],
     ));
   }
 }

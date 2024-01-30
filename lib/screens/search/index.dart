@@ -12,7 +12,8 @@ import 'package:line_icons/line_icons.dart';
 import '../../utils/blueishincolour_icon.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({super.key, this.searchText = ''});
+  final String searchText;
 
   @override
   State<SearchScreen> createState() => SearchScreenState();
@@ -29,6 +30,9 @@ class SearchScreenState extends State<SearchScreen>
     super.initState();
 
     tabsController = TabController(length: 2, vsync: this);
+    setState(() {
+      controller.text = widget.searchText;
+    });
   }
 
   var searchResult = [];
@@ -48,12 +52,15 @@ class SearchScreenState extends State<SearchScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black54,
           toolbarHeight: 40,
           title: SizedBox(
             height: 40,
             child: TextField(
+              controller: controller,
               onChanged: (v) {
                 setState(() {
                   searchText = v;
@@ -65,7 +72,13 @@ class SearchScreenState extends State<SearchScreen>
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    await getPostSearchResult();
+                    // await getPostSearchResult();
+                    Navigator.push(context,
+                        PageRouteBuilder(pageBuilder: (context, _, __) {
+                      return SearchScreen(
+                        searchText: searchText,
+                      );
+                    }));
                   },
                   icon: Icon(Icons.search, size: 19, color: Colors.black),
                 ),
@@ -87,6 +100,7 @@ class SearchScreenState extends State<SearchScreen>
           ),
           bottom: AppBar(
             backgroundColor: Colors.transparent,
+            foregroundColor: Colors.black54,
             elevation: 0,
             title: TabBar(
                 dividerColor: Colors.transparent,
@@ -118,8 +132,8 @@ class SearchScreenState extends State<SearchScreen>
         body: TabBarView(controller: tabsController, children: [
           // searchGeneral(),
           // searchPosts(searchText: controller.text),
-          PostSearch(searchText: controller.text),
-          UserSearch(searchText: controller.text)
+          PostSearch(searchText: widget.searchText),
+          UserSearch(searchText: widget.searchText)
         ]));
   }
 }

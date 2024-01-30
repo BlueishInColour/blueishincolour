@@ -6,6 +6,7 @@ import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
+import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -80,79 +81,48 @@ class StoreScreenState extends State<StoreScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Middle(
-      width: 500,
-      child: Scaffold(
-        appBar: Hidable(
-            enableOpacityAnimation: true,
-            preferredWidgetSize: Size.fromHeight(90),
-            child: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: Text(
-                "dress`r",
-                style: GoogleFonts.pacifico(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
+        width: 500,
+        child: Scaffold(
+            appBar: Hidable(
+                enableOpacityAnimation: true,
+                preferredWidgetSize: Size.fromHeight(90),
+                child: AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  title: Text(
+                    "spart`r",
+                    style: GoogleFonts.pacifico(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  actions: [
+                    IconButton(
+                        onPressed: () async {
+                          await AuthService().logout();
+                        },
+                        icon: Icon(Icons.logout, color: Colors.black54))
+                  ],
                 ),
-              ),
-              actions: [
-                IconButton(
-                    onPressed: () async {
-                      await AuthService().logout();
-                    },
-                    icon: Icon(Icons.logout, color: Colors.black54))
-              ],
-            ),
-            controller: widget.controller),
-        backgroundColor: Colors.white,
-        // botaiga@gmail.com
-        // floatingActionButton: kIsWeb
-        //     ? null
-        //     : FloatingActionButton(
-        //         shape: BeveledRectangleBorder(
-        //             borderRadius: BorderRadius.circular(10)),
-        //         backgroundColor: Colors.black,
-        //         onPressed: () {
-        //           Navigator.push(context,
-        //               PageRouteBuilder(pageBuilder: (context, _, __) {
-        //             return AddItem(
-        //               headPostId: 'g',
-        //             );
-        //           }));
-        //         },
-        //         child: Icon(Icons.add, color: Colors.white60),
-        //       ),
-        body: StreamBuilder(
-          stream: db
-              .collection('posts')
-              // .orderBy('timestamp', descending: true)
-              .snapshots(),
-          builder: (context, snapshot) {
-            //if we have data, get all dic
-            if (snapshot.hasData) {
-              return SizedBox(
-                child: ListView.builder(
-                    controller: widget.controller,
-                    itemCount: snapshot.data?.docs.length,
-                    itemBuilder: ((context, index) {
-                      //get indicidual doc
-                      DocumentSnapshot documentSnapshot =
-                          snapshot.data!.docs[index];
+                controller: widget.controller),
+            backgroundColor: Colors.white,
+            body: FirestorePagination(
+                // controller: widget.controller,  //this is causing a lot of controllerr error anytin=me page is wsitched
+                isLive: true,
+                limit: 15,
+                onEmpty: Text('thats all for now'),
+                query: db
+                    .collection('posts')
+                    .orderBy('timestamp', descending: true),
+                itemBuilder: (context, document, snapshot) {
+                  //if we have data, get all dic
 
-                      return
-                      Text(documentSnapshot['postId']);
-                      //  Item(
-                      //   postId: documentSnapshot['postId'],
-                      // );
-                    })),
-              );
-            }
+                  return Item(
+                    postId: document['postId'],
+                  );
+                }
+                //
 
-            return Center(
-                child: CircularProgressIndicator(color: Colors.blue.shade600));
-          },
-        ),
-      ),
-    );
+                )));
   }
 }

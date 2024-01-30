@@ -24,88 +24,88 @@ class ItemHeader extends StatefulWidget {
 class ItemHeaderState extends State<ItemHeader> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
+    return FutureBuilder(
+      future: FirebaseFirestore.instance
           .collection('users')
-          .where('uid', isEqualTo: widget.creatorUid)
-          .snapshots(),
+          // .where('uid', isEqualTo: widget.creatorUid)
+          .doc(widget.creatorUid)
+          .get(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        DocumentSnapshot snap = snapshot.data!.docs.first;
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                PageRouteBuilder(pageBuilder: (context, _, __) {
-              return ProfileScreen(userUid: widget.creatorUid);
-            }));
-          },
-          child: Container(
+          return Container(
             height: 70,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15)),
                 color: Colors.blue),
-            child: Column(
-              children: [
-                Row(
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                        radius: 17,
-                        backgroundImage:
-                            CachedNetworkImageProvider(snap['profilePicture'])),
-                    SizedBox(width: 5),
-                    SizedBox(
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snap['displayName'],
+          );
+        }
+
+        DocumentSnapshot snap = snapshot.data!;
+        return Container(
+          height: 60,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              color: Colors.blue),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            textDirection: TextDirection.rtl,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      PageRouteBuilder(pageBuilder: (context, _, __) {
+                    return ProfileScreen(userUid: snap['uid']);
+                  }));
+                },
+                child: SizedBox(
+                  width: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 6.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      textDirection: TextDirection.rtl,
+                      children: [
+                        CircleAvatar(
+                            radius: 17,
+                            backgroundImage: CachedNetworkImageProvider(
+                                snap['profilePicture'])),
+                        SizedBox(width: 5),
+                        SizedBox(
+                          width: 150,
+                          child: Text(
+                            '${snap['displayName']}'
+                            ' | '
+                            '@'
+                            '${snap['userName']}',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 13,
                                 color: Colors.white70,
                                 overflow: TextOverflow.ellipsis),
                           ),
-                          Text(
-                            '@' '${snap['userName']}',
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 11,
-                                color: Colors.white60),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                    Expanded(child: SizedBox()),
-                    widget.showButtons
-                        ? Row(
-                            children: [
-                              RepostButton(
-                                ancestorId: widget.ancestorId,
-                                postId: widget.postId,
-                              ),
-                              LikeButton(
-                                  typeOfShowlist: '',
-                                  idType: 'postId',
-                                  postId: widget.postId,
-                                  collection: 'posts'),
-                              SizedBox(width: 5),
-                            ],
-                          )
-                        : SizedBox(),
-                  ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+              Expanded(child: SizedBox()),
+              RepostButton(
+                ancestorId: widget.ancestorId,
+                postId: widget.postId,
+              ),
+              LikeButton(
+                  typeOfShowlist: '',
+                  idType: 'postId',
+                  postId: widget.postId,
+                  collection: 'posts'),
+              SizedBox(width: 5)
+            ],
           ),
         );
       },

@@ -79,27 +79,33 @@ class LikeButtonState extends State<LikeButton> {
             .snapshots(),
         builder: (context, snapshot) {
           bool haveLiked = snapshot.data!.exists;
-
-          return Badge(
-            backgroundColor: Colors.white,
-            child: haveLiked
-                ? IconButton(
-                    onPressed: action,
-                    icon: Icon(
-                      Icons.favorite,
-                      color: const Color.fromARGB(255, 255, 17, 0),
-                      size: 20,
-                    ),
-                  )
-                : IconButton(
-                    onPressed: action,
-                    icon: Icon(
-                      LineIcons.heart,
-                      color: Colors.white60,
-                      size: 20,
-                    ),
+          if (!snapshot.hasData) {
+            return IconButton(
+              onPressed: action,
+              icon: Icon(
+                LineIcons.heart,
+                color: Colors.white60,
+                size: 20,
+              ),
+            );
+          }
+          return haveLiked
+              ? IconButton(
+                  onPressed: action,
+                  icon: Icon(
+                    Icons.favorite,
+                    color: const Color.fromARGB(255, 255, 17, 0),
+                    size: 20,
                   ),
-          );
+                )
+              : IconButton(
+                  onPressed: action,
+                  icon: Icon(
+                    LineIcons.heart,
+                    color: Colors.white60,
+                    size: 20,
+                  ),
+                );
         });
   }
 }

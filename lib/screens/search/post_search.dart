@@ -3,6 +3,7 @@ import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/store/item/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -23,28 +24,23 @@ class PostSearchState extends State<PostSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('posts')
-                .where('tags', arrayContainsAny: widget.searchText.split(' '))
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    var documentSnapshot = snapshot.data!.docs[index];
-
-                    return Item(
-                      postId: documentSnapshot['postId'],
-                    );
-                  },
-                );
-              }
-              return Center(
-                child: Text('search for any post'),
-              );
-            }));
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+        ),
+        body: FirestorePagination(
+          isLive: true,
+          limit: 15,
+          onEmpty: Center(
+              child: Text('no search result for "${widget.searchText}"')),
+          query: FirebaseFirestore.instance
+              .collection('posts')
+              .where('tags', arrayContainsAny: widget.searchText.split(' ')),
+          itemBuilder: (context, document, snapshot) {
+            return Item(
+              postId: document['postId'],
+            );
+          },
+        ));
   }
 }
 
