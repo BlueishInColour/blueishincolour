@@ -125,7 +125,7 @@ class StoreScreenState extends State<StoreScreen>
         body: StreamBuilder(
           stream: db
               .collection('posts')
-              .orderBy('timestamp', descending: true)
+              // .orderBy('timestamp', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             //if we have data, get all dic
@@ -139,9 +139,11 @@ class StoreScreenState extends State<StoreScreen>
                       DocumentSnapshot documentSnapshot =
                           snapshot.data!.docs[index];
 
-                      return Item(
-                        postId: documentSnapshot['postId'],
-                      );
+                      return
+                      Text(documentSnapshot['postId']);
+                      //  Item(
+                      //   postId: documentSnapshot['postId'],
+                      // );
                     })),
               );
             }

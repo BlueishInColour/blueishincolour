@@ -146,7 +146,7 @@ class MainIndex extends StatefulWidget {
 }
 
 class MainIndexState extends State<MainIndex> {
-  int currentMainIndex = 3;
+  int currentMainIndex = 0;
 
   final controller = ScrollController();
   @override

@@ -62,22 +62,12 @@ class CreateScreenState extends State<CreateScreen> {
     }
 
     uploadPost() async {
-      debugPrint('trying to post');
-      // for (var i = 0; i < listOfCreatingPost.length; i++) {
-      //   listOfCreatingPost.map((e) async {
-      //     debugPrint(listOfCreatingPost.length.toString());
-      //     DocumentReference postCollection =
-      //         FirebaseFirestore.instance.collection('posts').doc(postId);
-      //     await postCollection.set(listOfCreatingPost[i]);
-      //   });
-      // }
-
-      // //
+    
 
       listOfCreatingPost.forEach((element) async {
         String postId = Uuid().v1();
         setState(() {
-          element[postId] = postId;
+          element['postId'] = postId;
         });
 
         debugPrint(listOfCreatingPost.length.toString());
@@ -195,7 +185,7 @@ class CreateScreenState extends State<CreateScreen> {
                 color: Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: TextField(
+                  child: TextField(autofocus: true,
                       controller: textController,
                       onChanged: (text) {
                         setState(() {
