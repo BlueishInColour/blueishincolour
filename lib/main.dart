@@ -10,7 +10,7 @@ import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/create_post/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/search/index.dart';
-import 'package:blueishincolour/screens/store/add_item.dart';
+// import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/utils/install_app_function.dart';
 import 'package:blueishincolour/utils/shared_pref.dart';
@@ -163,8 +163,7 @@ class MainIndexState extends State<MainIndex> {
           // BlogScre
           SearchScreen(),
           LikeScreen(),
-          // kIsWeb ? showInstallBottomSheet(context) :
-          CreateScreen()
+          kIsWeb ? InstallApp() : CreateScreen()
           // AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()

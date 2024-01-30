@@ -3,11 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-showInstallBottomSheet(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Middle(
+import 'package:flutter/material.dart';
+
+class InstallApp extends StatefulWidget {
+  const InstallApp({super.key});
+
+  @override
+  State<InstallApp> createState() => InstallAppState();
+}
+
+class InstallAppState extends State<InstallApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Middle(
+      child: Scaffold(
+        body: Center(
           child: Container(
               decoration: BoxDecoration(
                   color: Colors.black,
@@ -17,20 +27,14 @@ showInstallBottomSheet(context) {
               height: 70,
               //
 
-              child: ListTile(
+              child: GridTile(
                 //t
-                title: Text(
-                  'dress up! and do more on dress`r, install for android ',
+                header: Text(
+                  'dress up! and do more on spart`r, install for android ',
                   style: TextStyle(fontSize: 10, color: Colors.white60),
                 ),
-                horizontalTitleGap: 0,
-                contentPadding: EdgeInsets.all(0),
-                minLeadingWidth: 0,
-                //
-                leading: BackButton(
-                  color: Colors.white60,
-                ),
-                trailing: IconButton(
+
+                child: IconButton(
                     onPressed: () async {
                       debugPrint('installit');
                       // http.get(Uri.parse(widget.installLink));
@@ -39,11 +43,17 @@ showInstallBottomSheet(context) {
                           mode: LaunchMode.inAppBrowserView,
                           webOnlyWindowName: 'download dressr');
                     },
-                    icon: Icon(
-                      Icons.install_mobile,
-                      color: Colors.white60,
+                    icon: CircleAvatar(
+                      backgroundColor: Colors.amber,
+                      child: Icon(
+                        Icons.install_mobile,
+                        color: Colors.black54,
+                        size: 200,
+                      ),
                     )),
               )),
-        );
-      });
+        ),
+      ),
+    );
+  }
 }
