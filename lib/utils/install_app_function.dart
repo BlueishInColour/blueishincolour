@@ -19,18 +19,14 @@ class InstallAppState extends State<InstallApp> {
       child: Scaffold(
         body: Center(
           child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
+             
               height: 70,
               //
 
               child: GridTile(
                 //t
                 header: Text(
-                  'dress up! and do more on spart`r, install for android ',
+                  'dress up! and do more on spart`r, click to install for android ',
                   style: TextStyle(fontSize: 10, color: Colors.white60),
                 ),
 
@@ -43,12 +39,12 @@ class InstallAppState extends State<InstallApp> {
                           mode: LaunchMode.inAppBrowserView,
                           webOnlyWindowName: 'download dressr');
                     },
-                    icon: CircleAvatar(
+                    icon: CircleAvatar(radius: 50,
                       backgroundColor: Colors.amber,
                       child: Icon(
                         Icons.install_mobile,
                         color: Colors.black54,
-                        size: 200,
+                        size:80,
                       ),
                     )),
               )),

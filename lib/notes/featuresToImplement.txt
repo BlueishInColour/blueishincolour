@@ -109,3 +109,5 @@ done - find better design for the blog page and remove appbar
 > user should follow someone by liking
 > logo picute should be desplayed in here
 >uploaidng post in add up and moreitem in or out should use ansector id to group there selve passed a  parameter before hand
+>if connection is loading what apppear, solve thar in every sceem
+> the default data to be passed like pictureand text should be passed not just post id
