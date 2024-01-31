@@ -85,17 +85,14 @@ class LikeButtonState extends State<LikeButton> {
 
             if (snapshot.connectionState == ConnectionState.waiting ||
                 snapshot.connectionState == ConnectionState.none) {
-              return IconButton(
-                padding: EdgeInsets.all(0),
-                onPressed: action,
-                icon: Icon(
+              return  Icon(
                   LineIcons.heart,
                   color: Colors.white60,
                   size: 20,
-                ),
+              
               );
             } else if (snapshot.connectionState == ConnectionState.active) {
-              return haveLiked
+             if(snapshot.hasData){ return haveLiked
                   ? IconButton(
                       padding: EdgeInsets.all(0),
                       onPressed: action,
@@ -113,16 +110,17 @@ class LikeButtonState extends State<LikeButton> {
                         color: Colors.white60,
                         size: 20,
                       ),
-                    );
+                    );}else{return  Icon(
+                  LineIcons.heart,
+                  color: Colors.white60,
+                  size: 20,
+                );}
             } else {
-              return Center(
-                child: SizedBox(
-                    width: 10,
-                    height: 10,
-                    child: CircularProgressIndicator(
-                      color: Colors.white60,
-                    )),
-              );
+            return  Icon(
+                  LineIcons.heart,
+                  color: Colors.white60,
+                  size: 20,
+                );
             }
           }),
     );

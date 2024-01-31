@@ -114,3 +114,5 @@ done - find better design for the blog page and remove appbar
 
 31 jan 2024
 > order chat by timestamp and message
+>workmoreon streambuilder sotheres  no errror
+> 
