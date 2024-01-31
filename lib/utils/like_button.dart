@@ -79,7 +79,18 @@ class LikeButtonState extends State<LikeButton> {
             .snapshots(),
         builder: (context, snapshot) {
           bool haveLiked = snapshot.data!.exists;
-          if (!snapshot.hasData) {
+
+
+          if(snapshot.connectionState==ConnectionState.active ||snapshot.connectionState == ConnectionState.waiting){return
+        IconButton(
+              onPressed: action,
+              icon: Icon(
+                LineIcons.heart,
+                color: Colors.white60,
+                size: 20,
+              ),
+            ); }
+            else if(snapshot.connectionState == ConnectionState.done){  if (!snapshot.hasData) {
             return IconButton(
               onPressed: action,
               icon: Icon(
@@ -105,7 +116,8 @@ class LikeButtonState extends State<LikeButton> {
                     color: Colors.white60,
                     size: 20,
                   ),
-                );
+                );}
+        else{return CircularProgressIndicator();}
         });
   }
 }
