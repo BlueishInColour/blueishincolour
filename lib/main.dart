@@ -120,15 +120,16 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.favorite_rounded, color: Colors.white, size: 200),
+Image.asset('assets/icon.png',height: 100),
+
             SizedBox(height: 100),
-            Text('steeze')
+            Text('dress`r',style:GoogleFonts.pacifico(color:Colors.black))
           ],
         ),
       ),

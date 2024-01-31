@@ -29,7 +29,12 @@ class SignupScreenState extends State<SignupScreen> {
   final captionController = TextEditingController();
   // final userTagsController = TextEditingController();
   String profilePicture = 'https://source.unsplash.com/random';
+
   bool setProfile = false;
+  bool seePassword = true;
+
+  //
+  String userNameText = '';
   changeSetProfilebool() {
     setState(() {
       setProfile = !setProfile;
@@ -93,31 +98,6 @@ class SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  userNameSuffixIcon(context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .where('userName', isEqualTo: userNameController.text)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (userNameController.text.length > 3) {
-            if (snapshot.data!.docs.isNotEmpty) {
-              setState(() {
-                usernameSuffixICon = Icon(Icons.error, color: Colors.red);
-              });
-            } else if (snapshot.data!.docs.isEmpty) {
-              setState(() {
-                usernameSuffixICon = Icon(Icons.check, color: Colors.green);
-              });
-            }
-
-            return usernameSuffixICon;
-          } else {
-            return usernameSuffixICon;
-          }
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return !setProfile
@@ -142,8 +122,22 @@ class SignupScreenState extends State<SignupScreen> {
                           SizedBox(height: 15),
                           TextField(
                             controller: passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(hintText: 'password'),
+                            obscureText: seePassword,
+                            decoration: InputDecoration(
+                                hintText: 'password',
+                                suffix: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      seePassword = !seePassword;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: seePassword
+                                        ? Colors.blue
+                                        : Colors.black45,
+                                  ),
+                                )),
                           ),
                           SizedBox(height: 15),
                           TextField(
@@ -153,12 +147,20 @@ class SignupScreenState extends State<SignupScreen> {
                                 InputDecoration(hintText: 'confirm password'),
                           ),
                           SizedBox(height: 15),
-                          ElevatedButton(
-                              onPressed: changeSetProfilebool,
-                              child: Text('next'),
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.black))),
+                          GestureDetector(
+                            onTap: changeSetProfilebool,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black45, width: 2),
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: const Color.fromRGBO(0, 0, 0, 1)),
+                              height: 60,
+                              child: Center(
+                                  child: Text('next',
+                                      style: TextStyle(color: Colors.white))),
+                            ),
+                          ),
                           SizedBox(height: 15),
                           Row(
                             children: [
@@ -215,13 +217,53 @@ class SignupScreenState extends State<SignupScreen> {
                           ),
                           SizedBox(height: 15),
                           //set profile picture
-                          TextField(
-                            controller: userNameController,
-                            decoration: InputDecoration(
-                                hintText: 'unique username',
-                                prefixIcon:
-                                    Icon(Icons.alternate_email_outlined),
-                                suffixIcon: userNameSuffixIcon(context)),
+                          SizedBox(
+                            height: 55,
+                            child: TextField(
+                                controller: userNameController,
+                                onChanged: (text) {
+                                  setState(() {
+                                    userNameText = text;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                    hintText: 'unique username',
+                                    prefixIcon:
+                                        Icon(Icons.alternate_email_outlined),
+                                    suffixIcon: StreamBuilder(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('users')
+                                            .where('userName',
+                                                isEqualTo: userNameText)
+                                            .snapshots(),
+                                        builder: (context, snapshot) {
+                                          var snap =
+                                              snapshot.data!.docs.isEmpty;
+                                          bool isUserNameAvailable = snap;
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return SizedBox(
+                                              width: 5,
+                                              height: 5,
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          } else if (snapshot.connectionState ==
+                                              ConnectionState.active) {
+                                            if (userNameText.isEmpty) {
+                                              return Icon(Icons.edit);
+                                            }
+                                            if (!isUserNameAvailable) {
+                                              return Icon(Icons.error,
+                                                  color: Colors.red);
+                                            } else {
+                                              return Icon(Icons.check,
+                                                  color: Colors.green);
+                                            }
+                                          } else {
+                                            return Icon(Icons.edit);
+                                          }
+                                        }))),
                           ),
 
                           SizedBox(height: 15),
@@ -239,12 +281,21 @@ class SignupScreenState extends State<SignupScreen> {
 
                           SizedBox(height: 15),
 
-                          ElevatedButton(
-                              onPressed: signup,
-                              child: Text('finish sign up'),
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.black))),
+                          //signupbutton
+                          GestureDetector(
+                            onTap: signup,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black45, width: 2),
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: const Color.fromRGBO(0, 0, 0, 1)),
+                              height: 60,
+                              child: Center(
+                                  child: Text('signup',
+                                      style: TextStyle(color: Colors.white))),
+                            ),
+                          ),
 
                           //back
                         ],

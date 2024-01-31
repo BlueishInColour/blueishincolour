@@ -37,7 +37,7 @@ class ChatScreenState extends State<ChatScreen> {
           query: FirebaseFirestore.instance
               .collection('chat')
               .doc(FirebaseAuth.instance.currentUser!.uid)
-              .collection('active'),
+              .collection('active').orderBy('lastMessageTimeStamp'),
           itemBuilder: (context, document, snapshot) {
             String userUid = document['userUid'];
             return StreamBuilder(
@@ -47,6 +47,7 @@ class ChatScreenState extends State<ChatScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
+                  String lastMessage = snapshot.data!['lastMessage'];
                     if (snapshot.hasData) {
                       var snap = snapshot.data!;
                       return ListTile(
@@ -70,7 +71,7 @@ class ChatScreenState extends State<ChatScreen> {
                           style: TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                         subtitle: Row(
-                          children: [Expanded(child: Text('start chat'))],
+                          children: [Expanded(child: Text(lastMessage.isNotEmpty?lastMessage:'start chat'))],
                         ),
                       );
                     } else {

@@ -103,12 +103,18 @@ class StoreScreenState extends State<StoreScreen>
                   automaticallyImplyLeading: false,
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  title: Text(
-                    "spart`rrr",
-                    style: GoogleFonts.pacifico(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  title: Row(
+                    children: [
+                      Image.asset('icon.png',height: 30),
+                      SizedBox(width:10),
+                      Text(
+                      "dress`r",
+                        style: GoogleFonts.pacifico(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                   actions: [
                     IconButton(

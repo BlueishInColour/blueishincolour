@@ -42,7 +42,7 @@ class FollowButtonState extends State<FollowButton> {
 
 //to order the chats
       'lastMessageTimeStamp': Timestamp.now(),
-      'lastMessage': ''
+      'lastMessage': ' '
       //
     });
   }

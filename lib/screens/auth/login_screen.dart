@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool seePassword = true;
 
   login() async {
     try {
@@ -47,15 +48,37 @@ class LoginScreenState extends State<LoginScreen> {
                 TextField(
                   controller: passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(hintText: 'password'),
+                  decoration: InputDecoration(
+                    hintText: 'password',
+                    suffix: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          seePassword = !seePassword;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: seePassword ? Colors.blue : Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: login,
-                  child: Text('login'),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.black)),
+                //loginbutton
+                GestureDetector(
+                  onTap: login,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black45, width: 2),
+                        borderRadius: BorderRadius.circular(15),
+                        color: const Color.fromRGBO(0, 0, 0, 1)),
+                    height: 60,
+                    child: Center(
+                        child: Text('login',
+                            style: TextStyle(color: Colors.white))),
+                  ),
                 ),
+
                 SizedBox(height: 15),
                 Row(
                   children: [
