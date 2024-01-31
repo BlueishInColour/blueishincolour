@@ -4,6 +4,7 @@ import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/screens/store/more_item_out.dart';
 import 'package:blueishincolour/utils/install_app_function.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -17,7 +18,7 @@ class MoreItemIn extends StatefulWidget {
     super.key,
     required this.postId,
     required this.ancestorId,
-    this.creatorUid = 'sampleUid',
+    required this.creatorUid,
   });
   final String postId;
   final String ancestorId;
@@ -71,31 +72,15 @@ class MoreItemInState extends State<MoreItemIn> {
       //   ],
       // ),
 
-      body: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('posts')
-              .doc(widget.creatorUid)
+      body: FirestorePagination(
+          query: FirebaseFirestore.instance
               .collection('posts')
               .where('ancestorId', isEqualTo: widget.ancestorId)
-              .get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  //get indicidual doc
-                  var snap = snapshot.data!.docs[index];
-
-                  return Item(
-                    postId: snap['postId'],
-                  );
-                },
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+              .where('creatorUid', isEqualTo: widget.creatorUid),
+          itemBuilder: (context, snap, snapshot) {
+            return Item(
+              postId: snap['postId'],
+            );
           }),
       bottomSheet: GestureDetector(
           onTap: showBottomSheet,

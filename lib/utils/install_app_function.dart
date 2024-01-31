@@ -18,36 +18,46 @@ class InstallAppState extends State<InstallApp> {
     return Middle(
       child: Scaffold(
         body: Center(
-          child: Container(
-             
-              height: 70,
-              //
-
-              child: GridTile(
-                //t
-                header: Text(
-                  'dress up! and do more on spart`r, click to install for android ',
-                  style: TextStyle(fontSize: 10, color: Colors.white60),
-                ),
-
-                child: IconButton(
-                    onPressed: () async {
-                      debugPrint('installit');
-                      // http.get(Uri.parse(widget.installLink));
-                      await launchUrl(
-                          Uri.parse('https://files.fm/u/7emgbkauvd'),
-                          mode: LaunchMode.inAppBrowserView,
-                          webOnlyWindowName: 'download dressr');
-                    },
-                    icon: CircleAvatar(radius: 50,
-                      backgroundColor: Colors.amber,
-                      child: Icon(
-                        Icons.install_mobile,
-                        color: Colors.black54,
-                        size:80,
-                      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('do more on spart`r,  install for android'),
+              SizedBox(
+                height: 15,
+              ),
+              GestureDetector(
+                  onTap: () async {
+                    debugPrint('installit');
+                    // http.get(Uri.parse(widget.installLink));
+                    await launchUrl(Uri.parse('https://files.fm/u/7emgbkauvd'),
+                        mode: LaunchMode.inAppBrowserView,
+                        webOnlyWindowName: 'download dressr');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.black,
+                    ),
+                    height: 50,
+                    width: 200,
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'download & install',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.download,
+                          color: Colors.white,
+                        )
+                      ],
                     )),
-              )),
+                  )),
+            ],
+          ),
         ),
       ),
     );

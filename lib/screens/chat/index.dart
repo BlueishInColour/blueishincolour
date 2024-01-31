@@ -6,6 +6,8 @@ import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,80 +22,65 @@ class ChatScreen extends StatefulWidget {
 }
 
 class ChatScreenState extends State<ChatScreen> {
-  List<ChatUser> listOfLikers = <ChatUser>[];
-  List listOfLikersUid = [];
-  getListOfLikers() async {
-    var res = await FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .snapshots();
-    QuerySnapshot<Map<String, dynamic>> list = await res.first;
-    setState(() {
-      listOfLikersUid = list.docs.first['listOfLikers'];
-    });
-  }
-
-  getUserDetailsFromUid() async {
-    listOfLikersUid.map((e) async {
-      var res = await getUserDetails(listOfLikersUid[e]);
-      ChatUser chatuser = ChatUser(
-          displayName: res['displayName'],
-          lastMessage: '',
-          lastMessageStatus: '',
-          profilePicture: res['profilePicture'],
-          uid: res['uid'],
-          userName: res['userName']);
-      setState(() {
-        listOfLikers.add(chatuser);
-      });
-    });
-  }
-
-  getTimeStampAndMessages() async {
-    listOfLikers.map((e) async {
-      List chatRoom = [FirebaseAuth.instance.currentUser!.uid, e.uid];
-      chatRoom.sort();
-      String chatKey = chatRoom.join();
-
-      var res = await FirebaseFirestore.instance
-          .collection('chatroom')
-          .doc(chatKey)
-          .collection('messages')
-          // .where('listOfChatters', isEqualTo: chatRoom)
-          .orderBy('timestamp', descending: false)
-          .snapshots();
-      QuerySnapshot<Map<String, dynamic>> list = await res.first;
-      setState(() {});
-    });
-  }
-
-  @override
-  initState() {
-    super.initState();
-    getListOfLikers();
-    getUserDetailsFromUid();
-    getTimeStampAndMessages();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Middle(
-      width: 500,
-      child: Scaffold(
-          body: SafeArea(
-              child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: ((context, index) {
-                    if (listOfLikers.isEmpty) {
-                      return CircularProgressIndicator(
-                        color: Colors.black,
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        foregroundColor: Colors.black54,
+        title: Text('chats'),
+      ),
+      body: FirestorePagination(
+          isLive: true,
+          onEmpty: Center(child: Text('any user you like will appear here')),
+          query: FirebaseFirestore.instance
+              .collection('chat')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('active'),
+          itemBuilder: (context, document, snapshot) {
+            String userUid = document['userUid'];
+            return StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userUid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    if (snapshot.hasData) {
+                      var snap = snapshot.data!;
+                      return ListTile(
+                        onTap: () {
+                          Navigator.push(context,
+                              PageRouteBuilder(pageBuilder: (context, _, __) {
+                            return Item(
+                              uid: userUid,
+                              displayName: snap['displayName'],
+                              profilePicture: snap['profilePicture'],
+                              userName: snap['userName'],
+                            );
+                          }));
+                        },
+                        leading: CircleAvatar(),
+                        title: Text(
+                          '${snap["displayName"]}'
+                          '|'
+                          '@${snap['userName']}',
+                          maxLines: 1,
+                          style: TextStyle(overflow: TextOverflow.ellipsis),
+                        ),
+                        subtitle: Row(
+                          children: [Expanded(child: Text('start chat'))],
+                        ),
                       );
+                    } else {
+                      return Text('user not found');
                     }
-                    return ListTile(
-                      leading: Text(listOfLikersUid[index]),
-                      // subtitle: Text(listOfLikers[index].lastMessage),
-                    );
-                  })))),
+                  } else {
+                    return Text('something wrong');
+                  }
+                });
+          }),
     );
   }
 }

@@ -11,7 +11,7 @@ import '../../main.dart';
 import '../store/item/item.dart';
 
 class CreateScreen extends StatefulWidget {
-  const CreateScreen({super.key, this.ancestorId = ''});
+  const CreateScreen({super.key, this.ancestorId = 'original'});
   final String ancestorId;
 
   @override
@@ -31,7 +31,7 @@ class CreateScreenState extends State<CreateScreen> {
       //id
       'postId': '',
       // 'headPostId': widget.headPostId,
-      'ancestorId': widget.ancestorId.isEmpty ? ancestorId : widget.ancestorId,
+      'ancestorId': widget.ancestorId,
 
       //content
       'caption': '',
@@ -68,6 +68,25 @@ class CreateScreenState extends State<CreateScreen> {
         setState(() {
           tagss.addAll(element['caption'].split(' '));
         });
+      });
+    }
+
+    getFilePics() async {
+      final listOfUrl = await pickPicture(true).whenComplete(() {});
+      listOfUrl.forEach((element) async {
+        print(listOfUrl);
+        if (element == listOfUrl.first && listOfCreatingPost.isNotEmpty) {
+          //ad to last of uploading list
+          setState(() {
+            listOfCreatingPost[currentEditingItem]['picture'] = element;
+          });
+        } else {
+          //create a new post to list and add to it
+          setState(() {
+            listOfCreatingPost.add(onePost);
+            listOfCreatingPost.last['picture'] = element;
+          });
+        }
       });
     }
 

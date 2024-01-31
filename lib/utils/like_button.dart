@@ -70,54 +70,61 @@ class LikeButtonState extends State<LikeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('likes')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('posts')
-            .doc(widget.postId)
-            .snapshots(),
-        builder: (context, snapshot) {
-          bool haveLiked = snapshot.data!.exists;
+    return SizedBox(
+      width: 20,
+      height: 45,
+      child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('likes')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('posts')
+              .doc(widget.postId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            bool haveLiked = snapshot.data!.exists;
 
-
-          if(snapshot.connectionState==ConnectionState.active ||snapshot.connectionState == ConnectionState.waiting){return
-        IconButton(
-              onPressed: action,
-              icon: Icon(
-                LineIcons.heart,
-                color: Colors.white60,
-                size: 20,
-              ),
-            ); }
-            else if(snapshot.connectionState == ConnectionState.done){  if (!snapshot.hasData) {
-            return IconButton(
-              onPressed: action,
-              icon: Icon(
-                LineIcons.heart,
-                color: Colors.white60,
-                size: 20,
-              ),
-            );
-          }
-          return haveLiked
-              ? IconButton(
-                  onPressed: action,
-                  icon: Icon(
-                    Icons.favorite,
-                    color: const Color.fromARGB(255, 255, 17, 0),
-                    size: 20,
-                  ),
-                )
-              : IconButton(
-                  onPressed: action,
-                  icon: Icon(
-                    LineIcons.heart,
-                    color: Colors.white60,
-                    size: 20,
-                  ),
-                );}
-        else{return CircularProgressIndicator();}
-        });
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.connectionState == ConnectionState.none) {
+              return IconButton(
+                padding: EdgeInsets.all(0),
+                onPressed: action,
+                icon: Icon(
+                  LineIcons.heart,
+                  color: Colors.white60,
+                  size: 20,
+                ),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              return haveLiked
+                  ? IconButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: action,
+                      icon: Icon(
+                        Icons.favorite,
+                        color: const Color.fromARGB(255, 255, 17, 0),
+                        size: 20,
+                      ),
+                    )
+                  : IconButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: action,
+                      icon: Icon(
+                        LineIcons.heart,
+                        color: Colors.white60,
+                        size: 20,
+                      ),
+                    );
+            } else {
+              return Center(
+                child: SizedBox(
+                    width: 10,
+                    height: 10,
+                    child: CircularProgressIndicator(
+                      color: Colors.white60,
+                    )),
+              );
+            }
+          }),
+    );
   }
 }

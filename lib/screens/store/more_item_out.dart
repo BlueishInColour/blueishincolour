@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,34 +47,14 @@ class SteezeSectionState extends State<SteezeSection> {
         //   ),
         // ),
 
-        body: StreamBuilder(
-            stream: FirebaseFirestore.instance
+        body: FirestorePagination(
+            query: FirebaseFirestore.instance
                 .collection('posts')
-                .where('ancestorId', isEqualTo: widget.ancestorId)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('an error occured'),
-                );
-              }
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    //get indicidual doc
-                    DocumentSnapshot documentSnapshot =
-                        snapshot.data!.docs[index];
-                    return Item(
-                      postId: documentSnapshot['postId'],
-                    );
-                  },
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+                .where('ancestorId', isEqualTo: widget.ancestorId),
+            itemBuilder: (context, snap, snapshot) {
+              return Item(
+                postId: snap['postId'],
+              );
             }),
         bottomSheet: FutureBuilder(
             future: FirebaseFirestore.instance.collection('posts').get(),
@@ -108,7 +89,11 @@ class SteezeSectionState extends State<SteezeSection> {
                             onPressed: () {
                               Navigator.push(context, PageRouteBuilder(
                                   pageBuilder: (context, _, __) {
-                                return kIsWeb ? InstallApp() : CreateScreen();
+                                return kIsWeb
+                                    ? InstallApp()
+                                    : CreateScreen(
+                                        ancestorId: widget.ancestorId,
+                                      );
                               }));
                             },
                             icon:

@@ -8,11 +8,13 @@ class Item extends StatefulWidget {
     this.ancestorId = '',
     this.postId = '',
     this.picture = '',
+    this.caption = '',
     this.creatorUid = '',
   });
   final String picture;
   final String postId;
   final String ancestorId;
+  final String caption;
   final String creatorUid;
 
   @override
@@ -33,15 +35,27 @@ class ItemState extends State<Item> {
         }));
       },
       child: Container(
+          color: Colors.blue,
+          // height: 50,
           child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: CachedNetworkImage(
-          imageUrl: widget.picture,
-          fit: BoxFit.fill,
-          errorWidget: (context, _, __) => Container(color: Colors.red),
-          placeholder: (context, _) => Container(color: Colors.black26),
-        ),
-      )),
+            borderRadius: BorderRadius.circular(10),
+            child: widget.picture.isNotEmpty
+                ? CachedNetworkImage(
+                    imageUrl: widget.picture,
+                    fit: BoxFit.fill,
+                    errorWidget: (context, _, __) =>
+                        Container(color: Colors.red),
+                    placeholder: (context, _) =>
+                        Container(color: Colors.black26),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.caption,
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                  ),
+          )),
     );
   }
 }

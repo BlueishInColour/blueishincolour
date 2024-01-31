@@ -75,7 +75,6 @@ Future<List<String>> pickPicture(bool isCamera) async {
     });
   });
 
-  print(listOfUrl);
   return listOfUrl;
 }
 

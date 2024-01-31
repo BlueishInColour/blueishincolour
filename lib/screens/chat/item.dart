@@ -1,5 +1,6 @@
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/utils/chat_button.dart';
+import 'package:blueishincolour/utils/follow-button.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,6 +35,7 @@ class ItemState extends State<Item> {
 
     return Scaffold(
       appBar: AppBar(
+          foregroundColor: Colors.black,
           leadingWidth: 30,
           automaticallyImplyLeading: false,
           title: GestureDetector(
@@ -59,7 +61,16 @@ class ItemState extends State<Item> {
                 style: TextStyle(color: Colors.black54),
               ),
             ),
-          )),
+          ),
+          actions: [
+            // FollowButton(
+            //   userUid: widget.uid,
+            //   color: Colors.black54,
+            //   displayName: widget.displayName,
+            //   profilePicture: widget.profilePicture,
+            //   userName: widget.userName,
+            // )
+          ]),
       body: Column(children: [
         Expanded(
           child: StreamBuilder(

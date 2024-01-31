@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
+import 'package:blueishincolour/screens/chat/index.dart';
+import 'package:blueishincolour/screens/profile/index.dart';
+import 'package:blueishincolour/utils/utils_functions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +42,7 @@ class StoreScreenState extends State<StoreScreen>
   String url = 'http://localhost:8080/shop';
   List<Post> listOfPost = [];
   int cartCount = 3;
-
+  String profilePicture = '';
   Widget loadMoreWidget(context) {
     return CircleAvatar(
       backgroundColor: Colors.grey[200],
@@ -45,8 +50,16 @@ class StoreScreenState extends State<StoreScreen>
     );
   }
 
+  setProfilePicture() async {
+    var data = getUserDetails(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      profilePicture = data['profilePicture'];
+    });
+  }
+
   initState() {
     super.initState();
+    setProfilePicture();
   }
 
   button(context) {
@@ -87,10 +100,11 @@ class StoreScreenState extends State<StoreScreen>
                 enableOpacityAnimation: true,
                 preferredWidgetSize: Size.fromHeight(90),
                 child: AppBar(
+                  automaticallyImplyLeading: false,
                   elevation: 0,
                   backgroundColor: Colors.transparent,
                   title: Text(
-                    "spart`r",
+                    "spart`rrr",
                     style: GoogleFonts.pacifico(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
@@ -98,18 +112,53 @@ class StoreScreenState extends State<StoreScreen>
                   ),
                   actions: [
                     IconButton(
-                        onPressed: () async {
-                          await AuthService().logout();
+                        onPressed: () {
+                          Navigator.push(context,
+                              PageRouteBuilder(pageBuilder: (context, _, __) {
+                            return ChatScreen();
+                          }));
                         },
-                        icon: Icon(Icons.logout, color: Colors.black54))
+                        icon: Icon(
+                          LineIcons.facebookMessenger,
+                          color: Colors.black,
+                        )),
+                    SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              PageRouteBuilder(pageBuilder: (context, _, __) {
+                            return ProfileScreen(
+                                userUid:
+                                    FirebaseAuth.instance.currentUser!.uid);
+                          }));
+                        },
+                        child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              var pictureUrl = snapshot.data!['profilePicture'];
+                              return CircleAvatar(
+                                radius: 12,
+                                backgroundImage:
+                                    CachedNetworkImageProvider(pictureUrl),
+                              );
+                            }),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 7,
+                    )
                   ],
                 ),
                 controller: widget.controller),
             backgroundColor: Colors.white,
             body: FirestorePagination(
-                // controller: widget.controller,  //this is causing a lot of controllerr error anytin=me page is wsitched
                 isLive: true,
-                limit: 15,
+                limit: 20,
                 onEmpty: Text('thats all for now'),
                 query: db
                     .collection('posts')

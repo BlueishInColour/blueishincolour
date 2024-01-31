@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masonry_view/flutter_masonry_view.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icons.dart';
@@ -82,8 +83,7 @@ class ProfileScreenState extends State<ProfileScreen>
         body: FutureBuilder(
           future: FirebaseFirestore.instance
               .collection('posts')
-              .doc(widget.userUid)
-              .collection('posts')
+              .where('creatorUid', isEqualTo: widget.userUid)
               .get(),
           builder: (context, snapshot) {
             //if we have data, get all dic
@@ -104,7 +104,8 @@ class ProfileScreenState extends State<ProfileScreen>
                   numberOfColumn: 4,
                   itemBuilder: (item) {
                     return Item(
-                      picture: item['images'][0],
+                      caption: item['caption'],
+                      picture: item['picture'],
                       ancestorId: item['ancestorId'],
                       postId: item['postId'],
                       creatorUid: item['creatorUid'],
@@ -138,28 +139,21 @@ class ProfileScreenState extends State<ProfileScreen>
                     ),
                     title: Text(
                       displayName,
+                      maxLines: 1,
                       style: TextStyle(color: Colors.white70),
                     ),
                     subtitle: Text(
                       uid == FirebaseAuth.instance.currentUser!.uid
                           ? '@${userName}' ' | ' 'my profile'
                           : '@${userName}',
+                      maxLines: 1,
                       style: TextStyle(color: Colors.white60),
                     ),
-                    trailing: SizedBox(
-                      width: 100,
-                      child: Row(
-                        children: [
-                          FollowButton(uid: widget.userUid),
-                          ChatButton(
-                              color: Colors.white60,
-                              userName: userName,
-                              displayName: displayName,
-                              profilePicture: profilePicture,
-                              uid: widget.userUid),
-                        ],
-                      ),
-                    ),
+                    trailing: FollowButton(
+                        userUid: widget.userUid,
+                        displayName: displayName,
+                        profilePicture: profilePicture,
+                        userName: userName),
                   ),
                 ))),
       ),
