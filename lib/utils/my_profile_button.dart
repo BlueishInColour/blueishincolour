@@ -14,35 +14,31 @@ class MyProfileButton extends StatefulWidget {
 class MyProfileButtonState extends State<MyProfileButton> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 30,
-      height: 30,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              PageRouteBuilder(pageBuilder: (context, _, __) {
-            return ProfileScreen(
-                userUid: FirebaseAuth.instance.currentUser!.uid);
-          }));
-        },
-        child: FutureBuilder(
-            future: FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active ||
-                  snapshot.connectionState == ConnectionState.waiting) {
-                return CircleAvatar();
-              }
-              DocumentSnapshot data = snapshot.data!;
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, PageRouteBuilder(pageBuilder: (context, _, __) {
+          return ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid);
+        }));
+      },
+      child: FutureBuilder(
+          future: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active ||
+                snapshot.connectionState == ConnectionState.waiting) {
+              return CircleAvatar();
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              String data = snapshot.data?['profilePicture'] ?? '';
               return CircleAvatar(
                 radius: 12,
-                backgroundImage:
-                    CachedNetworkImageProvider(data['profilePicture']),
+                backgroundImage: CachedNetworkImageProvider(data),
               );
-            }),
-      ),
+            } else {
+              return CircleAvatar();
+            }
+          }),
     );
   }
 }
