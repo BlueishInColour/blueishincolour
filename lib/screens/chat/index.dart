@@ -88,7 +88,14 @@ class ChatScreenState extends State<ChatScreen> {
                         return Text('user not found');
                       }
                     } else {
-                      return Text('something wrong');
+                      return Container(
+                        height: 40,
+                        margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(10)),
+                      );
                     }
                   });
             }),

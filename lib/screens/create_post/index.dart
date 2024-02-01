@@ -124,10 +124,30 @@ class CreateScreenState extends State<CreateScreen> {
           debugPrint(data.url!);
 
           // (you will get all Response data from ImageKit)
+          Map onPost = listOfCreatingPost.last;
 
           setState(() {
-            listOfCreatingPost.add(onePost);
-            listOfCreatingPost.last['picture'] = data.url;
+            listOfCreatingPost.add({
+              //id
+              'postId': '',
+              // 'headPostId': widget.headPostId,
+              'ancestorId':
+                  widget.ancestorId.isEmpty ? ancestorId : widget.ancestorId,
+
+              //content
+              'caption': '',
+              'picture': data.url!,
+              'audio': '',
+              'video': '',
+              'tags': [],
+
+              //creator
+              'creatorUid': FirebaseAuth.instance.currentUser!.uid,
+
+              //metadata
+
+              'timestamp': Timestamp.now()
+            });
           });
         });
       });
@@ -159,7 +179,7 @@ class CreateScreenState extends State<CreateScreen> {
       listOfCreatingPost.forEach((element) {
         String picture = element['picture'];
         String caption = element['caption'];
-        if (picture.isEmpty || caption.isEmpty) {
+        if (picture.isEmpty && caption.isEmpty) {
           setState(() {
             canTheUploadBeDone = false;
           });
@@ -261,13 +281,6 @@ class CreateScreenState extends State<CreateScreen> {
                   ),
                 ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: LinearProgressIndicator(
-            value: progressingValue,
-            color: Colors.blue,
-          ),
-        ),
         Container(
           decoration: BoxDecoration(
               color: Colors.black,
@@ -296,15 +309,28 @@ class CreateScreenState extends State<CreateScreen> {
                               });
                             },
                             icon: Icon(Icons.abc, color: Colors.white60)),
-                        SizedBox(width: 10),
                         IconButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              String url =
+                                  await addSingleImage(ImageSource.camera);
                               setState(() {
-                                currentActiveButton = 1;
+                                listOfCreatingPost[currentEditingItem]
+                                    ['picture'] = url;
                               });
                             },
-                            icon: Icon(Icons.camera_alt_outlined,
-                                color: Colors.white60)),
+                            icon: Icon(
+                              Icons.camera,
+                              color: Colors.white60,
+                            )),
+                        IconButton(
+                            onPressed: getFilePics,
+                            //  () async {
+                            //   String url = await addSingleImage(ImageSource.gallery);
+                            //   setState(() {
+                            //     listOfCreatingPost[currentEditingItem]['picture'] = url;
+                            //   });
+                            // },
+                            icon: Icon(Icons.file_copy, color: Colors.white60))
                       ]),
                   trailing: CircleAvatar(
                     child: IconButton(
@@ -314,60 +340,25 @@ class CreateScreenState extends State<CreateScreen> {
             ],
           ),
         ),
-        [
-          Container(
-              color: Colors.black,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: TextField(
-                    autofocus: true,
-                    controller: textController,
-                    onChanged: (text) {
-                      setState(() {
-                        listOfCreatingPost[currentEditingItem]['caption'] =
-                            text;
-                      });
-                    },
-                    cursorColor: Colors.white60,
-                    style: TextStyle(color: Colors.white60),
-                    decoration: InputDecoration(
-                        hintText: 'write caption',
-                        hintStyle: TextStyle(color: Colors.white60),
-                        fillColor: Colors.white60,
-                        focusColor: Colors.white)),
-              )),
-          Container(
+        Container(
             color: Colors.black,
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () async {
-                      String url = await addSingleImage(ImageSource.camera);
-                      setState(() {
-                        listOfCreatingPost[currentEditingItem]['picture'] = url;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.camera,
-                      color: Colors.white60,
-                    )),
-                SizedBox(
-                  width: 10,
-                ),
-                IconButton(
-                    onPressed: getFilePics,
-                    //  () async {
-                    //   String url = await addSingleImage(ImageSource.gallery);
-                    //   setState(() {
-                    //     listOfCreatingPost[currentEditingItem]['picture'] = url;
-                    //   });
-                    // },
-                    icon: Icon(Icons.file_copy, color: Colors.white60))
-              ],
-            ),
-          )
-        ][currentActiveButton]
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextField(
+                  controller: textController,
+                  onChanged: (text) {
+                    setState(() {
+                      listOfCreatingPost[currentEditingItem]['caption'] = text;
+                    });
+                  },
+                  cursorColor: Colors.white60,
+                  style: TextStyle(color: Colors.white60),
+                  decoration: InputDecoration(
+                      hintText: 'write caption',
+                      hintStyle: TextStyle(color: Colors.white60),
+                      fillColor: Colors.white60,
+                      focusColor: Colors.white)),
+            )),
       ],
     ));
   }

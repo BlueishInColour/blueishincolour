@@ -105,7 +105,7 @@ class StoreScreenState extends State<StoreScreen>
                   Image.asset('assets/icon.png', height: 30),
                   SizedBox(width: 10),
                   Text(
-                    "dressr",
+                    "dress`r",
                     style: GoogleFonts.pacifico(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,

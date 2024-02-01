@@ -35,7 +35,7 @@ class OfflineItemState extends State<OfflineItem> {
             margin: EdgeInsets.all(10),
             // padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.transparent,
               border: Border.all(color: widget.borderActiveColor, width: 0),
             ),
             child: Column(
@@ -43,7 +43,7 @@ class OfflineItemState extends State<OfflineItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  decoration: BoxDecoration(color: Colors.blue),
+                  decoration: BoxDecoration(color: Colors.transparent),
                   child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
