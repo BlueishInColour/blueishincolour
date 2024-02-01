@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hidable/hidable.dart';
 import 'package:http/http.dart' as http;
+import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:loadmore_listview/loadmore_listview.dart';
@@ -121,7 +122,7 @@ class StoreScreenState extends State<StoreScreen>
                       }));
                     },
                     icon: Icon(
-                      LineIcons.facebookMessenger,
+                      Ionicons.chatbox_ellipses_outline,
                       color: Colors.black,
                     )),
                 MyProfileButton(),

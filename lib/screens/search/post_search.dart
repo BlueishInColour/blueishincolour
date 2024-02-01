@@ -38,37 +38,33 @@ class PostSearchState extends State<PostSearch> {
   Widget build(BuildContext context) {
     return Middle(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: widget.searchText.isEmpty
-              ? DefaultPostSearch()
-              : FirestorePagination(
-                  isLive: true,
-                  onEmpty: Column(
-                    children: [
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Center(
-                            child: Text('no result for "${widget.searchText}"',
-                                style:
-                                    TextStyle(color: Colors.purple.shade100))),
-                      ),
-                      SizedBox(height: 10),
-                      Expanded(child: DefaultPostSearch())
-                    ],
-                  ),
-                  query: FirebaseFirestore.instance.collection('posts').where(
-                      'tags',
-                      arrayContainsAny: widget.searchText.split(' ')),
-                  itemBuilder: (context, document, snapshot) {
-                    return Item(
-                      postId: document['postId'],
-                    );
-                  }),
-        ),
+        body: widget.searchText.isEmpty
+            ? DefaultPostSearch()
+            : FirestorePagination(
+                isLive: true,
+                onEmpty: Column(
+                  children: [
+                    Container(
+                      height: 60,
+                      decoration: BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Center(
+                          child: Text('no result for "${widget.searchText}"',
+                              style: TextStyle(color: Colors.purple.shade100))),
+                    ),
+                    SizedBox(height: 10),
+                    Expanded(child: DefaultPostSearch())
+                  ],
+                ),
+                query: FirebaseFirestore.instance.collection('posts').where(
+                    'tags',
+                    arrayContainsAny: widget.searchText.split(' ')),
+                itemBuilder: (context, document, snapshot) {
+                  return Item(
+                    postId: document['postId'],
+                  );
+                }),
         bottomSheet: Container(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(

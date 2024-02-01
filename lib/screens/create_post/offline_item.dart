@@ -11,11 +11,15 @@ class OfflineItem extends StatefulWidget {
       required this.caption,
       required this.picture,
       required this.onTap,
+      required this.onCancel,
       this.borderActiveColor = Colors.transparent});
   final String caption;
   final String picture;
   final Color borderActiveColor;
   final Function()? onTap;
+
+  final Function()? onCancel;
+
   @override
   State<OfflineItem> createState() => OfflineItemState();
 }
@@ -23,45 +27,57 @@ class OfflineItem extends StatefulWidget {
 class OfflineItemState extends State<OfflineItem> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        margin: EdgeInsets.all(10),
-        // padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          border: Border.all(color: widget.borderActiveColor, width: 0),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.caption,
-                  style: TextStyle(color: Colors.black54),
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: widget.onTap,
+          child: Container(
+            margin: EdgeInsets.all(10),
+            // padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              border: Border.all(color: widget.borderActiveColor, width: 0),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: Colors.blue),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.caption,
+                        style: TextStyle(color: Colors.black54),
+                      )),
                 ),
-              ),
+                SizedBox(height: 10),
+                // Divider(),
+                Container(
+                  child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: widget.picture,
+                      placeholder: (context, string) {
+                        return Container();
+                      },
+                      errorWidget: (context, _, __) {
+                        return Container();
+                      }),
+                ),
+              ],
             ),
-            SizedBox(height: 10),
-            // Divider(),
-            Container(
-              child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: widget.picture,
-                  placeholder: (context, string) {
-                    return Container();
-                  },
-                  errorWidget: (context, _, __) {
-                    return Container();
-                  }),
-            ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+                onPressed: widget.onCancel,
+                icon: Icon(
+                  Icons.cancel,
+                  color: Colors.black,
+                )))
+      ],
     );
   }
 }

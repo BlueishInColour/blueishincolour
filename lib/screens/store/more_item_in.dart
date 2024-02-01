@@ -101,7 +101,11 @@ class MoreItemInState extends State<MoreItemIn> {
                     onPressed: () {
                       Navigator.push(context,
                           PageRouteBuilder(pageBuilder: (context, _, __) {
-                        return kIsWeb ? InstallApp() : CreateScreen();
+                        return kIsWeb
+                            ? InstallApp()
+                            : CreateScreen(
+                                ancestorId: widget.ancestorId,
+                              );
                       }));
                     },
                     icon: Icon(Icons.add, color: Colors.white60),

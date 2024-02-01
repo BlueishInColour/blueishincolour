@@ -34,7 +34,7 @@ class ItemHeaderState extends State<ItemHeader> {
         if (snapshot.connectionState == ConnectionState.active ||
             snapshot.connectionState == ConnectionState.waiting) {
           return Container(
-            height: 60,
+            height: 45,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
@@ -47,11 +47,10 @@ class ItemHeaderState extends State<ItemHeader> {
             ]),
           );
         }
-        {}
 
         DocumentSnapshot snap = snapshot.data!;
         return Container(
-          height: 60,
+          height: 40,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
@@ -59,8 +58,8 @@ class ItemHeaderState extends State<ItemHeader> {
               ),
               color: Colors.blue),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             textDirection: TextDirection.rtl,
             children: [
               GestureDetector(
@@ -71,7 +70,7 @@ class ItemHeaderState extends State<ItemHeader> {
                   }));
                 },
                 child: SizedBox(
-                  width: 230,
+                  width: 220,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 6.0),
                     child: Row(
@@ -84,7 +83,7 @@ class ItemHeaderState extends State<ItemHeader> {
                                 snap['profilePicture'])),
                         SizedBox(width: 5),
                         SizedBox(
-                          width: 150,
+                          width: 180,
                           child: Text(
                             '${snap['displayName']}'
                             ' | '
@@ -111,7 +110,7 @@ class ItemHeaderState extends State<ItemHeader> {
                   idType: 'postId',
                   postId: widget.postId,
                   collection: 'posts'),
-              SizedBox(width: 5)
+              SizedBox(width: 10)
             ],
           ),
         );

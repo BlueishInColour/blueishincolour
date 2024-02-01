@@ -32,6 +32,7 @@ class SignupScreenState extends State<SignupScreen> {
 
   bool setProfile = false;
   bool seePassword = true;
+  bool isLoading = false;
 
   //
   String userNameText = '';
@@ -42,6 +43,9 @@ class SignupScreenState extends State<SignupScreen> {
   }
 
   signup() async {
+    setState(() {
+      isLoading = true;
+    });
     if (userNameController.text.isNotEmpty &&
         displayNameController.text.isNotEmpty &&
         profilePicture.isNotEmpty &&
@@ -54,6 +58,9 @@ class SignupScreenState extends State<SignupScreen> {
           await AuthService()
               .signup(emailController.text, passwordController.text);
         } catch (e) {
+          setState(() {
+            isLoading = false;
+          });
           return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(e.toString()),
             showCloseIcon: true,
@@ -106,72 +113,74 @@ class SignupScreenState extends State<SignupScreen> {
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Center(
-                    child: ListView(
-                  children: [
-                    Column(
+                    child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.key, size: 100, color: Colors.black),
-                          Text('register with us and explore fashion'),
-                          SizedBox(height: 15),
-                          TextField(
-                            controller: emailController,
-                            decoration: InputDecoration(hintText: 'email'),
+                      SizedBox(
+                        height: 50,
+                        child: TextField(
+                          controller: emailController,
+                          obscureText: seePassword,
+                          decoration: InputDecoration(
+                            hintText: 'email',
                           ),
-                          SizedBox(height: 15),
-                          TextField(
-                            controller: passwordController,
-                            obscureText: seePassword,
-                            decoration: InputDecoration(
-                                hintText: 'password',
-                                suffix: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      seePassword = !seePassword;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    Icons.remove_red_eye,
-                                    color: seePassword
-                                        ? Colors.blue
-                                        : Colors.black45,
-                                  ),
-                                )),
-                          ),
-                          SizedBox(height: 15),
-                          TextField(
-                            controller: secondPasswordController,
-                            obscureText: true,
-                            decoration:
-                                InputDecoration(hintText: 'confirm password'),
-                          ),
-                          SizedBox(height: 15),
-                          GestureDetector(
-                            onTap: changeSetProfilebool,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.black45, width: 2),
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: const Color.fromRGBO(0, 0, 0, 1)),
-                              height: 60,
-                              child: Center(
-                                  child: Text('next',
-                                      style: TextStyle(color: Colors.white))),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Row(
-                            children: [
-                              Text('you have an account?'),
-                              TextButton(
-                                  onPressed: widget.onPressed,
-                                  child: Text('login now'))
-                            ],
-                          ),
-                        ]),
-                  ],
-                )),
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      SizedBox(
+                        height: 50,
+                        child: TextField(
+                          controller: passwordController,
+                          obscureText: seePassword,
+                          decoration: InputDecoration(
+                              hintText: 'password',
+                              suffix: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    seePassword = !seePassword;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: seePassword
+                                      ? Colors.blue
+                                      : Colors.black45,
+                                ),
+                              )),
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      TextField(
+                        controller: secondPasswordController,
+                        obscureText: true,
+                        decoration:
+                            InputDecoration(hintText: 'confirm password'),
+                      ),
+                      SizedBox(height: 15),
+                      GestureDetector(
+                        onTap: changeSetProfilebool,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.black45, width: 2),
+                              borderRadius: BorderRadius.circular(15),
+                              color: const Color.fromRGBO(0, 0, 0, 1)),
+                          height: 60,
+                          child: Center(
+                              child: Text('next',
+                                  style: TextStyle(color: Colors.white))),
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Text('you have an account?'),
+                          TextButton(
+                              onPressed: widget.onPressed,
+                              child: Text('login now'))
+                        ],
+                      ),
+                    ])),
               ),
             ),
           )
@@ -182,124 +191,129 @@ class SignupScreenState extends State<SignupScreen> {
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Center(
-                  child: ListView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                              onPressed: changeSetProfilebool,
-                              child: Icon(Icons.arrow_back),
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.black))),
+                      ElevatedButton(
+                          onPressed: changeSetProfilebool,
+                          child: Icon(Icons.arrow_back),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.black))),
 
-                          SizedBox(height: 15),
+                      SizedBox(height: 15),
 
-                          //profile picture
-                          CircleAvatar(
-                            radius: 70,
-                            backgroundImage:
-                                CachedNetworkImageProvider(profilePicture),
-                          ),
-                          TextButton(
-                              onPressed: setProfilePicture,
-                              child: Text('set profile picture')),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          //set desplay name
-                          TextField(
-                            controller: displayNameController,
-                            decoration: InputDecoration(hintText: 'name'),
-                          ),
-                          SizedBox(height: 15),
-                          //set profile picture
-                          SizedBox(
-                            height: 55,
-                            child: TextField(
-                                controller: userNameController,
-                                onChanged: (text) {
-                                  setState(() {
-                                    userNameText = text;
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                    hintText: 'unique username',
-                                    prefixIcon:
-                                        Icon(Icons.alternate_email_outlined),
-                                    suffixIcon: StreamBuilder(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('users')
-                                            .where('userName',
-                                                isEqualTo: userNameText)
-                                            .snapshots(),
-                                        builder: (context, snapshot) {
-                                          var snap =
-                                              snapshot.data!.docs.isEmpty;
-                                          bool isUserNameAvailable = snap;
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return SizedBox(
-                                              width: 5,
-                                              height: 5,
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          } else if (snapshot.connectionState ==
-                                              ConnectionState.active) {
-                                            if (userNameText.isEmpty) {
-                                              return Icon(Icons.edit);
-                                            }
-                                            if (!isUserNameAvailable) {
-                                              return Icon(Icons.error,
-                                                  color: Colors.red);
-                                            } else {
-                                              return Icon(Icons.check,
-                                                  color: Colors.green);
-                                            }
-                                          } else {
-                                            return Icon(Icons.edit);
-                                          }
-                                        }))),
-                          ),
-
-                          SizedBox(height: 15),
-                          SizedBox(
-                            height: 100,
-                            child: TextField(
-                              minLines: 3,
-                              maxLines: 10,
-                              controller: captionController,
-                              decoration: InputDecoration(
-                                  hintText:
-                                      'describe yourself in 100 letters, helps in searches'),
-                            ),
-                          ),
-
-                          SizedBox(height: 15),
-
-                          //signupbutton
-                          GestureDetector(
-                            onTap: () async {
-                              signup();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.black45, width: 2),
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: const Color.fromRGBO(0, 0, 0, 1)),
-                              height: 60,
-                              child: Center(
-                                  child: Text('signup',
-                                      style: TextStyle(color: Colors.white))),
-                            ),
-                          ),
-
-                          //back
-                        ],
+                      //profile picture
+                      CircleAvatar(
+                        radius: 70,
+                        backgroundImage:
+                            CachedNetworkImageProvider(profilePicture),
                       ),
+                      TextButton(
+                          onPressed: setProfilePicture,
+                          child: Text('set profile picture')),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      //set desplay name
+                      TextField(
+                        controller: displayNameController,
+                        decoration: InputDecoration(hintText: 'name'),
+                      ),
+                      SizedBox(height: 15),
+                      //set profile picture
+                      SizedBox(
+                        height: 55,
+                        child: TextField(
+                            controller: userNameController,
+                            onChanged: (text) {
+                              setState(() {
+                                userNameText = text;
+                              });
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'unique username',
+                                prefixIcon:
+                                    Icon(Icons.alternate_email_outlined),
+                                suffixIcon: StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('users')
+                                        .where('userName',
+                                            isEqualTo: userNameText)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      var snap = snapshot.data!.docs.isEmpty;
+                                      bool isUserNameAvailable = snap;
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return SizedBox(
+                                          width: 5,
+                                          height: 5,
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else if (snapshot.connectionState ==
+                                          ConnectionState.active) {
+                                        if (userNameText.isEmpty) {
+                                          return Icon(Icons.edit);
+                                        }
+                                        if (!isUserNameAvailable) {
+                                          return Icon(Icons.error,
+                                              color: Colors.red);
+                                        } else {
+                                          return Icon(Icons.check,
+                                              color: Colors.green);
+                                        }
+                                      } else {
+                                        return Icon(Icons.edit);
+                                      }
+                                    }))),
+                      ),
+
+                      SizedBox(height: 15),
+                      SizedBox(
+                        height: 100,
+                        child: TextField(
+                          minLines: 3,
+                          maxLines: 10,
+                          controller: captionController,
+                          decoration: InputDecoration(
+                              hintText:
+                                  'describe yourself in 100 letters, helps in searches'),
+                        ),
+                      ),
+
+                      SizedBox(height: 15),
+
+                      //signupbutton
+                      GestureDetector(
+                        onTap: () async {
+                          signup();
+                        },
+                        child: isLoading
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.black45, width: 2),
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: const Color.fromRGBO(0, 0, 0, 1)),
+                                height: 60,
+                                child: Center(
+                                    child: Text('signup',
+                                        style: TextStyle(color: Colors.white))),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.black45, width: 2),
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: const Color.fromRGBO(0, 0, 0, 1)),
+                                height: 60,
+                                child:
+                                    Center(child: CircularProgressIndicator()),
+                              ),
+                      ),
+
+                      //back
                     ],
                   ),
                 ),

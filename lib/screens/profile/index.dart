@@ -31,7 +31,9 @@ class ProfileScreenState extends State<ProfileScreen>
   String uid = '';
   String userName = '';
   String displayName = '';
-  String profilePicture = '';
+  String 
+  
+  profilePicture = '';
   String userPix = '';
   getUserDetails(String uid) async {
     QuerySnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -85,6 +87,7 @@ class ProfileScreenState extends State<ProfileScreen>
               .where('creatorUid', isEqualTo: widget.userUid)
               .get(),
           builder: (context, snapshot) {
+            if(snapshot.connectionState ==ConnectionState.waiting){return Center(child: CircleA,)}
             //if we have data, get all dic
 
             if (snapshot.hasData) {

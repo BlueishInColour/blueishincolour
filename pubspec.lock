@@ -845,6 +845,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_windowmanager:
+    dependency: "direct main"
+    description:
+      name: flutter_windowmanager
+      sha256: b4d0bc06f6777952b729c0cdb7ce9ad1ecabd8b8b1cb0acb57a36621457dab1b
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -1085,6 +1093,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
+  ionicons:
+    dependency: "direct main"
+    description:
+      name: ionicons
+      sha256: "5496bc65a16115ecf05b15b78f494ee4a8869504357668f0a11d689e970523cf"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.2"
   js:
     dependency: transitive
     description:

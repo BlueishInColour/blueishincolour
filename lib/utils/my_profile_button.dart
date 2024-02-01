@@ -20,25 +20,29 @@ class MyProfileButtonState extends State<MyProfileButton> {
           return ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid);
         }));
       },
-      child: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .get(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active ||
-                snapshot.connectionState == ConnectionState.waiting) {
-              return CircleAvatar();
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              String data = snapshot.data?['profilePicture'] ?? '';
-              return CircleAvatar(
-                radius: 12,
-                backgroundImage: CachedNetworkImageProvider(data),
-              );
-            } else {
-              return CircleAvatar();
-            }
-          }),
+      child: SizedBox(
+        width: 30,
+        height: 30,
+        child: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.waiting) {
+                return CircleAvatar(radius: 12);
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                String data = snapshot.data?['profilePicture'] ?? '';
+                return CircleAvatar(
+                  radius: 12,
+                  backgroundImage: CachedNetworkImageProvider(data),
+                );
+              } else {
+                return CircleAvatar(radius: 12);
+              }
+            }),
+      ),
     );
   }
 }

@@ -70,6 +70,7 @@ dependencies:
   # icons
   enefty_icons: ^1.0.7
   line_icons: ^2.0.3
+  ionicons: ^0.2.2
   provider: ^6.1.1
   google_fonts: ^6.1.0
   image_picker: ^1.0.4
@@ -80,6 +81,8 @@ dependencies:
   # sticky
   # get_it: ^7.6.4
   get: ^4.6.6
+  # window_manager: ^0.3.8
+  flutter_windowmanager: ^0.2.0
 
   flutter_masonry_view: ^0.0.2
   # audioplayers: ^5.2.1

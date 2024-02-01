@@ -13,12 +13,19 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
   bool seePassword = true;
 
   login() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       await AuthService().login(emailController.text, passwordController.text);
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('wrong email or password'),
         showCloseIcon: true,
@@ -33,31 +40,38 @@ class LoginScreenState extends State<LoginScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Center(
-              child: ListView(
-            children: [
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Icon(Icons.key, size: 100, color: Colors.black),
-                Text('welcome back, fashionistas!'),
-                SizedBox(height: 15),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(hintText: 'email'),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                SizedBox(
+                  height: 50,
+                  child: TextField(
+                    controller: emailController,
+                    obscureText: seePassword,
+                    decoration: InputDecoration(
+                      hintText: 'email',
+                    ),
+                  ),
                 ),
+
                 SizedBox(height: 15),
-                TextField(
-                  controller: passwordController,
-                  obscureText: seePassword,
-                  decoration: InputDecoration(
-                    hintText: 'password',
-                    suffix: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          seePassword = !seePassword;
-                        });
-                      },
-                      icon: Icon(
-                        Icons.remove_red_eye,
-                        color: seePassword ? Colors.blue : Colors.black,
+                SizedBox(
+                  height: 50,
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: seePassword,
+                    decoration: InputDecoration(
+                      hintText: 'password',
+                      suffix: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            seePassword = !seePassword;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: !seePassword ? Colors.blue : Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -68,16 +82,26 @@ class LoginScreenState extends State<LoginScreen> {
                   onTap: () async {
                     await login();
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black45, width: 2),
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color.fromRGBO(0, 0, 0, 1)),
-                    height: 60,
-                    child: Center(
-                        child: Text('login',
-                            style: TextStyle(color: Colors.white))),
-                  ),
+                  child: !isLoading
+                      ? Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.black45, width: 2),
+                              borderRadius: BorderRadius.circular(15),
+                              color: const Color.fromRGBO(0, 0, 0, 1)),
+                          height: 60,
+                          child: Center(
+                              child: Text('login',
+                                  style: TextStyle(color: Colors.white))),
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.black45, width: 2),
+                              borderRadius: BorderRadius.circular(15),
+                              color: const Color.fromRGBO(0, 0, 0, 1)),
+                          height: 60,
+                          child: Center(child: CircularProgressIndicator())),
                 ),
 
                 SizedBox(height: 15),
@@ -89,9 +113,7 @@ class LoginScreenState extends State<LoginScreen> {
                         child: Text('register now'))
                   ],
                 ),
-              ]),
-            ],
-          )),
+              ])),
         ),
       ),
     );

@@ -52,7 +52,7 @@ Future<List<File>> selectImage(bool isCamera) async {
 
 String privateKey = 'private_A9tBBPhf/8CSEYPp+CR986xpRzE=';
 
-Future<List<String>> pickPicture(bool isCamera) async {
+pickPicture(bool isCamera) async {
   List<File> listOfFiles = await selectImage(true);
   List<String> listOfUrl = [];
   listOfFiles.forEach((element) async {

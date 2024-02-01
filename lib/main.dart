@@ -27,17 +27,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/auth/login_screen.dart';
+// import 'package:window_manager/window_manager.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+
+Future<void> secureScreen() async {
+  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate(
-    // androidProvider: AndroidProvider.playIntegrity,
-    webProvider:
-        ReCaptchaV3Provider('6LfPKFIpAAAAAGPzlYpoSWP6keZI1ikn8aSLXj0H'),
-  );
+  secureScreen();
+  // await FirebaseAppCheck.instance.activate(
+  //   // androidProvider: AndroidProvider.playIntegrity,
+  //   webProvider:
+  //       ReCaptchaV3Provider('6LfPKFIpAAAAAGPzlYpoSWP6keZI1ikn8aSLXj0H'),
+  // );
 
   // olami@gmail.com
 
@@ -150,6 +157,13 @@ class MainIndexState extends State<MainIndex> {
   int currentMainIndex = 0;
 
   final controller = ScrollController();
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Middle(
@@ -164,7 +178,7 @@ class MainIndexState extends State<MainIndex> {
           // BlogScre
           PostSearch(),
           LikeScreen(),
-          kIsWeb ? InstallApp() : CreateScreen()
+          kIsWeb ? InstallApp() : CreateScreen(ancestorId: '')
           // AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()
