@@ -281,7 +281,9 @@ class SignupScreenState extends State<SignupScreen> {
 
                           //signupbutton
                           GestureDetector(
-                            onTap: signup,
+                            onTap: () async {
+                              signup();
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(

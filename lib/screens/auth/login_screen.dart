@@ -46,7 +46,7 @@ class LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 15),
                 TextField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: seePassword,
                   decoration: InputDecoration(
                     hintText: 'password',
                     suffix: IconButton(
@@ -65,7 +65,9 @@ class LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 15),
                 //loginbutton
                 GestureDetector(
-                  onTap: login,
+                  onTap: () async {
+                    await login();
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black45, width: 2),

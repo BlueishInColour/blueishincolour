@@ -21,7 +21,10 @@ class InstallAppState extends State<InstallApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('do more on spart`r,  install for android'),
+              Text('do more on dress`r,  install for android'),
+              SizedBox(
+                height: 15,
+              ),   Text('upload fashion styles, dressups, DIYs, cosplays, models and many more'),
               SizedBox(
                 height: 15,
               ),
