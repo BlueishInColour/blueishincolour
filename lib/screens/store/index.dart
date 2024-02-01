@@ -5,6 +5,7 @@ import 'package:blueishincolour/screens/auth/auth_service.dart';
 import 'package:blueishincolour/screens/cart/index.dart';
 import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
+import 'package:blueishincolour/utils/my_profile_button.dart';
 import 'package:blueishincolour/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:blueishincolour/screens/store/add_item.dart';
@@ -94,73 +95,42 @@ class StoreScreenState extends State<StoreScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Middle(
-        width: 500,
         child: Scaffold(
-            appBar: Hidable(
-                enableOpacityAnimation: true,
-                preferredWidgetSize: Size.fromHeight(90),
-                child: AppBar(
-                  automaticallyImplyLeading: false,
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  title: Row(
-                    children: [
-                      Image.asset('assets/icon.png', height: 30),
-                      SizedBox(width: 10),
-                      Text(
-                        "dress`r",
-                        style: GoogleFonts.pacifico(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              PageRouteBuilder(pageBuilder: (context, _, __) {
-                            return ChatScreen();
-                          }));
-                        },
-                        icon: Icon(
-                          LineIcons.facebookMessenger,
-                          color: Colors.black,
-                        )),
-                    SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              PageRouteBuilder(pageBuilder: (context, _, __) {
-                            return ProfileScreen(
-                                userUid:
-                                    FirebaseAuth.instance.currentUser!.uid);
-                          }));
-                        },
-                        child: StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(FirebaseAuth.instance.currentUser!.uid)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              var pictureUrl = snapshot.data!['profilePicture'];
-                              return CircleAvatar(
-                                radius: 12,
-                                backgroundImage:
-                                    CachedNetworkImageProvider(pictureUrl),
-                              );
-                            }),
-                      ),
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              title: Row(
+                children: [
+                  Image.asset('assets/icon.png', height: 30),
+                  SizedBox(width: 10),
+                  Text(
+                    "dress`r",
+                    style: GoogleFonts.pacifico(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
                     ),
-                    SizedBox(
-                      width: 7,
-                    )
-                  ],
-                ),
-                controller: widget.controller),
+                  ),
+                ],
+              ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          PageRouteBuilder(pageBuilder: (context, _, __) {
+                        return ChatScreen();
+                      }));
+                    },
+                    icon: Icon(
+                      LineIcons.facebookMessenger,
+                      color: Colors.black,
+                    )),
+                MyProfileButton(),
+                SizedBox(
+                  width: 7,
+                )
+              ],
+            ),
             backgroundColor: Colors.white,
             body: FirestorePagination(
                 isLive: true,

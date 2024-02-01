@@ -44,34 +44,27 @@ class ItemState extends State<Item> {
 
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      PageRouteBuilder(pageBuilder: (context, _, __) {
-                    return MoreItemIn(
-                      ancestorId: snap['ancestorId'],
-                      creatorUid: snap['creatorUid'],
-                      postId: widget.postId,
-                    );
-                  }));
-                },
-                child: Column(
-                  children: [
-                    ItemHeader(
-                      postId: snap['postId'],
-                      ancestorId: snap['ancestorId'],
-                      creatorUid: snap['creatorUid'],
-                    ),
-                    ItemCaption(
-                      caption: snap['caption'],
-                      isPictureAvailable: isPictureAvailable,
-                    ),
-                    ItemPicture(
-                      picture: snap['picture'],
-                      postId: snap['postId'],
-                    )
-                  ],
-                ),
+              child: Column(
+                children: [
+                  ItemHeader(
+                    postId: snap['postId'],
+                    ancestorId: snap['ancestorId'],
+                    creatorUid: snap['creatorUid'],
+                  ),
+                  ItemCaption(
+                    caption: snap['caption'],
+                    isPictureAvailable: isPictureAvailable,
+                    postId: snap['postId'],
+                    ancestorId: snap['ancestorId'],
+                    creatorUid: snap['creatorUid'],
+                  ),
+                  ItemPicture(
+                    creatorUid: snap['creatorUid'],
+                    ancestorId: snap['ancestorId'],
+                    picture: snap['picture'],
+                    postId: snap['postId'],
+                  )
+                ],
               ),
             );
           } else {

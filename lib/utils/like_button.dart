@@ -81,46 +81,49 @@ class LikeButtonState extends State<LikeButton> {
               .doc(widget.postId)
               .snapshots(),
           builder: (context, snapshot) {
-            bool haveLiked = snapshot.data!.exists;
+            bool haveLiked = snapshot.data?.exists ?? false;
 
             if (snapshot.connectionState == ConnectionState.waiting ||
                 snapshot.connectionState == ConnectionState.none) {
-              return  Icon(
-                  LineIcons.heart,
-                  color: Colors.white60,
-                  size: 20,
-              
+              return Icon(
+                LineIcons.heart,
+                color: Colors.white60,
+                size: 20,
               );
             } else if (snapshot.connectionState == ConnectionState.active) {
-             if(snapshot.hasData){ return haveLiked
-                  ? IconButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: action,
-                      icon: Icon(
-                        Icons.favorite,
-                        color: const Color.fromARGB(255, 255, 17, 0),
-                        size: 20,
-                      ),
-                    )
-                  : IconButton(
-                      padding: EdgeInsets.all(0),
-                      onPressed: action,
-                      icon: Icon(
-                        LineIcons.heart,
-                        color: Colors.white60,
-                        size: 20,
-                      ),
-                    );}else{return  Icon(
-                  LineIcons.heart,
-                  color: Colors.white60,
-                  size: 20,
-                );}
-            } else {
-            return  Icon(
+              if (snapshot.hasData) {
+                return haveLiked
+                    ? IconButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: action,
+                        icon: Icon(
+                          Icons.favorite,
+                          color: const Color.fromARGB(255, 255, 17, 0),
+                          size: 20,
+                        ),
+                      )
+                    : IconButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: action,
+                        icon: Icon(
+                          LineIcons.heart,
+                          color: Colors.white60,
+                          size: 20,
+                        ),
+                      );
+              } else {
+                return Icon(
                   LineIcons.heart,
                   color: Colors.white60,
                   size: 20,
                 );
+              }
+            } else {
+              return Icon(
+                LineIcons.heart,
+                color: Colors.white60,
+                size: 20,
+              );
             }
           }),
     );

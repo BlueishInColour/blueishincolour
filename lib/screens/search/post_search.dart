@@ -1,5 +1,6 @@
 import 'package:blueishincolour/middle.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
+import 'package:blueishincolour/screens/search/default_post_search.dart';
 import 'package:blueishincolour/screens/store/item/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,8 +13,10 @@ import 'package:line_icons/line_icons.dart';
 import '../../utils/blueishincolour_icon.dart';
 
 class PostSearch extends StatefulWidget {
-  const PostSearch({super.key, this.searchText = ''});
+  const PostSearch(
+      {super.key, this.searchText = '', this.showBackButton = false});
   final String searchText;
+  final bool showBackButton;
 
   @override
   State<PostSearch> createState() => PostSearchState();
@@ -21,68 +24,93 @@ class PostSearch extends StatefulWidget {
 
 class PostSearchState extends State<PostSearch> {
   String searchText = '';
+  TextEditingController controller = TextEditingController();
   // String searchText = widget.searchText;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      controller.text = widget.searchText;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: searchText.isEmpty
-          ? Center(
-              child: Text('search anything'),
-            )
-          : StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('posts')
-                  .where('tags', arrayContainsAny: searchText.split(' '))
-                  .snapshots(),
-              builder: (context, snapshot) {
-                return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: ((context, index) {
-                      bool isAvailable = snapshot.data!.docs.isEmpty;
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.active) {
-                        QueryDocumentSnapshot document =
-                            snapshot.data!.docs[index];
-
-                        if (!snapshot.hasData) {
-                          return Center(
-                              child: Text(
-                            'no result',
-                            style: TextStyle(color: Colors.red),
-                          ));
-                        }
-                        return Item(
-                          postId: document['postId'],
-                        );
-                      } else {
-                        return Center(
-                            child: Text('search anything',
-                                style: TextStyle(color: Colors.black)));
-                      }
-                    }));
-              }),
-      bottomSheet: Container(
-        padding: EdgeInsets.all(5),
-        decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-        height: 45,
-        child: SearchBar(
-          backgroundColor: MaterialStatePropertyAll(Colors.white38),
-          onChanged: (v) {
-            setState(() {
-              searchText = v;
-            });
-          },
-          hintText: 'search trending styles',
-          trailing: [Icon(Icons.search)],
+    return Middle(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: widget.searchText.isEmpty
+              ? DefaultPostSearch()
+              : FirestorePagination(
+                  isLive: true,
+                  onEmpty: Column(
+                    children: [
+                      Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                            color: Colors.purple,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Center(
+                            child: Text('no result for "${widget.searchText}"',
+                                style:
+                                    TextStyle(color: Colors.purple.shade100))),
+                      ),
+                      SizedBox(height: 10),
+                      Expanded(child: DefaultPostSearch())
+                    ],
+                  ),
+                  query: FirebaseFirestore.instance.collection('posts').where(
+                      'tags',
+                      arrayContainsAny: widget.searchText.split(' ')),
+                  itemBuilder: (context, document, snapshot) {
+                    return Item(
+                      postId: document['postId'],
+                    );
+                  }),
+        ),
+        bottomSheet: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+          height: 45,
+          child: Row(
+            children: [
+              widget.showBackButton
+                  ? BackButton(color: Colors.white60)
+                  : SizedBox(),
+              Expanded(
+                child: SearchBar(
+                  controller: controller,
+                  backgroundColor: MaterialStatePropertyAll(Colors.white38),
+                  onChanged: (v) {
+                    setState(() {
+                      searchText = v;
+                    });
+                  },
+                  hintText: 'search trending styles',
+                  trailing: [
+                    IconButton(
+                        onPressed: () async {
+                          // await getPostSearchResult();
+                          Navigator.push(context,
+                              PageRouteBuilder(pageBuilder: (context, _, __) {
+                            return PostSearch(
+                              searchText: searchText,
+                              showBackButton: true,
+                            );
+                          }));
+                        },
+                        icon: Icon(Icons.search))
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -49,86 +49,88 @@ class SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black54,
-        toolbarHeight: 40,
-        title: SizedBox(
-          height: 40,
-          child: TextField(
-            controller: controller,
-            onChanged: (v) {
-              setState(() {
-                searchText = v;
-              });
-            },
-            cursorHeight: 10,
-            showCursor: false,
-            style: TextStyle(fontSize: 10),
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: () async {
-                  // await getPostSearchResult();
-                  Navigator.push(context,
-                      PageRouteBuilder(pageBuilder: (context, _, __) {
-                    return SearchScreen(
-                      searchText: searchText,
-                    );
-                  }));
-                },
-                icon: Icon(Icons.search, size: 19, color: Colors.black),
+    return Middle(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black54,
+          toolbarHeight: 40,
+          title: SizedBox(
+            height: 40,
+            child: TextField(
+              controller: controller,
+              onChanged: (v) {
+                setState(() {
+                  searchText = v;
+                });
+              },
+              cursorHeight: 10,
+              showCursor: false,
+              style: TextStyle(fontSize: 10),
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () async {
+                    // await getPostSearchResult();
+                    Navigator.push(context,
+                        PageRouteBuilder(pageBuilder: (context, _, __) {
+                      return SearchScreen(
+                        searchText: searchText,
+                      );
+                    }));
+                  },
+                  icon: Icon(Icons.search, size: 19, color: Colors.black),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide(color: Colors.black, width: 0.5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide(color: Colors.blue, width: 1),
+                ),
+                hintStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 12,
+                    color: Colors.black),
+                hintText: 'find styles and posts',
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(color: Colors.black, width: 0.5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide(color: Colors.blue, width: 1),
-              ),
-              hintStyle: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 12,
-                  color: Colors.black),
-              hintText: 'find styles and posts',
             ),
           ),
+          // bottom: AppBar(
+          //   backgroundColor: Colors.transparent,
+          //   foregroundColor: Colors.black54,
+          //   elevation: 0,
+          //   title: TabBar(
+          //       dividerColor: Colors.transparent,
+          //       controller: tabsController,
+          //       isScrollable: true,
+          //       indicatorColor: Colors.black54,
+          //       indicatorPadding: EdgeInsets.only(top: 15),
+          //       indicatorSize: TabBarIndicatorSize.label,
+          //       tabs: [
+          //         // Text(
+          //         //   'general',
+          //         //   style: TextStyle(color: Colors.black54),
+          //         // ),
+          //         Text(
+          //           'posts',
+          //           style: TextStyle(color: Colors.black54),
+          //         ),
+          //         Text(
+          //           'people',
+          //           style: TextStyle(color: Colors.black54),
+          //         ),
+          //       ]),
+          // ),
         ),
-        // bottom: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   foregroundColor: Colors.black54,
-        //   elevation: 0,
-        //   title: TabBar(
-        //       dividerColor: Colors.transparent,
-        //       controller: tabsController,
-        //       isScrollable: true,
-        //       indicatorColor: Colors.black54,
-        //       indicatorPadding: EdgeInsets.only(top: 15),
-        //       indicatorSize: TabBarIndicatorSize.label,
-        //       tabs: [
-        //         // Text(
-        //         //   'general',
-        //         //   style: TextStyle(color: Colors.black54),
-        //         // ),
-        //         Text(
-        //           'posts',
-        //           style: TextStyle(color: Colors.black54),
-        //         ),
-        //         Text(
-        //           'people',
-        //           style: TextStyle(color: Colors.black54),
-        //         ),
-        //       ]),
-        // ),
+        //add create show list button
+
+        //
+
+        body: PostSearch(searchText: widget.searchText),
+        // UserSearch(searchText: widget.searchText)
       ),
-//add create show list button
-
-//
-
-      body: PostSearch(searchText: widget.searchText),
-      // UserSearch(searchText: widget.searchText)
     );
   }
 }

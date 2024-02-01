@@ -34,13 +34,17 @@ class ItemHeaderState extends State<ItemHeader> {
         if (snapshot.connectionState == ConnectionState.active ||
             snapshot.connectionState == ConnectionState.waiting) {
           return Container(
-            height: 70,
+            height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15), topRight: Radius.circular(15)),
               color: Colors.blue,
             ),
-            child: Row(children: [Expanded(child: SizedBox()), CircleAvatar()]),
+            child: Row(children: [
+              Expanded(child: SizedBox()),
+              CircleAvatar(),
+              SizedBox(width: 15),
+            ]),
           );
         }
         {}
