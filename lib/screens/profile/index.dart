@@ -31,9 +31,7 @@ class ProfileScreenState extends State<ProfileScreen>
   String uid = '';
   String userName = '';
   String displayName = '';
-  String 
-  
-  profilePicture = '';
+  String profilePicture = '';
   String userPix = '';
   getUserDetails(String uid) async {
     QuerySnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -87,7 +85,11 @@ class ProfileScreenState extends State<ProfileScreen>
               .where('creatorUid', isEqualTo: widget.userUid)
               .get(),
           builder: (context, snapshot) {
-            if(snapshot.connectionState ==ConnectionState.waiting){return Center(child: CircleA,)}
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircleAvatar(),
+              );
+            }
             //if we have data, get all dic
 
             if (snapshot.hasData) {
@@ -151,11 +153,21 @@ class ProfileScreenState extends State<ProfileScreen>
                       maxLines: 1,
                       style: TextStyle(color: Colors.white60),
                     ),
-                    trailing: FollowButton(
-                        userUid: widget.userUid,
-                        displayName: displayName,
-                        profilePicture: profilePicture,
-                        userName: userName),
+                    trailing:
+                        widget.userUid == FirebaseAuth.instance.currentUser!.uid
+                            ? IconButton(
+                                onPressed: () async {
+                                  await AuthService().logout();
+                                },
+                                icon: Icon(
+                                  Icons.logout,
+                                  color: Colors.black54,
+                                ))
+                            : FollowButton(
+                                userUid: widget.userUid,
+                                displayName: displayName,
+                                profilePicture: profilePicture,
+                                userName: userName),
                   ),
                 ))),
       ),

@@ -289,7 +289,7 @@ class SignupScreenState extends State<SignupScreen> {
                         onTap: () async {
                           signup();
                         },
-                        child: isLoading
+                        child: !isLoading
                             ? Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(

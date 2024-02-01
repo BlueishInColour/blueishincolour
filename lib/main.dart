@@ -30,6 +30,7 @@ import 'screens/auth/login_screen.dart';
 // import 'package:window_manager/window_manager.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
+//to prevent screenshots in app
 Future<void> secureScreen() async {
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 }

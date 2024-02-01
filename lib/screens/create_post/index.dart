@@ -30,6 +30,7 @@ class CreateScreenState extends State<CreateScreen> {
   int currentActiveButton = 0; //0 for text,1 for pictures, 2 for tags
   TextEditingController textController = TextEditingController();
   bool canTheUploadBeDone = true;
+  double progressingValue = 0;
   @override
   initState() {
     super.initState();
@@ -111,6 +112,9 @@ class CreateScreenState extends State<CreateScreen> {
           onUploadProgress: (progressValue) {
             if (true) {
               debugPrint(progressValue.toString());
+              setState(() {
+                progressingValue = progressValue;
+              });
             }
           },
         ).then((ImagekitResponse data) {
@@ -256,6 +260,13 @@ class CreateScreenState extends State<CreateScreen> {
                     },
                   ),
                 ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: LinearProgressIndicator(
+            value: progressingValue,
+            color: Colors.blue,
+          ),
         ),
         Container(
           decoration: BoxDecoration(
