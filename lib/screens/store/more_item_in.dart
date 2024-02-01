@@ -1,8 +1,8 @@
-import 'package:blueishincolour/screens/create_post/index.dart';
-// import 'package:blueishincolour/screens/store/add_item.dart';
-import 'package:blueishincolour/screens/store/index.dart';
-import 'package:blueishincolour/screens/store/more_item_out.dart';
-import 'package:blueishincolour/utils/install_app_function.dart';
+import 'package:dressr/screens/create_post/index.dart';
+// import 'package:dressr/screens/store/add_item.dart';
+import 'package:dressr/screens/store/index.dart';
+import 'package:dressr/screens/store/more_item_out.dart';
+import 'package:dressr/utils/install_app_function.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/foundation.dart';

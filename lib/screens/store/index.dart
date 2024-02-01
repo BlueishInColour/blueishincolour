@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:blueishincolour/middle.dart';
-import 'package:blueishincolour/screens/auth/auth_service.dart';
-import 'package:blueishincolour/screens/cart/index.dart';
-import 'package:blueishincolour/screens/chat/index.dart';
-import 'package:blueishincolour/screens/profile/index.dart';
-import 'package:blueishincolour/utils/my_profile_button.dart';
-import 'package:blueishincolour/utils/utils_functions.dart';
+import 'package:dressr/middle.dart';
+import 'package:dressr/screens/auth/auth_service.dart';
+import 'package:dressr/screens/cart/index.dart';
+import 'package:dressr/screens/chat/index.dart';
+import 'package:dressr/screens/profile/index.dart';
+import 'package:dressr/utils/my_profile_button.dart';
+import 'package:dressr/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:blueishincolour/screens/store/add_item.dart';
+// import 'package:dressr/screens/store/add_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_load_more/easy_load_more.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +24,6 @@ import 'package:loadmore_listview/loadmore_listview.dart';
 import 'package:refresh_loadmore/refresh_loadmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/posts.dart';
-import '../../utils/blueishincolour_icon.dart';
 import 'item/item.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -105,7 +104,7 @@ class StoreScreenState extends State<StoreScreen>
                   Image.asset('assets/icon.png', height: 30),
                   SizedBox(width: 10),
                   Text(
-                    "dress`r",
+                    "dressr",
                     style: GoogleFonts.pacifico(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,

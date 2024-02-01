@@ -1,5 +1,5 @@
-import 'package:blueishincolour/middle.dart';
-import 'package:blueishincolour/screens/auth/auth_service.dart';
+import 'package:dressr/middle.dart';
+import 'package:dressr/screens/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

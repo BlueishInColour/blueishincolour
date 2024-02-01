@@ -1,26 +1,26 @@
 import 'dart:async';
 
-// import 'package:blueishincolour/screens/auth/auth_gate.dart';
-import 'package:blueishincolour/middle.dart';
-import 'package:blueishincolour/screens/auth/auth_gate_two.dart';
-import 'package:blueishincolour/screens/auth/login_or_signup.dart';
-import 'package:blueishincolour/screens/auth/signup_screen.dart';
-import 'package:blueishincolour/screens/cart/index.dart';
-import 'package:blueishincolour/screens/chat/index.dart';
-import 'package:blueishincolour/screens/create_post/index.dart';
-import 'package:blueishincolour/screens/profile/index.dart';
-import 'package:blueishincolour/screens/search/index.dart';
-import 'package:blueishincolour/screens/search/post_search.dart';
-// import 'package:blueishincolour/screens/store/add_item.dart';
-import 'package:blueishincolour/screens/store/index.dart';
-import 'package:blueishincolour/utils/install_app_function.dart';
-import 'package:blueishincolour/utils/shared_pref.dart';
+// import 'package:dressr/screens/auth/auth_gate.dart';
+import 'package:dressr/middle.dart';
+import 'package:dressr/screens/auth/auth_gate_two.dart';
+import 'package:dressr/screens/auth/login_or_signup.dart';
+import 'package:dressr/screens/auth/signup_screen.dart';
+import 'package:dressr/screens/cart/index.dart';
+import 'package:dressr/screens/chat/index.dart';
+import 'package:dressr/screens/create_post/index.dart';
+import 'package:dressr/screens/profile/index.dart';
+import 'package:dressr/screens/search/index.dart';
+import 'package:dressr/screens/search/post_search.dart';
+// import 'package:dressr/screens/store/add_item.dart';
+import 'package:dressr/screens/store/index.dart';
+import 'package:dressr/utils/install_app_function.dart';
+import 'package:dressr/utils/shared_pref.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hidable/hidable.dart';
-// blueishincolour@gmail.com
+// dressr@gmail.com
 // Oluwapelumide631$
 import 'package:google_fonts/google_fonts.dart';
 
@@ -129,7 +129,7 @@ class SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset('assets/icon.png', height: 100),
             SizedBox(height: 100),
-            Text('dress`r', style: GoogleFonts.pacifico(color: Colors.black))
+            Text('dressr', style: GoogleFonts.pacifico(color: Colors.black))
           ],
         ),
       ),

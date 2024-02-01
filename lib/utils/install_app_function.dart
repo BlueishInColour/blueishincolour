@@ -1,4 +1,4 @@
-import 'package:blueishincolour/middle.dart';
+import 'package:dressr/middle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,10 +21,12 @@ class InstallAppState extends State<InstallApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('do more on dress`r,  install for android'),
+              Text('do more on dressr,  install for android'),
               SizedBox(
                 height: 15,
-              ),   Text('upload fashion styles, dressups, DIYs, cosplays, models and many more'),
+              ),
+              Text(
+                  'upload fashion styles, dressups, DIYs, cosplays, models and many more'),
               SizedBox(
                 height: 15,
               ),

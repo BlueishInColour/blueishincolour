@@ -1,6 +1,6 @@
-import 'package:blueishincolour/screens/profile/index.dart';
-import 'package:blueishincolour/utils/chat_button.dart';
-import 'package:blueishincolour/utils/follow-button.dart';
+import 'package:dressr/screens/profile/index.dart';
+import 'package:dressr/utils/chat_button.dart';
+import 'package:dressr/utils/follow-button.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

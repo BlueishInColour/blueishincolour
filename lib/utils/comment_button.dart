@@ -1,4 +1,4 @@
-import 'package:blueishincolour/screens/store/more_item_in.dart';
+import 'package:dressr/screens/store/more_item_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';

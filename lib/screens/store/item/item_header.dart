@@ -1,7 +1,7 @@
-import 'package:blueishincolour/screens/profile/index.dart';
-import 'package:blueishincolour/screens/store/item/item_caption.dart';
-import 'package:blueishincolour/utils/like_button.dart';
-import 'package:blueishincolour/utils/repost_button.dart';
+import 'package:dressr/screens/profile/index.dart';
+import 'package:dressr/screens/store/item/item_caption.dart';
+import 'package:dressr/utils/like_button.dart';
+import 'package:dressr/utils/repost_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
-import 'package:blueishincolour/middle.dart';
-import 'package:blueishincolour/screens/auth/auth_service.dart';
-import 'package:blueishincolour/screens/profile/edit_profile.dart';
-import 'package:blueishincolour/utils/chat_button.dart';
-import 'package:blueishincolour/utils/follow-button.dart';
+import 'package:dressr/middle.dart';
+import 'package:dressr/screens/auth/auth_service.dart';
+import 'package:dressr/screens/profile/edit_profile.dart';
+import 'package:dressr/utils/chat_button.dart';
+import 'package:dressr/utils/follow-button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

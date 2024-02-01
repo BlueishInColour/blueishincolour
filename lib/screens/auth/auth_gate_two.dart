@@ -1,6 +1,6 @@
-import 'package:blueishincolour/main.dart';
-import 'package:blueishincolour/screens/auth/login_or_signup.dart';
-import 'package:blueishincolour/screens/cart/index.dart';
+import 'package:dressr/main.dart';
+import 'package:dressr/screens/auth/login_or_signup.dart';
+import 'package:dressr/screens/cart/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

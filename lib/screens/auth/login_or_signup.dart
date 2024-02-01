@@ -1,5 +1,5 @@
-import 'package:blueishincolour/screens/auth/login_screen.dart';
-import 'package:blueishincolour/screens/auth/signup_screen.dart';
+import 'package:dressr/screens/auth/login_screen.dart';
+import 'package:dressr/screens/auth/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginOrSignupScreen extends StatefulWidget {

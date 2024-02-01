@@ -1,5 +1,5 @@
-import 'package:blueishincolour/screens/create_post/offline_item.dart';
-import 'package:blueishincolour/utils/utils_functions.dart';
+import 'package:dressr/screens/create_post/offline_item.dart';
+import 'package:dressr/utils/utils_functions.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

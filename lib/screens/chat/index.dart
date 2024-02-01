@@ -1,8 +1,8 @@
 // import 'dart:html';
 
-import 'package:blueishincolour/middle.dart';
-import 'package:blueishincolour/utils/shared_pref.dart';
-import 'package:blueishincolour/utils/utils_functions.dart';
+import 'package:dressr/middle.dart';
+import 'package:dressr/utils/shared_pref.dart';
+import 'package:dressr/utils/utils_functions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

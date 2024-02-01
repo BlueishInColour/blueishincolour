@@ -1,5 +1,5 @@
-import 'package:blueishincolour/utils/add_showlist_button.dart';
-import 'package:blueishincolour/utils/chat_button.dart';
+import 'package:dressr/utils/add_showlist_button.dart';
+import 'package:dressr/utils/chat_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
