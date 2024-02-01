@@ -31,16 +31,19 @@ class ItemHeaderState extends State<ItemHeader> {
           .doc(widget.creatorUid)
           .get(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState==ConnectionState.active ||snapshot.connectionState == ConnectionState.waiting){  return Container(
+        if (snapshot.connectionState == ConnectionState.active ||
+            snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
             height: 70,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15)),
-                color: Colors.blue,),child: Row(children: [Expanded(child: SizedBox()),CircleAvatar()]),
-          );} {
-        
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+              color: Colors.blue,
+            ),
+            child: Row(children: [Expanded(child: SizedBox()), CircleAvatar()]),
+          );
         }
+        {}
 
         DocumentSnapshot snap = snapshot.data!;
         return Container(
@@ -64,7 +67,7 @@ class ItemHeaderState extends State<ItemHeader> {
                   }));
                 },
                 child: SizedBox(
-                  width: 200,
+                  width: 230,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 6.0),
                     child: Row(

@@ -105,10 +105,10 @@ class StoreScreenState extends State<StoreScreen>
                   backgroundColor: Colors.transparent,
                   title: Row(
                     children: [
-                      Image.asset('icon.png',height: 30),
-                      SizedBox(width:10),
+                      Image.asset('assets/icon.png', height: 30),
+                      SizedBox(width: 10),
                       Text(
-                      "dress`r",
+                        "dress`r",
                         style: GoogleFonts.pacifico(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,

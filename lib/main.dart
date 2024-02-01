@@ -10,6 +10,7 @@ import 'package:blueishincolour/screens/chat/index.dart';
 import 'package:blueishincolour/screens/create_post/index.dart';
 import 'package:blueishincolour/screens/profile/index.dart';
 import 'package:blueishincolour/screens/search/index.dart';
+import 'package:blueishincolour/screens/search/post_search.dart';
 // import 'package:blueishincolour/screens/store/add_item.dart';
 import 'package:blueishincolour/screens/store/index.dart';
 import 'package:blueishincolour/utils/install_app_function.dart';
@@ -126,10 +127,9 @@ class SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-Image.asset('assets/icon.png',height: 100),
-
+            Image.asset('assets/icon.png', height: 100),
             SizedBox(height: 100),
-            Text('dress`r',style:GoogleFonts.pacifico(color:Colors.black))
+            Text('dress`r', style: GoogleFonts.pacifico(color: Colors.black))
           ],
         ),
       ),
@@ -162,16 +162,17 @@ class MainIndexState extends State<MainIndex> {
           // AuthGateTwo(),
           StoreScreen(controller: controller),
           // BlogScre
-          SearchScreen(),
+          PostSearch(),
           LikeScreen(),
           kIsWeb ? InstallApp() : CreateScreen()
           // AddItem(headPostId: ''),
           // ProfileScreen(userUid: FirebaseAuth.instance.currentUser!.uid),
           // EditProfile()
         ][currentMainIndex],
-        bottomNavigationBar: Hidable(
-          controller: controller,
-          enableOpacityAnimation: true,
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Colors.black,
+          ),
           child: BottomNavigationBar(
               currentIndex: currentMainIndex,
               onTap: (v) {
@@ -187,12 +188,12 @@ class MainIndexState extends State<MainIndex> {
                     label: 'home',
                     icon: Icon(
                       Icons.home_outlined,
-                      color: Colors.black26,
+                      color: Colors.white38,
                       size: 26,
                     ),
                     activeIcon: Icon(
                       Icons.home_filled,
-                      color: Colors.black,
+                      color: Colors.white,
                     )),
 
                 // blog
@@ -201,33 +202,33 @@ class MainIndexState extends State<MainIndex> {
                   label: 'search',
                   icon: Icon(
                     Icons.search,
-                    color: Colors.black26,
+                    color: Colors.white38,
                     weight: 10,
                   ),
-                  activeIcon: Icon(Icons.search, color: Colors.black),
+                  activeIcon: Icon(Icons.search, color: Colors.white),
                 ),
 
                 BottomNavigationBarItem(
                   label: 'saved',
                   icon: Icon(
                     Icons.favorite_border,
-                    color: Colors.black26,
+                    color: Colors.white38,
                   ),
-                  activeIcon: Icon(Icons.favorite_rounded, color: Colors.black),
+                  activeIcon: Icon(Icons.favorite_rounded, color: Colors.white),
                 ),
                 //chat
                 BottomNavigationBarItem(
                   label: 'chat',
                   icon: CircleAvatar(
                     radius: 12,
-                    backgroundColor: Colors.black54,
+                    backgroundColor: Colors.white,
                     child: Icon(
                       Icons.add,
-                      color: Colors.white,
+                      color: Colors.black,
                       size: 23,
                     ),
                   ),
-                  activeIcon: Icon(Icons.add, color: Colors.black),
+                  activeIcon: Icon(Icons.add, color: Colors.white),
                 ),
                 //   BottomNavigationBarItem(
                 //     label: 'profile',

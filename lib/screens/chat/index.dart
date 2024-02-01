@@ -37,7 +37,8 @@ class ChatScreenState extends State<ChatScreen> {
           query: FirebaseFirestore.instance
               .collection('chat')
               .doc(FirebaseAuth.instance.currentUser!.uid)
-              .collection('active').orderBy('lastMessageTimeStamp'),
+              .collection('active')
+              .orderBy('lastMessageTimeStamp'),
           itemBuilder: (context, document, snapshot) {
             String userUid = document['userUid'];
             return StreamBuilder(
@@ -47,7 +48,7 @@ class ChatScreenState extends State<ChatScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
-                  String lastMessage = snapshot.data!['lastMessage'];
+                    String lastMessage = document['lastMessage'];
                     if (snapshot.hasData) {
                       var snap = snapshot.data!;
                       return ListTile(
@@ -62,16 +63,24 @@ class ChatScreenState extends State<ChatScreen> {
                             );
                           }));
                         },
-                        leading: CircleAvatar(),
+                        leading: CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                              snap['profilePicture']),
+                        ),
                         title: Text(
                           '${snap["displayName"]}'
-                          '|'
+                          '   |  '
                           '@${snap['userName']}',
                           maxLines: 1,
                           style: TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                         subtitle: Row(
-                          children: [Expanded(child: Text(lastMessage.isNotEmpty?lastMessage:'start chat'))],
+                          children: [
+                            Expanded(
+                                child: Text(lastMessage.isEmpty
+                                    ? lastMessage
+                                    : 'start chat'))
+                          ],
                         ),
                       );
                     } else {
