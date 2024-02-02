@@ -40,7 +40,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  secureScreen();
+  if (!kIsWeb) {
+    secureScreen();
+  }
   // await FirebaseAppCheck.instance.activate(
   //   // androidProvider: AndroidProvider.playIntegrity,
   //   webProvider:

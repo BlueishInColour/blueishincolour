@@ -121,3 +121,10 @@ done - find better design for the blog page and remove appbar
 
 1st feb, 2024
 > the future builder for profile screen
+
+2nd feb 2024
+>scroll position most be saved by all means necessary
+> in chat, pod like status should show to help view post from friends only
+> chat section most be veru good, request messaged should be grouped
+> login section is to be refined
+> switch everything to dressr

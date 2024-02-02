@@ -91,6 +91,9 @@ class SignupScreenState extends State<SignupScreen> {
         'listOfShowlist': ['for later']
       });
     } else {
+      setState(() {
+        isLoading = false;
+      });
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('fill everything to complete set up'),
         showCloseIcon: true,
@@ -120,7 +123,6 @@ class SignupScreenState extends State<SignupScreen> {
                         height: 50,
                         child: TextField(
                           controller: emailController,
-                          obscureText: seePassword,
                           decoration: InputDecoration(
                             hintText: 'email',
                           ),
@@ -152,7 +154,7 @@ class SignupScreenState extends State<SignupScreen> {
                       SizedBox(height: 15),
                       TextField(
                         controller: secondPasswordController,
-                        obscureText: true,
+                        obscureText: seePassword,
                         decoration:
                             InputDecoration(hintText: 'confirm password'),
                       ),
@@ -199,7 +201,9 @@ class SignupScreenState extends State<SignupScreen> {
                           child: Icon(Icons.arrow_back),
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStatePropertyAll(Colors.black))),
+                                  MaterialStatePropertyAll(Colors.black),
+                              foregroundColor:
+                                  MaterialStatePropertyAll(Colors.white))),
 
                       SizedBox(height: 15),
 
@@ -242,8 +246,11 @@ class SignupScreenState extends State<SignupScreen> {
                                             isEqualTo: userNameText)
                                         .snapshots(),
                                     builder: (context, snapshot) {
-                                      var snap = snapshot.data!.docs.isEmpty;
-                                      bool isUserNameAvailable = snap;
+                                      var snap = snapshot.data?.docs.isEmpty;
+                                      bool isUserNameAvailable = snap ?? false;
+                                      if (userNameText.isEmpty) {
+                                        return Icon(Icons.edit);
+                                      }
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
                                         return SizedBox(

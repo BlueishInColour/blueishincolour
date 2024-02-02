@@ -47,7 +47,6 @@ class LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   child: TextField(
                     controller: emailController,
-                    obscureText: seePassword,
                     decoration: InputDecoration(
                       hintText: 'email',
                     ),
