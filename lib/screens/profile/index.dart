@@ -102,19 +102,23 @@ class ProfileScreenState extends State<ProfileScreen>
                   child: Text(' no content yet'),
                 );
               }
-              return MasonryView(
-                  itemPadding: 3,
-                  listOfItem: snapshot.data!.docs,
-                  numberOfColumn: 4,
-                  itemBuilder: (item) {
-                    return Item(
-                      caption: item['caption'],
-                      picture: item['picture'],
-                      ancestorId: item['ancestorId'],
-                      postId: item['postId'],
-                      creatorUid: item['creatorUid'],
-                    );
-                  });
+              return ListView(
+                children: [
+                  MasonryView(
+                      itemPadding: 3,
+                      listOfItem: snapshot.data!.docs,
+                      numberOfColumn: 4,
+                      itemBuilder: (item) {
+                        return Item(
+                          caption: item['caption'],
+                          picture: item['picture'],
+                          ancestorId: item['ancestorId'],
+                          postId: item['postId'],
+                          creatorUid: item['creatorUid'],
+                        );
+                      }),
+                ],
+              );
             }
 
             return Center(child: CircularProgressIndicator());

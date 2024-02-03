@@ -56,7 +56,7 @@ class ItemState extends State<Item> {
                   //     ),
                   //   ),
                   ))
-          : SizedBox(),
+          : SizedBox(height: 1),
     );
   }
 }

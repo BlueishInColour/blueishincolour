@@ -14,6 +14,8 @@ class DayPostItem extends StatefulWidget {
 class DayPostItemState extends State<DayPostItem> {
   @override
   Widget build(BuildContext context) {
+    String picture = widget.data['picture'];
+    bool isPicture = picture.isNotEmpty;
     return GestureDetector(
         onTap: () {
           //
@@ -27,41 +29,54 @@ class DayPostItemState extends State<DayPostItem> {
           }));
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Badge(
-            child: CircleAvatar(
-              radius: 40,
-              backgroundImage:
-                  CachedNetworkImageProvider(widget.data['picture']),
-            ),
-            label: FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(widget.data['creatorUid'])
-                    .get(),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircleAvatar();
-                  }
-                  if (snapshot.hasData) {
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            PageRouteBuilder(pageBuilder: (context, _, __) {
-                          return ProfileScreen(
-                              userUid: widget.data['creatorUid']);
-                        }));
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                            snapshot.data?['picture'] ?? ' '),
-                      ),
-                    );
-                  }
-                  return CircleAvatar();
-                })),
-          ),
-        ));
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Stack(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  child: !isPicture
+                      ? Center(child: Text(widget.data['caption']))
+                      : SizedBox(),
+                  backgroundImage:
+                      CachedNetworkImageProvider(widget.data['picture']),
+                ),
+                FutureBuilder(
+                    future: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(widget.data['creatorUid'])
+                        .get(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircleAvatar(
+                          radius: 10,
+                        );
+                      } else if (snapshot.hasError) {
+                        return CircleAvatar(
+                          radius: 10,
+                        );
+                      } else if (snapshot.hasData) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                PageRouteBuilder(pageBuilder: (context, _, __) {
+                              return ProfileScreen(
+                                  userUid: widget.data['creatorUid']);
+                            }));
+                          },
+                          child: CircleAvatar(
+                            radius: 10,
+                            backgroundImage: CachedNetworkImageProvider(
+                                snapshot.data?['profilePicture']),
+                          ),
+                        );
+                      } else {
+                        return CircleAvatar(
+                          radius: 10,
+                        );
+                      }
+                    })),
+              ],
+            )));
   }
 }
 

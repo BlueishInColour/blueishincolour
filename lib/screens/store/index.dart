@@ -58,10 +58,34 @@ class StoreScreenState extends State<StoreScreen>
     });
   }
 
+  List<String> listOfFriends = [];
+
+  getListOfFriends() async {
+    var res = await FirebaseFirestore.instance
+        .collection('chat')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('active')
+        .get();
+
+    setState(() {
+      res.docs.forEach(
+        (element) {
+          String uid = element['userUid'];
+          debugPrint(uid);
+
+          listOfFriends.add(uid);
+        },
+      );
+      debugPrint(listOfFriends.toString());
+    });
+
+    debugPrint(listOfFriends.toString());
+  }
+
   initState() {
     super.initState();
     setProfilePicture();
-    // getListOfFriends();
+    getListOfFriends();
   }
 
   button(context) {
@@ -119,7 +143,9 @@ class StoreScreenState extends State<StoreScreen>
                     onPressed: () {
                       Navigator.push(context,
                           PageRouteBuilder(pageBuilder: (context, _, __) {
-                        return ChatScreen();
+                        return ChatScreen(
+                          listOfFriends: listOfFriends,
+                        );
                       }));
                     },
                     icon: Icon(

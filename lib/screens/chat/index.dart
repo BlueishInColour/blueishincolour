@@ -16,40 +16,18 @@ import './item.dart';
 import '../../models/chat_user.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({super.key, required this.listOfFriends});
+  final List<String> listOfFriends;
 
   @override
   State<ChatScreen> createState() => ChatScreenState();
 }
 
 class ChatScreenState extends State<ChatScreen> {
-  List<String> listOfFriends = ['ryF7CA6GQHM411eRx76ARJwUrLk2'];
-
-  getListOfFriends() async {
-    var res = await FirebaseFirestore.instance
-        .collection('chat')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('active')
-        .get();
-
-    setState(() {
-      res.docs.forEach(
-        (element) {
-          String uid = element['userUid'];
-          debugPrint(uid);
-
-          listOfFriends.add(uid);
-        },
-      );
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    getListOfFriends();
   }
 
   @override
@@ -64,7 +42,7 @@ class ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          DayPost(listOfFreinds: listOfFriends),
+          DayPost(listOfFreinds: widget.listOfFriends),
           Divider(),
           Expanded(
             child: FirestorePagination(

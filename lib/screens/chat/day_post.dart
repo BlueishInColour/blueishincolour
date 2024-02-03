@@ -21,24 +21,32 @@ class DayPostState extends State<DayPost> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 80,
-        child: FirestorePagination(
-            scrollDirection: Axis.horizontal,
-            limit: 20,
-            query: FirebaseFirestore.instance
-                .collection('posts')
-                .where('creatorUid', arrayContainsAny: widget.listOfFreinds)
-                .orderBy('timestamp'),
-            itemBuilder: (context, data, snapshot) {
-              String picture = data['picture'];
-              bool isPicture = picture.isEmpty;
-              if (isPicture) {
-                return SizedBox(
-                  width: 5,
-                );
-              }
-              return DayPostItem(data: data);
-            }));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('latest from friends'),
+        SizedBox(height: 5),
+        SizedBox(
+            height: 80,
+            child: FirestorePagination(
+                scrollDirection: Axis.horizontal,
+                limit: 20,
+                isLive: true,
+                query: FirebaseFirestore.instance
+                    .collection('posts')
+                    .where('creatorUid', whereIn: widget.listOfFreinds)
+                    .orderBy('timestamp'),
+                itemBuilder: (context, data, snapshot) {
+                  String picture = data['picture'];
+                  bool isPicture = picture.isEmpty;
+                  if (isPicture) {
+                    return SizedBox(
+                      width: 5,
+                    );
+                  }
+                  return DayPostItem(data: data);
+                })),
+      ],
+    );
   }
 }
