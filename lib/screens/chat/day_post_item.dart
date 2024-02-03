@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class DayPostItem extends StatefulWidget {
   const DayPostItem({super.key, required this.data});
-  final DocumentSnapshot<Object?> data;
+  final DocumentSnapshot data;
   @override
   State<DayPostItem> createState() => DayPostItemState();
 }
@@ -26,50 +26,41 @@ class DayPostItemState extends State<DayPostItem> {
                 creatorUid: widget.data['creatorUid']);
           }));
         },
-        child: Stack(
-          children: [
-            Container(
-              height: 60,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image:
-                          CachedNetworkImageProvider(widget.data['picture']))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Badge(
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage:
+                  CachedNetworkImageProvider(widget.data['picture']),
             ),
-
-            //profilePictureOFCreator
-            Positioned(
-              top: 5,
-              right: 5,
-              child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(widget.data['creatorUid'])
-                      .get(),
-                  builder: ((context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircleAvatar();
-                    }
-                    if (snapshot.hasData) {
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              PageRouteBuilder(pageBuilder: (context, _, __) {
-                            return ProfileScreen(
-                                userUid: widget.data['creatorUid']);
-                          }));
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: CachedNetworkImageProvider(
-                              snapshot.data?['picture']),
-                        ),
-                      );
-                    }
+            label: FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.data['creatorUid'])
+                    .get(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircleAvatar();
-                  })),
-            ),
-          ],
+                  }
+                  if (snapshot.hasData) {
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            PageRouteBuilder(pageBuilder: (context, _, __) {
+                          return ProfileScreen(
+                              userUid: widget.data['creatorUid']);
+                        }));
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(
+                            snapshot.data?['picture'] ?? ' '),
+                      ),
+                    );
+                  }
+                  return CircleAvatar();
+                })),
+          ),
         ));
   }
 }

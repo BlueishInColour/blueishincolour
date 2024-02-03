@@ -12,7 +12,7 @@ class OfflineItem extends StatefulWidget {
       required this.picture,
       required this.onTap,
       required this.onCancel,
-      this.borderActiveColor = Colors.transparent});
+      this.borderActiveColor = Colors.black});
   final String caption;
   final String picture;
   final Color borderActiveColor;

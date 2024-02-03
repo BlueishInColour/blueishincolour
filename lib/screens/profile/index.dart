@@ -87,7 +87,7 @@ class ProfileScreenState extends State<ProfileScreen>
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircleAvatar(),
+                child: CircularProgressIndicator(),
               );
             }
             //if we have data, get all dic
@@ -154,20 +154,21 @@ class ProfileScreenState extends State<ProfileScreen>
                       style: TextStyle(color: Colors.white60),
                     ),
                     trailing:
-                        widget.userUid == FirebaseAuth.instance.currentUser!.uid
-                            ? IconButton(
-                                onPressed: () async {
-                                  await AuthService().logout();
-                                },
-                                icon: Icon(
-                                  Icons.logout,
-                                  color: Colors.black54,
-                                ))
-                            : FollowButton(
-                                userUid: widget.userUid,
-                                displayName: displayName,
-                                profilePicture: profilePicture,
-                                userName: userName),
+                        // widget.userUid == FirebaseAuth.instance.currentUser!.uid
+                        //     ? IconButton(
+                        //         onPressed: () async {
+                        //           await AuthService().logout();
+                        //         },
+                        //         icon: Icon(
+                        //           Icons.logout,
+                        //           color: Colors.white54,
+                        //         ))
+                        //     :
+                        FollowButton(
+                            userUid: widget.userUid,
+                            displayName: displayName,
+                            profilePicture: profilePicture,
+                            userName: userName),
                   ),
                 ))),
       ),

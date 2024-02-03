@@ -33,13 +33,25 @@ class SignupScreenState extends State<SignupScreen> {
   bool setProfile = false;
   bool seePassword = true;
   bool isLoading = false;
+  bool passwordIsNotMatch = false;
 
   //
   String userNameText = '';
   changeSetProfilebool() {
-    setState(() {
-      setProfile = !setProfile;
-    });
+    if (passwordController.text != secondPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(
+        children: [
+          Icon(Icons.error, color: Colors.red),
+          SizedBox(width: 10),
+          Text('passwords dont match')
+        ],
+      )));
+    } else {
+      setState(() {
+        setProfile = !setProfile;
+      });
+    }
   }
 
   signup() async {
@@ -193,8 +205,8 @@ class SignupScreenState extends State<SignupScreen> {
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: ListView(
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
                           onPressed: changeSetProfilebool,

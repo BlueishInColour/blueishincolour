@@ -61,6 +61,7 @@ class StoreScreenState extends State<StoreScreen>
   initState() {
     super.initState();
     setProfilePicture();
+    // getListOfFriends();
   }
 
   button(context) {

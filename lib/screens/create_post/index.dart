@@ -121,7 +121,7 @@ class CreateScreenState extends State<CreateScreen> {
           /// Get your uploaded Image file link from [ImageKit.io]
           /// then save it anywhere you want. For Example- [Firebase, MongoDB] etc.
 
-          debugPrint(data.url!);
+          debugPrint(data.url ?? 'xxx');
 
           // (you will get all Response data from ImageKit)
           Map onPost = listOfCreatingPost.last;
@@ -136,7 +136,7 @@ class CreateScreenState extends State<CreateScreen> {
 
               //content
               'caption': '',
-              'picture': data.url!,
+              'picture': data.url ?? '',
               'audio': '',
               'video': '',
               'tags': [],
@@ -251,7 +251,7 @@ class CreateScreenState extends State<CreateScreen> {
                                       ['caption'];
                             });
                           },
-                          borderActiveColor: Colors.black,
+                          borderActiveColor: Colors.blue,
                           picture: post['picture'],
                           caption: post['caption'],
                         );
